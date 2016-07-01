@@ -7,7 +7,7 @@ const port = 3000;
 app.use(serve(__dirname));
 
 app.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
+  console.log(`view demo at http://${hostname}:${port}/examples/index.html`);
 });
 
 app.on('error', function(err){
