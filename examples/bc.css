@@ -1,0 +1,2397 @@
+/**
+ * 全局样式控制
+ * 主要设置一些跨浏览器的兼容设置
+ *
+ * @author rongjihuang@gmail.com
+ * @date 2011-04-11
+ */
+html {
+	height: 100%;
+}
+
+/**全局字体控制*/
+body {
+	height: 100%;
+	overflow: hidden;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-family: "微软雅黑", "宋体", sans-serif;
+	/*font-size: 62.5%;使1em=12px,浏览器默认为1em=16px,ie:_font-size: 63%;*/
+	font-size: 14px; /*调整为默认14px | 0.87em*/
+	background-color: #f5f5f5;
+}
+
+.hide {
+	display: none;
+}
+
+/**内容溢出控制*/
+.ellipsis {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-o-text-overflow: ellipsis;
+	-icab-text-overflow: ellipsis;
+	-khtml-text-overflow: ellipsis;
+	-moz-text-overflow: ellipsis;
+	-webkit-text-overflow: ellipsis;
+	white-space: nowrap;
+	/*-moz-binding: url('ellipsis.xml#ellipsis'); firefox7已经开始支持ellipsis了*/
+}
+
+.text-overflow-ellipsis {
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+/**不可选择文本控制*/
+.unselectable, .bc-page[data-type='list'], .bc-ui-dialog.list {
+	-moz-user-select: none;
+	-moz-user-select: -moz-none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+	-o-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	/*cursor:not-allowed; makes it even more obvious*/
+}
+
+/**
+ * jquery-ui样式的特殊覆盖或扩展
+ *
+ * @author rongjihuang@gmail.com
+ * @date 2011-04-13
+ */
+/**修改字体*/
+.bc .ui-widget {
+	font-family: "微软雅黑", "宋体", sans-serif;
+}
+
+.bc .ui-widget input, .bc .ui-widget select, .bc .ui-widget textarea, .bc .ui-widget button, .bc .ui-widget div.input {
+	font-family: "微软雅黑", "宋体", sans-serif;
+}
+
+/**修改对话框*/
+.bc-ui-dialog {
+	padding: 0 6px 6px 6px;
+	box-shadow: 1px 1px 10px #000;
+	/**fix ie:记得将ie-css3.htc文件放在网站的根目录下哦，用相对路径是不行的！<--拖动对话框会见到大块的黑色背景，还是没法使用
+	behavior: url(ie-css3.htc);*/
+
+	overflow: visible;
+}
+
+.bc-ui-dialog.ui-widget-header {
+	background-position: 0 200%;
+	background-repeat: repeat-x;
+}
+
+.bc-ui-dialog .ui-dialog-titlebar.ui-widget-header {
+	border-width: 0;
+	background: none;
+}
+
+/*
+.bc-ui-dialog .ui-widget-header.ui-corner-all {
+	border-top-right-radius: 0;border-top-left-radius: 0;
+	border-bottom-right-radius: 0;border-bottom-left-radius: 0;
+}*/
+.bc-ui-dialog .ui-dialog-content {
+	padding: 0;
+	/*margin: 0 8px 8px 8px;*/
+}
+
+.bc-ui-dialog .bc-toolbar.ui-widget-content {
+	border-top: 0;
+	border-left: 0;
+	border-right: 0;
+}
+
+.bc-ui-dialog .ui-dialog-buttonpane {
+	margin: 0;
+}
+
+/** 对话框最大化后的样式控制 */
+.bc-ui-dialog.maximized {
+	border-radius: 0;
+	box-shadow: none;
+}
+
+/**jquery-ui tabs */
+.formTabs.ui-tabs .ui-tabs-panel {
+	padding: 0;
+}
+
+.bc-slide {
+	position: absolute;
+	min-width: 200px;
+	min-height: 50px;
+	_height: 50px;
+	z-index: 10000;
+	padding: 4px;
+	right: 2px;
+	bottom: 2px;
+}
+
+.bc-slide .ui-widget-content {
+	cursor: default;
+}
+
+.clickToSelect {
+	cursor: pointer;
+}
+
+.bc-page {
+	width: 100%;
+	height: 100%;
+}
+
+.bc-page, .bc-page.ui-dialog-content {
+	overflow: hidden;
+}
+
+.bc-autoScroll, .bc-autoScroll.ui-dialog-content {
+	overflow: auto;
+}
+
+.bc-autoScroll-x {
+	overflow-x: auto;
+	overflow-y: hidden;
+}
+
+.bc-autoScroll-y {
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.bc-noScroll {
+	overflow: hidden;
+}
+
+.bc-toolbar {
+	position: relative;
+	padding: 0.2em;
+}
+
+.bc-buttonGroup, .bc-radioGroup, .bc-separatorButton, .bc-searchButton {
+	display: inline-block;
+	margin-left: 0.6em;
+	margin-right: 0.6em;
+}
+
+.bc-toolbar .ui-button-text {
+	/*padding-top: 0.2em;
+	padding-bottom: 0.2em;*/
+}
+
+.bc-radioGroup .ui-button-text {
+	padding-left: 0.5em;
+	padding-right: 0.5em;
+}
+
+/** 搜索框 */
+.bc-searchButton {
+	position: absolute;
+	top: 0.4em;
+	right: 0.4em;
+}
+
+.bc-rightButtons {
+	display: inline-block;
+	position: absolute;
+	top: 0.4em;
+	right: 0;
+}
+
+.bc-rightButtons .bc-searchButton {
+	position: relative;
+	margin-left: 0.4em;
+	margin-right: 0;
+	top: 0;
+}
+
+.bc-searchButton a#searchBtn {
+	position: absolute;
+	top: 50%;
+	margin-top: -8px;
+	left: 0.12em;
+}
+
+.bc-searchButton input#searchText {
+	padding-left: 1.4em;
+	width: 180px;
+}
+
+.bc-searchButton.advance input#searchText {
+	padding-right: 1.4em;
+	width: 162px;
+}
+
+.bc-searchButton.advance a#advanceSearchBtn {
+	position: absolute;
+	top: 50%;
+	margin-top: -8px;
+	right: 0.12em;
+}
+
+/** 高级搜索 */
+.bc-conditionsForm {
+	position: absolute;
+	padding: 8px 8px 4px 8px;
+	display: inline-block;
+}
+
+.bc-conditionsForm a.closeBtn {
+	position: absolute;
+	top: 2px;
+	right: 2px;
+}
+
+.bc-conditionsForm .conditions {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	cursor: default;
+}
+
+.bc-conditionsForm .conditions .condition {
+	clear: both;
+	margin: 6px 0 6px 0;
+}
+
+.bc-condition-autocomplete {
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+}
+
+.bc-conditionsForm .conditions .condition.first {
+	margin-top: 0;
+}
+
+.bc-conditionsForm .conditions .condition > .label {
+	text-align: left;
+	padding-left: 2px;
+}
+
+.bc-conditionsForm .conditions .condition > .value {
+	position: relative;
+}
+
+.bc-conditionsForm .conditions .condition > .value label > span {
+	margin: 0 4px 0 2px;
+}
+
+.bc-conditionsForm .conditions .condition > .value input[type='text'] {
+	width: 99%;
+	margin: 0;
+	padding: 0;
+}
+
+.bc-conditionsForm .conditions .condition > .value select {
+	width: 99%;
+	margin: 0;
+	padding: 0;
+}
+
+.bc-conditionsForm .conditions .condition > .value input[type='radio'],
+.bc-conditionsForm .conditions .condition > .value input[type='checkbox'] {
+	margin: 0;
+}
+
+div.clear {
+	clear: both;
+	width: auto;
+	height: 0
+}
+
+div.bc-dateContainer, div.bc-relativeContainer {
+	position: relative;
+	display: inline-block;
+}
+
+/** 常用宽度 */
+.w60 {
+	width: 60px;
+}
+
+.w80 {
+	width: 80px;
+}
+
+.w100 {
+	width: 100px;
+}
+
+.w120 {
+	width: 20px;
+}
+
+.w150 {
+	width: 150px;
+}
+
+.w200 {
+	width: 200px;
+}
+
+.w220 {
+	width: 220px;
+}
+
+.w250 {
+	width: 250px;
+}
+
+.w300 {
+	width: 300px;
+}
+
+.w400 {
+	width: 400px;
+}
+
+.w500 {
+	width: 500px;
+}
+
+.w600 {
+	width: 600px;
+}
+
+.w650 {
+	width: 650px;
+}
+
+.w700 {
+	width: 700px;
+}
+
+.w750 {
+	width: 750px;
+}
+
+.w800 {
+	width: 800px;
+}
+
+.w820 {
+	width: 820px;
+}
+
+.m4 {
+	margin: 4px;
+}
+
+.m6 {
+	margin: 6px;
+}
+
+.m8 {
+	margin: 8px;
+}
+
+.m10 {
+	margin: 10px;
+}
+
+/*水平排列li元素的通用样式*/
+ul.horizontal, div.horizontal {
+	overflow: auto;
+	list-style: none;
+	padding: 4px;
+	margin: 0;
+}
+
+li.horizontal {
+	position: relative;
+	margin: 2px 4px 2px 0;
+	float: left;
+	padding: 2px 4px;
+}
+
+li.horizontal span.text {
+	margin-right: 16px;
+	cursor: default;
+}
+
+li.horizontal span.text2 {
+	cursor: default;
+}
+
+/*input文本框内置的操作按钮样式控制*/
+ul.inputIcons {
+	list-style: none;
+	position: absolute;
+	top: 50%;
+	padding: 0;
+	margin: -8px 0 0 0;
+	right: 4px;
+}
+
+ul.inputIcons li.inputIcon {
+	width: 16px;
+	height: 16px;
+	cursor: pointer;
+	padding: 0;
+	margin: 0;
+	float: left;
+	opacity: 0.7;
+	filter: alpha(opacity=70);
+}
+
+li.inputIcon.hover {
+	opacity: 1;
+	filter: alpha(opacity=100);
+}
+
+span.inputIcon {
+	opacity: 1;
+	filter: alpha(opacity=100);
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+/* 放在Grid的td内时 */
+.inputIcons.incell {
+	display: inline-block;
+	position: relative;
+	margin: 0;
+	top: 0.15em;
+	right: auto;
+}
+
+/*让td元素支持相对定位*/
+span.ui-icon.verticalMiddle {
+	position: absolute;
+	top: 50%;
+	margin-top: -8px;
+	width: 16px;
+	height: 16px;
+	right: 4px;
+	cursor: pointer;
+}
+
+td.relative, div.relative {
+	position: relative;
+	/*display: block; for firefox 低版本, 40+经测试此问题已修复*/
+}
+
+/*普通的标题*/
+.title {
+	border-width: 0 0 1px 0 !important;
+	padding: 0.25em;
+}
+
+/* Alternate stack initial positioning. */
+.ui-pnotify.stack-topleft {
+	top: 15px;
+	left: 15px;
+	right: auto;
+}
+
+.ui-pnotify.stack-bottomleft {
+	bottom: 15px;
+	left: 15px;
+	top: auto;
+	right: auto;
+}
+
+/* This one is done through code, to show how it is done. Look down
+   at the stack_bottomright variable in the JavaScript below. */
+.ui-pnotify.stack-bottomright {
+	/* These are just CSS default values to reset the pnotify CSS. */
+	right: auto;
+	top: auto;
+}
+
+/*jQueryUI Tabs 在表单中的样式修改*/
+.formTabs.ui-tabs {
+	border: 0;
+	background: none;
+}
+
+.formTabs.ui-tabs .ui-tabs-nav {
+	border: 0;
+	background: none;
+}
+
+.formTabs.ui-tabs .ui-tabs-panel {
+	border-width: 1px;
+	background-color: transparent;
+}
+
+.formTabs.ui-tabs .ui-tabs-nav li {
+	margin-bottom: 0;
+}
+
+ul.bc-menu > li.ui-menu-item > a, .horizontal.ui-widget-content a {
+	color: inherit;
+}
+
+/** 对话框右上角的按钮样式控制 */
+.ui-dialog .ui-dialog-titlebar-buttons {
+	list-style: none;
+	position: absolute;
+	right: .3em;
+	top: 50%;
+	margin: -10px 0 0 0;
+	height: 18px;
+	padding: 0;
+}
+
+.ui-dialog .ui-dialog-titlebar-buttons a {
+	cursor: pointer;
+	padding: 1px;
+	margin: 0;
+	float: left;
+}
+
+.ui-dialog .ui-dialog-titlebar-buttons a span {
+	display: block;
+	margin: 1px;
+}
+
+.ui-dialog .ui-dialog-titlebar-buttons a:hover, .ui-dialog .ui-dialog-titlebar-buttons a:focus {
+	padding: 0;
+}
+
+/* 禁止文本溢自动换行，文字溢出就显示省略号 */
+.nowrap, .nowrap > th, .nowrap > td {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+/* 文本自动换行 */
+.autowrap, .autowrap > th, .autowrap > td, pre.text {
+	white-space: pre-wrap; /* fixe for chrome 49+ */
+	overflow: auto;
+	word-wrap: break-word;
+	word-break: break-all;
+}
+
+/* 垂直弹性布局: IE11+, Firefox22+, Chrome29+*/
+.vlayout {
+	/* 定义弹性容器，flex值表示容器为块级,inline-flex值表示容器为原子行级元素 */
+	display: flex;
+	/* 定义主轴方向 http://www.w3.org/TR/css3-flexbox/#flex-direction-property
+	row | row-reverse | column | column-reverse*/
+	flex-direction: column;
+	/* 定义伸缩容器是单行韩式多行 http://www.w3.org/TR/css3-flexbox/#propdef-flex-wrap
+	nowrap | wrap | wrap-reverse*/
+	flex-wrap: nowrap;
+	/* 定义子元素如何沿着主轴排列 http://www.w3.org/TR/css3-flexbox/#justify-content-property
+	flex-start | flex-end | center | space-between | space-around */
+	justify-content: flex-start;
+	/* 定义子元素如何沿着侧轴排列 http://www.w3.org/TR/css3-flexbox/#align-items-property
+	flex-start | flex-end | center | baseline | stretch */
+	align-items: flex-start;
+}
+
+/* 水平弹性布局 */
+.hlayout {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: flex-start;
+	align-items: flex-start;
+}
+
+.vlayout > .unflex, .vlayout > *, .hlayout > .unflex, .hlayout > * {
+	/* 覆盖父元素的align-items属性，定义自己如何沿着侧轴排列
+	auto | flex-start | flex-end | center | baseline | stretch */
+	align-self: stretch;
+	/* 子代的弹性比 */
+	flex: none;
+}
+
+.vlayout > .autoflex, .vlayout > .flex, .hlayout > .autoflex, .hlayout > .flex {
+	align-self: stretch;
+	flex: 1 1 0%;
+}
+
+.vlayout.hleft {
+	align-items: flex-start;
+}
+
+.vlayout.hright {
+	align-items: flex-end;
+}
+
+.vlayout.hcenter {
+	align-items: center;
+}
+
+.vlayout.vtop {
+	justify-content: flex-start;
+}
+
+.vlayout.vbottom {
+	justify-content: flex-end;
+}
+
+.vlayout.vcenter {
+	justify-content: center;
+}
+
+/**
+ * table 的简易样式控制
+ * 用于将列表信息嵌入到表单中
+ * @author rongjihuang@gmail.com
+ * @date 2015-11-11
+ */
+table.simple {
+	table-layout: fixed;
+	border-spacing: 0;
+	background: none;
+	padding: 0;
+	margin: 0;
+	cursor: default;
+	border-collapse: collapse
+}
+
+table.simple > tbody > tr {
+	height: 1.8em;
+}
+
+table.simple > tbody > tr > td {
+	padding: 0;
+}
+
+table.simple > tbody > tr > td.text {
+	padding: 0 0.25em;
+}
+table.simple > tbody > tr > td.input {
+	border-width: 2px;
+}
+
+table.simple > tbody > tr > td:first-child {
+	border-left: none;
+}
+
+table.simple > tbody > tr > td:last-child {
+	border-right: none;
+}
+
+table.simple > tbody > tr.no-top-border > td {
+	border-top: none;
+}
+
+table.simple > tbody > tr.no-bottom-border > td {
+	border-bottom: none;
+}
+
+table.simple > tbody > tr > td > .text,
+table.simple > tbody > tr > td > input[type="text"],
+table.simple > tbody > tr > td > select {
+	box-sizing: border-box;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0 0.25em;
+	border: none;
+	background: none;
+}
+/**
+ * tabs组件水平布局的样式设置
+ *
+ * @author rongjihuang@gmail.com
+ * @date 2011-09-18
+ */
+div.bc-tabs.layout-top {
+	position: relative;
+	clear: both;
+	/*width: 775px;*/
+	color: #616161
+}
+
+div.bc-tabs.layout-top div.tabsContainer{
+	position: relative;
+	z-index: 20;
+	width: 100% !important;
+	height: 34px;
+	margin-bottom: -1px;
+	overflow: hidden
+}
+
+/** 前后按钮 */
+div.bc-tabs.layout-top div.tabsContainer div.prev,div.bc-tabs.layout-top div.tabsContainer div.next {
+	position: absolute;
+	z-index: 2;
+	top:0;
+	height: 32px;
+	width: 19px;
+	outline: none;
+	display: none;
+}
+div.bc-tabs.layout-top div.tabsContainer.sliding div.prev,div.bc-tabs.layout-top div.tabsContainer.sliding div.next {
+	display: block;
+}
+div.bc-tabs.layout-top div.tabsContainer a.prev,div.bc-tabs.layout-top div.tabsContainer a.next {
+	display:block;
+	height: 100%;
+	width: 100%;
+	border: 0;
+	cursor: pointer;
+}
+div.bc-tabs.layout-top div.tabsContainer a.prev.ui-state-disabled,div.bc-tabs.layout-top div.tabsContainer a.next.ui-state-disabled {
+	cursor: default;
+}
+div.bc-tabs.layout-top div.tabsContainer div.prev {
+	left: 0;
+}
+div.bc-tabs.layout-top div.tabsContainer div.next {
+	right: 0;
+}
+div.bc-tabs.layout-top div.tabsContainer a.prev.ui-state-active,div.bc-tabs.layout-top div.tabsContainer a.next.ui-state-active{
+	cursor: pointer;
+}
+div.bc-tabs.layout-top div.tabsContainer a.prev span.ui-icon,div.bc-tabs.layout-top div.tabsContainer a.next span.ui-icon{
+	position: absolute;
+	top:50%;
+	margin-top:-8px;
+	left:50%;
+	margin-left:-8px;
+	/*zoom:2;*/
+}
+
+/** 页签 */
+div.bc-tabs.layout-top div.slideContainer {
+	position: relative !important;
+}
+div.bc-tabs.layout-top div.tabsContainer.sliding div.slideContainer {
+	margin: 0 20px;
+}
+div.bc-tabs.layout-top ul.tabs {
+	border: 0;
+	width: 10000px;
+	height: 34px;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+div.bc-tabs.layout-top ul.tabs li {
+	float: left;
+	height: 32px;
+}
+div.bc-tabs.layout-top ul.tabs li a {
+	display: block;
+	height: 100%;
+	line-height: 32px;
+	text-decoration: none;
+	outline: none;
+	border:0;
+	margin: 0;
+	padding: 0px 10px;
+	cursor: pointer;
+}
+div.bc-tabs.layout-top ul.tabs li a.ui-state-active{
+	cursor: default;
+}
+div.bc-tabs.layout-top ul.tabs li.tab {
+	border-left-width: 0;
+}
+div.bc-tabs.layout-top ul.tabs li.tab.first {
+	border-left-width: 1px;
+}
+div.bc-tabs.layout-top ul.tabs li.tab.active {
+	border-bottom: 0;
+	padding-bottom: 1px;
+}
+
+/** 内容 */
+div.bc-tabs.layout-top div.contentContainer {
+	position: relative;
+	z-index: 5;
+	min-height: 80px;
+	overflow: hidden;
+	/*height: 277px;*/
+	padding: 0;
+}
+div.bc-tabs.layout-top div.contentContainer.noBottomBorder {
+	border-bottom-width: 0;;
+}
+div.bc-tabs.layout-top div.contentContainer div.content{
+	position: relative;
+	display:none;
+	width:100%;
+	height:100%;
+	overflow: auto;
+	margin:0;
+	padding:0;
+	border:0;
+}
+div.bc-tabs.layout-top div.contentContainer div.content div.loading{
+	height:31px;
+	line-height:31px;
+	background: url(images/loader/loader02_32x32.gif) no-repeat;
+	text-indent: 40px;
+	margin:10px;
+}
+div.bc-tabs.layout-top div.contentContainer div.content.active,div.bc-tabs.layout-top div.contentContainer div.content.loading{
+	display:block;
+}
+/**
+ * 桌面主题样式
+ *
+ * @author rongjihuang@gmail.com
+ * @date 2011-04-11
+ */
+html,body {
+	overflow: hidden;
+	height: 100%;
+	width: 100%;
+}
+
+body { /*background: url(images/bg_page.png) repeat top left;*/
+	background-color: #f5f5f5;
+}
+
+/** 桌面布局 -- 上-中(中-右)-下 */
+div.bc-desktop {
+	position: absolute;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	margin: 0;
+	padding: 0;
+}
+
+div.bc-desktop>#top {
+	z-index: 2;
+	position: absolute;
+	height: 34px;
+	width: 100%;
+	overflow: visible;
+	border-width: 0 0 1px 0;
+}
+
+div.bc-desktop>#bottom {
+	z-index: 3;
+	position: absolute;
+	height: 39px;
+	width: 100%;
+	bottom: 0;
+	overflow: visible;
+	border-width: 1px 0 0 0;
+}
+
+div.bc-desktop>#middle {
+	z-index: 1;
+	position: absolute;
+	width: 100%;
+	left: 0;
+	top: 35px;
+	bottom: 40px;
+	overflow: hidden;
+	border-width: 0;
+}
+
+div.bc-desktop>#middle>#center {
+	position: absolute;
+	right: 240px;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	overflow: auto;
+	border-width: 0;
+	display: none;
+}
+
+div.bc-desktop>#middle>#right {
+	position: absolute;
+	width: 240px;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	overflow: auto;
+	border-width: 0 0 0 1px;
+	text-align: center;
+}
+
+/* 右侧面板内的容器 */
+div.bc-desktop>#middle>#right .item {
+	margin: 4px;
+	float: right;
+}
+
+/** 系统图标 */
+img.sysIcon {
+	margin: 2px;
+}
+
+/** 系统菜单 */
+ul.bc-menubar {
+	border-width: 0;
+	font-size: 15px;
+	position: absolute;
+	width: auto;
+	display: none;
+	top: 0;
+	left: 52px;
+	z-index: 10000;
+}
+
+ul.bc-menubar>li ul{
+	z-index: 10000;
+}
+
+ul.bc-menubar,ul.bc-menubar>li.ui-menubar-item,ul.bc-menubar>li.ui-menubar-item>a
+	{
+	height: 100%;
+}
+ul.bc-menubar>li.ui-menubar-item>a {
+	height: 100%;
+	background: none;
+}
+
+ul.bc-menubar>li.ui-menubar-item>a.ui-menubar-link>span.ui-button-text {
+	padding-left: 0.4em;
+	padding-right: 0.4em;
+}
+
+ul.bc-menubar ul.childMenu{
+	border-radius: 0;
+	box-shadow: 1px 1px 10px #ccc;
+}
+
+/**桌面快捷方式*/
+a.shortcut,a.recycle {
+	margin: 10px 5px 5px 10px;
+	display: inline-block;
+	/*color: #ffffff;*/
+	text-decoration: none;
+	border: 2px solid transparent;
+	border-radius: 8px;
+	cursor: default;
+	_text-align: center; /*fixed ie6:使内部内容水平居中*/
+	width: 5.5em;
+}
+
+a.shortcut:HOVER,a.shortcut.hoverShortcut,a.recycle:HOVER{
+	border-color: green;
+	/*background: -webkit-radial-gradient(10% 30%, white, black);
+	background:-moz-radial-gradient(10% 30%, white, black);*/
+}
+
+a.shortcut .icon,a.recycle .icon {
+	display: block;
+	width: 52px;
+	height: 52px;
+	background: url(images/shortcuts/shortcuts.png) no-repeat 0 0;
+	/*filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/logo48.png', sizingMethod='scale');*/
+	margin: auto;
+	margin-top: 2px;
+}
+
+a.shortcut .text,a.recycle .text {
+	margin: auto;
+	display: block;
+	width: 5em;
+	/*color: white;*/
+	overflow: hidden;
+	text-overflow: ellipsis;
+	cursor: default;
+	text-align: center;
+	padding: 2px;
+}
+
+a.recycle {
+	clear:both;
+	position: absolute;
+	left:0px;
+	bottom:0px;
+}
+
+/**快速任务栏*/
+#quickButtons {
+	position: absolute;
+	z-index: 10000;
+	height: 40px; /*这个不设置的话会导致元素高度全部计算诡异*/
+	top: 0;
+	left:0px;
+	right:12px;
+	/*background-color: #9EB1A3;
+	width: 100%;
+	overflow: hidden;
+	background: url(images/bg_quickbar1.png) repeat-x top left;*/
+	z-index: 10 !important;
+	border-width: 0 0 1px 0;
+	table-layout: fixed;
+	margin: 0;
+	padding: 0;
+}
+
+#quickShowHide {
+	width: 12px;
+	vertical-align: top;
+	height: 100%;
+}
+
+#quickShowHide a {
+	/*background: url(images/showHide.png) repeat-y 0 0;*/
+	display: block;
+	width: 100%;
+	height: 100%;
+	text-decoration: none;
+	border-width: 0 0 0 1px;
+}
+
+#quickShowHide a:HOVER {
+	background-position: -24px 0;
+}
+
+#quickLogout {
+	width: 40px;
+	vertical-align: middle;
+	height: 100%;
+}
+
+#quickButtons {
+	height: 100%;
+	vertical-align: middle;
+}
+
+#quickButtons .quickButton {
+	float: left;
+	margin: 2px 0px 2px 2px;
+	padding: 8px;
+	/*border: 1px solid black;*/
+	text-decoration: none;
+	cursor: default;
+	position: relative;
+}
+
+#quickButtons .quickButton .ui-icon {
+	position: absolute;
+	display: block;
+	width: 16px;
+	height: 16px;
+	top: 50%;
+	margin-top: -8px;
+	padding: 0;
+	border: 0;
+}
+
+#quickButtons .quickButton .text {
+	padding-left: 20px;
+	padding-right: 2px;
+	
+	display: block;
+	overflow:hidden;
+	text-overflow: ellipsis;
+	white-space:nowrap;
+	max-width: 12em;
+}
+
+#quickButtons .quickButton .loading {
+	background: url(images/loader/loader01_16x16.gif) no-repeat 0 0;
+}
+
+/*版权相关*/
+#copyrightBar {
+	position: absolute;
+	bottom: 0px;
+	left: 0;
+	right:12px;
+	top: 0;
+	bottom: 0;
+	line-height: 40px;
+	overflow: hidden;
+	overflow: hidden;
+	text-align: center;
+	z-index: 3;
+	cursor:pointer;
+}
+
+#copyrightBar a { /*display:block;
+	width:100%;height:100%;*/
+	font-size: 1.2em;
+	color: #888;
+	text-decoration: none;
+	cursor: pointer;
+	margin: auto;
+}
+
+/*异常页面*/
+table.error {
+	table-layout: fixed;
+	padding: 0;
+	margin: 0;
+	margin: 10px auto;
+	min-width: 300px;
+}
+
+table.error td {
+	text-align: left;
+	vertical-align: middle;
+}
+
+table.error td.icon {
+	width: 52px;
+	overflow: hidden;
+}
+
+table.error td.icon div.icon {
+	background: url(images/shortcuts/shortcuts.png) no-repeat -468px -312px;
+	width: 52px;
+	height: 52px;
+}
+
+table.error td.label {
+	font-size: 32px;
+}
+
+table.error .detail {
+	font-size: 12px;
+	color: #888;
+}
+
+table.error .detail span.more {
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+/**
+ * 右上角图标
+ * innmm -->nn:行号，mm:列号
+ */
+div.bc-desktop table.topIcons {border: 0;position: absolute;width: auto;height: 100%;top: 0;right: 0;}
+td.topIcon {width: 34px;vertical-align: middle;cursor: pointer;position: relative;display: inline-block;}
+td.topIcon a.icon {
+	background: url(images/index/topIcons.png) repeat-y 0 0;
+	display: block;width: 32px;height: 32px;
+	margin: auto;text-decoration: none;
+	opacity: 0.7;
+	filter: alpha(opacity=70);
+}
+td.topIcon a.icon:hover {
+	opacity: 1;
+	filter: alpha(opacity=100);
+}
+td.topIcon a.icon.i0000 {background-position: 0 0;}
+td.topIcon a.icon.i0001 {background-position: -32px 0;}
+td.topIcon a.icon.i0002 {background-position: -64px 0;}
+td.topIcon a.icon.i0003 {background-position: -96px 0;}
+td.topIcon a.icon.i0004 {background-position: -128px 0;}
+td.topIcon a.icon.i0005 {background-position: -160px 0;}
+td.topIcon a.icon.i0006 {background-position: -192px 0;}
+td.topIcon a.icon.i0007 {background-position: -224px 0;}
+td.topIcon a.icon.i0008 {background-position: -256px 0;}
+td.topIcon a.icon.i0009 {background-position: -288px 0;}
+
+/**
+ * 数字提示圈
+ */
+span.number {
+	position: absolute;
+	display: block;
+	border-radius: 8px;
+	min-width: 16px;
+	width: auto;
+	height: 16px;
+	bottom: 0;
+	margin-bottom: -12px;
+	left: 50%;
+	margin-left: -8px;
+	text-align: center;
+}
+
+/**
+ * 右下角图标
+ * innmm -->nn:行号，mm:列号
+ */
+div.bc-desktop table.bottomIcons {border: 0;position: absolute;width: auto;height: 100%;top: 0;right: 0;}
+td.bottomIcon {width: 34px;vertical-align: middle;cursor: pointer;}
+td.bottomIcon a {
+	display: block;width: 32px;height: 32px;
+	margin: auto;text-decoration: none;
+}
+div.bc-desktop> table.bottomIcons #quickShowHide.bottomIcon {
+	width: 12px;
+	vertical-align: top;
+	height: 100%;
+}
+
+/**
+ * 显示测试字样的容器
+ */
+#test {
+	z-index:100;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	position: absolute;
+	color: #808000;
+	font-size: 28px;
+	font-weight: bold;
+	text-align: center;
+	width: 100px;
+	height: 100px;
+	top: 4px;
+	left: 45%;
+	border-radius: 50px;
+	padding:4px;
+	border: 4px solid #808000;
+	cursor: pointer;
+}
+
+/**
+ * 桌面图标
+ * innmm -->nn:行号，mm:列号（索引从0开始，偏移值计算公式：x=-mm*52, y=-nn*52）
+ * @author rongjihuang@gmail.com
+ * @date 2011-04-11
+ */
+a.recycle .i0504 {background-position: -208px -260px;}
+a.recycle .i0505 {background-position: -260px -260px;}
+a.shortcut .i0000 {background-position: 0 0;}
+a.shortcut .i0001 {background-position: -52px 0;}
+a.shortcut .i0002 {background-position: -104px 0;}
+a.shortcut .i0003 {background-position: -156px 0;}
+a.shortcut .i0004 {background-position: -208px 0;}
+a.shortcut .i0005 {background-position: -260px 0;}
+a.shortcut .i0006 {background-position: -312px 0;}
+a.shortcut .i0007 {background-position: -364px 0;}
+a.shortcut .i0008 {background-position: -416px 0;}
+a.shortcut .i0009 {background-position: -468px 0;}
+
+a.shortcut .i0100 {background-position: 0 -52px;}
+a.shortcut .i0101 {background-position: -52px -52px;}
+a.shortcut .i0102 {background-position: -104px -52px;}
+a.shortcut .i0103 {background-position: -156px -52px;}
+a.shortcut .i0104 {background-position: -208px -52px;}
+a.shortcut .i0105 {background-position: -260px -52px;}
+a.shortcut .i0106 {background-position: -312px -52px;}
+a.shortcut .i0107 {background-position: -364px -52px;}
+a.shortcut .i0108 {background-position: -416px -52px;}
+a.shortcut .i0109 {background-position: -468px -52px;}
+
+a.shortcut .i0200 {background-position: 0 -104px;}
+a.shortcut .i0201 {background-position: -52px -104px;}
+a.shortcut .i0202 {background-position: -104px -104px;}
+a.shortcut .i0203 {background-position: -156px -104px;}
+a.shortcut .i0204 {background-position: -208px -104px;}
+a.shortcut .i0205 {background-position: -260px -104px;}
+a.shortcut .i0206 {background-position: -312px -104px;}
+a.shortcut .i0207 {background-position: -364px -104px;}
+a.shortcut .i0208 {background-position: -416px -104px;}
+a.shortcut .i0209 {background-position: -468px -104px;}
+
+a.shortcut .i0300 {background-position: 0 -156px;}
+a.shortcut .i0301 {background-position: -52px -156px;}
+a.shortcut .i0302 {background-position: -104px -156px;}
+a.shortcut .i0303 {background-position: -156px -156px;}
+a.shortcut .i0304 {background-position: -208px -156px;}
+a.shortcut .i0305 {background-position: -260px -156px;}
+a.shortcut .i0306 {background-position: -312px -156px;}
+a.shortcut .i0307 {background-position: -364px -156px;}
+a.shortcut .i0308 {background-position: -416px -156px;}
+a.shortcut .i0309 {background-position: -468px -156px;}
+
+a.shortcut .i0400 {background-position: 0 -208px;}
+a.shortcut .i0401 {background-position: -52px -208px;}
+a.shortcut .i0402 {background-position: -104px -208px;}
+a.shortcut .i0403 {background-position: -156px -208px;}
+a.shortcut .i0404 {background-position: -208px -208px;}
+a.shortcut .i0405 {background-position: -260px -208px;}
+a.shortcut .i0406 {background-position: -312px -208px;}
+a.shortcut .i0407 {background-position: -364px -208px;}
+a.shortcut .i0408 {background-position: -416px -208px;}
+a.shortcut .i0409 {background-position: -468px -208px;}
+
+a.shortcut .i0500 {background-position: 0 -260px;}
+a.shortcut .i0501 {background-position: -52px -260px;}
+a.shortcut .i0502 {background-position: -104px -260px;}
+a.shortcut .i0503 {background-position: -156px -260px;}
+a.shortcut .i0504 {background-position: -208px -260px;}
+a.shortcut .i0505 {background-position: -260px -260px;}
+a.shortcut .i0506 {background-position: -312px -260px;}
+a.shortcut .i0507 {background-position: -364px -260px;}
+a.shortcut .i0508 {background-position: -416px -260px;}
+a.shortcut .i0509 {background-position: -468px -260px;}
+
+a.shortcut .i0600 {background-position: 0 -312px;}
+a.shortcut .i0601 {background-position: -52px -312px;}
+a.shortcut .i0602 {background-position: -104px -312px;}
+a.shortcut .i0603 {background-position: -156px -312px;}
+a.shortcut .i0604 {background-position: -208px -312px;}
+a.shortcut .i0605 {background-position: -260px -312px;}
+a.shortcut .i0606 {background-position: -312px -312px;}
+a.shortcut .i0607 {background-position: -364px -312px;}
+a.shortcut .i0608 {background-position: -416px -312px;}
+a.shortcut .i0609 {background-position: -468px -312px;}
+
+a.shortcut .i0700 {background-position: 0 -364px;}
+a.shortcut .i0701 {background-position: -52px -364px;}
+a.shortcut .i0702 {background-position: -104px -364px;}
+a.shortcut .i0703 {background-position: -156px -364px;}
+a.shortcut .i0704 {background-position: -208px -364px;}
+a.shortcut .i0705 {background-position: -260px -364px;}
+a.shortcut .i0706 {background-position: -312px -364px;}
+a.shortcut .i0707 {background-position: -364px -364px;}
+a.shortcut .i0708 {background-position: -416px -364px;}
+a.shortcut .i0709 {background-position: -468px -364px;}
+
+a.shortcut .i0800 {background-position: 0 -416px;}
+a.shortcut .i0801 {background-position: -52px -416px;}
+a.shortcut .i0802 {background-position: -104px -416px;}
+a.shortcut .i0803 {background-position: -156px -416px;}
+a.shortcut .i0804 {background-position: -208px -416px;}
+a.shortcut .i0805 {background-position: -260px -416px;}
+a.shortcut .i0806 {background-position: -312px -416px;}
+a.shortcut .i0807 {background-position: -364px -416px;}
+a.shortcut .i0808 {background-position: -416px -416px;}
+a.shortcut .i0809 {background-position: -468px -416px;}
+
+a.shortcut .i0900 {background-position: 0 -468px;}
+a.shortcut .i0901 {background-position: -52px -468px;}
+a.shortcut .i0902 {background-position: -104px -468px;}
+a.shortcut .i0903 {background-position: -156px -468px;}
+a.shortcut .i0904 {background-position: -208px -468px;}
+a.shortcut .i0905 {background-position: -260px -468px;}
+a.shortcut .i0906 {background-position: -312px -468px;}
+a.shortcut .i0907 {background-position: -364px -468px;}
+a.shortcut .i0908 {background-position: -416px -468px;}
+a.shortcut .i0909 {background-position: -468px -468px;}
+
+a.shortcut .i1000 {background-position: 0 -520px;}
+a.shortcut .i1001 {background-position: -52px -520px;}
+a.shortcut .i1002 {background-position: -104px -520px;}
+a.shortcut .i1003 {background-position: -156px -520px;}
+a.shortcut .i1004 {background-position: -208px -520px;}
+a.shortcut .i1005 {background-position: -260px -520px;}
+a.shortcut .i1006 {background-position: -312px -520px;}
+a.shortcut .i1007 {background-position: -364px -520px;}
+a.shortcut .i1008 {background-position: -416px -520px;}
+a.shortcut .i1009 {background-position: -468px -520px;}
+
+/**
+ * grid样式
+ *
+ * @author rongjihuang@gmail.com
+ * @date 2011-04-24
+ */
+
+/**table重设*/
+table.table { /*width: 100%;
+	height: 100%;*/
+	table-layout: fixed;
+	border-spacing: 0;
+	background: none;
+	padding: 0;
+	margin: 0;
+	cursor: default;
+	overflow: visible;
+}
+
+/**表格的数据加载动画*/
+#bc-grid-loader {
+	position: absolute;
+	width: 32px;
+	height: 32px;
+	background: url("images/loader/loader01_32x32.gif") no-repeat;
+	padding: 0;
+	margin: 0;
+}
+
+/**表格*/
+.bc-grid {
+	padding: 0;
+	margin: 0;
+}
+
+/**表格头*/
+.bc-grid .header {
+	overflow: hidden;
+}
+/**表格数据列表*/
+.bc-grid .data {
+	position: relative;
+	/*height: 100px;*/
+}
+
+.bc-grid table a {
+	color: inherit;
+}
+
+.bc-grid .header td {
+	text-align: center;
+}
+
+.bc-grid .header td .wrapper {
+	position: relative; /*用于sortableIcon的定位*/
+}
+
+.bc-grid .header td .sortableIcon {
+	position: absolute;
+	right: 0;
+	top: 50%;
+	margin-top: -8px;
+}
+
+.bc-grid tr.row.ui-widget-content {
+	font-weight: normal;
+	/*background: none;*/
+}
+
+.bc-grid tr.row.even { /*filter: alpha(opacity=50);	opacity: 0.5;*/
+	
+}
+
+.bc-grid .left {
+	border-right: 1px solid #aaa;
+}
+
+/* 移动设备访问时的样式控制 */
+@media only screen and (max-width: 999px) {
+	.bc-grid .left {
+		border-right-width: 2px;
+	}
+}
+
+.bc-grid .left,.bc-grid .left table.table,.bc-grid .left table.table td.id
+	{
+	width: 40px;
+	overflow: hidden;
+}
+
+.bc-grid .left,.bc-grid .right {
+	float: left;
+}
+
+.bc-grid .data .left { /*height: 83px;*/
+	
+}
+
+.bc-grid .data .right {
+	overflow: auto;
+	/*height: 100px;*/
+	/*width: 200px;*/
+}
+
+.bc-grid .header .right {
+	overflow: hidden;
+	/*width: 183px;*/
+}
+
+.bc-grid .header.ui-state-default {
+	border: 0;
+}
+
+.bc-grid .right table.table { /*width: 300px;*/
+	
+}
+
+.bc-grid td.first,.bc-grid td.middle,.bc-grid td.last,.bc-grid td.id {
+	border-bottom: 1px solid #ccc;
+	padding-left: 0.25em;
+	padding-right: 0.25em;
+	/*内容溢出控制*/
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-o-text-overflow: ellipsis;
+	-icab-text-overflow: ellipsis;
+	-khtml-text-overflow: ellipsis;
+	-moz-text-overflow: ellipsis;
+	-webkit-text-overflow: ellipsis;
+	white-space: nowrap;
+	-moz-binding: url('ellipsis.xml#ellipsis');
+}
+
+.bc-grid .header td.empty {
+	border-bottom: 1px solid #ccc;
+	padding: 0;
+}
+
+.bc-grid td.middle,.bc-grid td.last {
+	border-left: 1px solid #ccc;
+}
+
+.bc-grid tr.row {
+	height: 1.8em;
+}
+
+.bc-grid td.id { /*border-right: 1px solid #ccc;*/
+	
+}
+
+.bc-grid td.id span.ui-icon {
+	display: none;
+}
+
+.bc-grid td.id span.ui-icon-check,.bc-grid td.id span.ui-icon-notice {
+	display: inline-block;
+	*display: block; /*ie6,ie7*/
+	*float: left; /*ie6,ie7*/
+}
+
+.bc-grid .header td.id span.ui-icon {
+	margin: auto; /*现代浏览器居中处理*/
+}
+
+.bc-grid .pager {
+	clear: both;
+	padding: 0.2em;
+}
+
+.bc-grid .pager.ui-widget-content {
+	border-left-width: 0;
+	border-right-width: 0;
+	border-bottom-width: 0;
+}
+
+.bc-grid .pager {
+	display: block;
+	margin: 0;
+	padding: 0;
+	clear: both;
+}
+
+.bc-grid .pager li {
+	position: relative;
+	margin: 2px;
+	padding: 4px 0;
+	cursor: pointer;
+	float: left;
+	list-style: none;
+}
+
+.bc-grid .pager li span.ui-icon {
+	float: left;
+	margin: 0 4px;
+}
+
+.bc-grid .pager .pagerIconGroup {
+	padding: 2px 2px;
+}
+
+.bc-grid .pager .pagerIconGroup a.pagerIcon {
+	margin: 0;
+	border: 0;
+}
+
+.bc-grid .pager .pagerIconGroup span.ui-icon {
+	margin: 2px;
+}
+
+.bc-grid .pager li span.pageNo,.bc-grid .pager li span.pageSize {
+	float: left;
+	height: 16px;
+	font-size: 12px;
+}
+
+.bc-grid .pager li span.pageNo {
+	margin: 2px 4px;
+}
+
+.bc-grid .pager li span.pageSize {
+	margin: 2px 4px;
+}
+
+.bc-grid .pager li a {
+	float: left;
+	display: block;
+}
+
+.bc-grid>.data>.right tr.row a.bc-link {
+	text-decoration: underline;
+	color: inherit;
+}
+
+/* 视图布局的通用样式 */
+.treeGrid>.bc-grid-wrap {
+	position: absolute;
+	left: 160px;
+	right: 0;
+	top: 0;
+	bottom: 0;
+}
+/**
+ * 树的样式配置文件
+ * 
+ * @author rongjihuang@gmail.com
+ * @date 2012-11-12
+ * @comment 使用table作为节点的容器，通过表格行的背景控制鼠标悬停的整行样式显示，类似win7的资源管理器树
+ */
+
+/* 容器 */
+.bc-tree {
+	position: relative;
+	overflow: auto;
+	margin: 0px;
+	padding: 0px;
+	cursor: default;
+	box-sizing: border-box;
+	padding: 8px 1px !important;
+	font-weight: normal;
+}
+
+/* 加载动画 */
+.bc-tree>.loader {
+	position: absolute;
+	width: 32px;
+	height: 32px;
+	background: url("images/loader/loader01_32x32.gif") no-repeat;
+	padding: 0;
+	margin: 0;
+}
+
+/* 节点 */
+.treeNode {
+	padding: 0;
+	vertical-align: middle;
+}
+
+/* 节点集 */
+.treeNode>table.nodes {
+	list-style: none;
+	margin: 0px;
+	padding: 0px;
+	cursor: default;
+	border-spacing: 0;
+	border: none;
+	width: 100%;
+}
+
+.treeNode>.item {
+	position: relative;
+	white-space: nowrap; /* normal | nowrap | keep-all*/
+}
+
+.treeNode>.item.ui-state-normal {
+	border-color: transparent;
+}
+/* 节点：内容 */
+.treeNode>.item>span {
+	display: inline-block;
+}
+
+.treeNode>.item>span.ui-icon {
+	opacity: 0.7;
+	filter: alpha(opacity =   70);
+}
+
+.treeNode>.item>span.ui-icon:hover {
+	opacity: 1;
+	filter: alpha(opacity =   100);
+}
+/* 节点：叶子-无导航图标 */
+.treeNode.leaf>.item>span.nav-icon {
+	background-image: none;
+	visibility: hidden;
+}
+/* 节点：导航图标--默认隐藏 */
+.bc-tree.autoHideShowNav .treeNode>.item>span.nav-icon {
+	visibility: hidden;
+	-moz-transition: visibility 0.5s ease-out 0.1s;
+	-webkit-transition: visibility 0.5s ease-out 0.2s;
+}
+/* 节点：导航图标--鼠标悬停时显示 */
+.bc-tree.autoHideShowNav:hover .treeNode>.item>span.nav-icon {
+	visibility: visible;
+}
+/* 节点：操作按钮 */
+.treeNode>.item>ul.buttons {
+	list-style: none;
+	position: absolute;
+	top: 50%;
+	padding: 0;
+	margin: -9px 0 0 0;
+	right: 4px;
+}
+
+.treeNode>.item>ul.buttons>li {
+	cursor: pointer;
+	padding: 0;
+	margin: 0;
+	float: left;
+	box-sizing: border-box;
+}
+
+/* 节点的子节点可见性控制 */
+.treeNode.collapsed>table.nodes {
+	display: none;
+}
+
+/* 节点的嵌套层次结构样式控制 */
+.treeNode[data-level="1"]>.item {
+	padding-left: 0px;
+}
+
+.treeNode[data-level="2"]>.item {
+	padding-left: 16px;
+}
+
+.treeNode[data-level="3"]>.item {
+	padding-left: 32px;
+}
+
+.treeNode[data-level="4"]>.item {
+	padding-left: 48px;
+}
+
+.treeNode[data-level="5"]>.item {
+	padding-left: 64px;
+}
+
+.treeNode[data-level="6"]>.item {
+	padding-left: 80px;
+}
+
+.treeNode[data-level="7"]>.item {
+	padding-left: 96px;
+}
+
+.treeNode[data-level="8"]>.item {
+	padding-left: 112px;
+}
+
+.treeNode[data-level="9"]>.item {
+	padding-left: 128px;
+}
+
+.treeNode[data-level="10"]>.item {
+	padding-left: 144px;
+}
+
+/* 视图布局的通用样式 */
+.treeGrid {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	top: 2.799em; /* start from chrome 49 */
+	border: 0;
+}
+
+.treeGrid>.bc-tree {
+	position: absolute;
+	width: 160px;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	border-width: 0 1px 0 0;
+}
+/**
+ * grid导出ExcelTip框的样式控制
+ *
+ * @author rongjihuang@gmail.com
+ * @date 2012-01-16
+ */
+
+/** 总容器 */
+form.bc-export {
+	margin: 8px;
+}
+
+/** 确认导出范围 */
+form.bc-export>div.rangeTitle {
+	height: 22px;
+	line-height: 22px;
+	font-size: 14px;
+	font-weight: bold;
+	color: #333;
+}
+
+form.bc-export>ul.rangeUl {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+form.bc-export>ul.rangeUl>li, form.bc-export>table.headersTable td.headersTd>ul>li{
+	margin: 2px;
+	_margin: 0;
+}
+
+form.bc-export>ul.rangeUl>li>label, form.bc-export>table.headersTable td.headersTd>ul>li>label{
+	margin-right: 8px;
+}
+
+form.bc-export>ul.rangeUl>li>label>input, form.bc-export>table.headersTable td.headersTd>ul>li>label>input{
+	margin: 2px 0;
+	_margin: 0;
+}
+
+form.bc-export>ul.rangeUl>li>label>span, form.bc-export>table.headersTable td.headersTd>ul>li>label>span{
+	margin: 0 4px;
+	_margin: 0 2px;
+}
+
+/** 选择导出字段 */
+form.bc-export>div.headersTitle {
+	margin-top: 8px;
+	height: 22px;
+	line-height: 22px;
+	font-size: 14px;
+	font-weight: bold;
+	color: #333;
+}
+
+form.bc-export>table.headersTable {
+	border: 0;
+}
+
+form.bc-export>table.headersTable td.headersTd {
+	vertical-align: top;
+}
+
+form.bc-export>table.headersTable td.headersTd>ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+form.bc-export>div.buttons {
+	padding: 0 4px;
+	text-align: right;
+}
+/**
+ * 表单样式
+ *
+ * @author rongjihuang@gmail.com
+ * @date 2011-05-20
+ */
+/** 表单*/
+.bc-form {
+	width: 100%;
+	height: 100%;
+	padding: 0;
+	margin: 0;
+}
+
+.bc-form.ui-widget-content {
+	border: 0;
+}
+/** 表单右上角信息*/
+.formTopInfo,.fileInfo {
+	margin: 8px 8px 0 8px;
+	text-align: right;
+	color: #888;
+	font-size: 0.75em;
+	padding-right: 4px;
+	font-weight: normal;
+}
+/** 表单底部注释信息*/
+.formComment {
+	margin: 4px 8px;
+	padding: 0.25em;
+	color: #888;
+	font-size: 0.75em;
+	text-align: left;
+}
+
+a.link {
+	color: blue;
+}
+/** 表单元素容器*/
+div.formFields {
+	margin: 8px;
+}
+/** 表单内顶部主体元素容器*/
+table.formFields {
+	width: 100%;
+	border-width: 0;
+}
+/** 表单富文本编辑器容器*/
+div.formEditor {
+	margin: 8px;
+}
+/** 表单多页签容器*/
+div.formTabs {
+	margin: 0px;
+}
+/** 表单附件区容器*/
+div.formAttachs {
+	margin: 8px;
+}
+
+/** 单列(2个td)元素表单的元素容器*/
+.formTable {
+	margin: 8px;
+	width: 400px;
+}
+/** 两列(4个td)元素表单的元素容器*/
+.formTable2 {
+	margin: 8px;
+	width: 600px;
+}
+
+td.label {
+	text-align: right;
+	vertical-align: middle;
+	min-width: 6em;
+	width: 6em;
+	_width: 6em;
+	font-weight: normal;
+}
+
+td.label .little {
+	text-align: left;
+	font-size: 80%;
+	display: inline-block;
+}
+
+td.topLabel {
+	text-align: right;
+	vertical-align: top;
+	min-width: 6em;
+	_width: 6em;
+	font-weight: normal;
+}
+
+td.top {
+	vertical-align: top;
+}
+
+td.value {
+	text-align: left;
+	font-weight: normal;
+}
+
+td.value input,td.value textarea,td.value div.input {
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	width: 100%;
+	margin: 0;
+	padding: 1px 2px;
+}
+
+td.value div.input {
+	height: 1.6em;
+	padding: 0;
+	margin: 0;
+	font-weight: normal;
+}
+
+/* 文本两端对齐 http://www.cnblogs.com/rubylouvre/archive/2012/11/28/2792504.html */
+.justify, td.justify{
+	text-align:justify;
+	-moz-text-align:justify;/*ff*/
+	-moz-text-align-last:justify;/*ff*/
+	text-align-last:justify;
+	text-justify:distribute-all-lines;
+}
+_:-webkit-any-link, :root td.justify {
+	text-align:right;
+}
+
+/*只能读*/
+.readonly {
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	width: 100%;
+	min-height: 1.6em;
+	-webkit-user-modify: read-only;
+	-moz-user-modify: read-only;
+	user-modify: read-only;
+}
+/*可读可写*/
+.editable {
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	width: 100%;
+	min-height: 1.6em;
+	-webkit-user-modify: read-write-plaintext-only;
+	-moz-user-modify: read-write;
+	-moz-user-modify: read-write-plaintext-only;/*firefox15 unsupport*/
+	user-modify: read-write-plaintext-only;
+}
+.richeditable {
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	width: 100%;
+	min-height: 1.6em;
+	-webkit-user-modify: read-write;
+	-moz-user-modify: read-write;
+	user-modify: read-write;
+}
+
+td.value div.input .link {
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+td.value select {
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+}
+.borderBox {
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.webkit .bc-page select {
+	/*height: 21px;*/
+	/*webkit的select背景无法透明的模拟修正*/
+	-webkit-appearance: none;
+	background: url('images/browser/webkit_select_down.png') no-repeat right
+		center;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+.webkit .bc-page select[disabled='disabled'] {
+	background: none;
+}
+
+.webkit .bc-page select option {
+	background: none;
+	color: black;
+}
+
+/*
+td.value .ui-icon{
+	float: left;
+	margin-top: 4px;
+}*/
+textarea.bc-editor {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	min-height: 300px;
+}
+/** 使WebKit内核浏览器textarea不可以任意拖动放大 */
+textarea.noresize {
+	resize: none;
+}
+/** 使WebKit内核浏览器input、textarea聚焦时无黄色边框 */
+textarea.nooutline,input.nooutline {
+	outline: none;
+}
+/** 使textarea自动内容高度：需要js的支持 */
+textarea.autoHeight {
+	overflow: hidden;
+	resize: none;
+	min-height: 1.6em;
+}
+
+div.bc-editor {
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	max-height: 300px;
+	overflow: auto;
+}
+
+tr.widthMarker {
+	line-height: 1px;
+}
+/** 使文本输入框无边框和背景 */
+input.nostyle {
+	background: none;
+	border-width: 0;
+}
+/**
+ * 桌面主题样式
+ *
+ * @author rongjihuang@gmail.com
+ * @date 2011-04-11
+ */
+.boxPointer {
+	position: absolute;
+	min-width: 100px;
+	min-height: 40px;
+	_height: 40px;
+	z-index: 10000;
+	
+	/*border: 2px solid red;
+	background-color: #FFFEDE;
+	border-radius: 5px;
+	box-shadow: 3px 3px 4px #999;*/
+	/*filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#999');*/
+}
+.boxPointer a.close{
+	position:absolute;
+	top:-8px;right:-8px;
+}
+.boxPointer .content {
+	margin: 4px;
+	cursor: default;
+}
+
+.boxPointer .pointerBorder {
+	position: absolute;
+	display: block;
+	height: 0;
+	width: 0;
+	font-size: 0;
+	line-height: 0;
+	background:none;
+	border-width: 10px;
+	/*border-color: transparent transparent red transparent;设为与boxPointer的边框色相同
+	border-style: dashed dashed solid dashed;
+	top: -20px; left: 10px;*/
+}
+
+.boxPointer .pointerColor {
+	position: absolute;
+	display: block;
+	height: 0;
+	width: 0;
+	font-size: 0;
+	line-height: 0;
+	background:none;
+	border-width: 10px;
+	/*border-color: transparent transparent #FFFEDE transparent;设为与boxPointer的背景色相同
+	border-style: dashed dashed solid dashed;
+	top: -9px;left: -10px;*/
+}
+/**
+ * 附件空件样式控制
+ *
+ * @author rongjihuang@gmail.com
+ * @date 2011-06-01
+ */
+
+/** 附件大容器 */
+.attachs {
+	
+}
+
+.attachs table {
+	table-layout: fixed;
+}
+
+/** 附件的汇总信息容器 */
+.attachs .header {
+	margin: 8px 0 0 5px;
+}
+
+/** 添加附加的input控件的容器 */
+.attachs .header td.uploadFile {
+	position: relative;
+	display: block;
+	text-decoration: underline;
+	color: #2A5DB0;
+}
+
+.attachs .header td {
+	vertical-align: middle;
+}
+
+/** 添加附加的input控件 */
+.attachs .header input.uploadFile {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 5em;
+	height: 1.5em;
+	filter: alpha(opacity =         10);
+	opacity: 0;
+	cursor: pointer;
+	/*-moz-margin-start: -165px; Firefox的input:file宽度无法控制的处理，从v27.0发现此问题已经解决*/
+}
+
+/** 每个附加的总容器 */
+.attachs .attach {
+	margin: 8px 0 0 5px;
+}
+
+/** 附加的图标 */
+.attachs .attach .icon,.attachs .header .summary {
+	padding-right: 6px;
+	vertical-align: middle;
+}
+
+/** 附加的图标 */
+.attachs .attach td.size {
+	min-width: 4em;
+}
+
+.attachs .header .summary,.attachs .attach .subject {
+	font-weight: bold;
+}
+
+.attachs .header span.uploadFile,.attachs .header .operation,.attachs .attach .operation
+	{
+	margin: 6px;
+	color: #2A5DB0;
+}
+
+.attachs .attach td.operations {
+	vertical-align: middle;
+	padding-right: 6px;
+}
+
+.attachs .attach .progressbar.ui-progressbar,.attachs .attach .progressbar .ui-progressbar-value
+	{
+	border-radius: 0;
+	margin: 0;
+}
+
+.attachs .attach .progressbar {
+	width: 15em;
+	height: 1em;
+	margin-left: 6px;
+}
+.attachs .attach .progressbar .ui-progressbar-value{
+	border:0;
+}
+
+/**
+ * 文件类型图标
+ * innmm -->nn:行号，mm:列号
+ * @author rongjihuang@gmail.com
+ * @date 2011-06-01
+ */
+span.file-icon {
+	background: url(images/files/files.png) no-repeat 0 0;
+	display: block;
+	text-indent: -99999px;
+	overflow: hidden;
+	width: 32px;
+	height: 32px;
+}
+
+span.file-icon.txt {
+	background-position: -32px 0;
+}
+
+span.file-icon.pdf {
+	background-position: -64px 0;
+}
+
+/**Office文档*/
+span.file-icon.doc {
+	background-position: -96px 0;
+}
+
+span.file-icon.docx {
+	background-position: -128px 0;
+}
+
+span.file-icon.docm {
+	background-position: -288px -32px;
+}
+
+span.file-icon.xls {
+	background-position: -160px 0;
+}
+
+span.file-icon.xlsx {
+	background-position: -192px 0;
+}
+
+span.file-icon.xlsm {
+	background-position: -288px 0;
+}
+
+span.file-icon.ppt {
+	background-position: -224px 0;
+}
+
+span.file-icon.pptx {
+	background-position: -256px 0;
+}
+
+/**其他文档*/
+span.file-icon.bat {
+	background-position: 0 -32px;
+}
+
+span.file-icon.rar {
+	background-position: -32px -32px;
+}
+
+span.file-icon.zip {
+	background-position: -64px -32px;
+}
+
+span.file-icon.7z {
+	background-position: -96px -32px;
+}
+
+span.file-icon.gz {
+	background-position: -128px -32px;
+}
+
+span.file-icon.tar {
+	background-position: -160px -32px;
+}
+
+span.file-icon.html, span.file-icon.htm {
+	background-position: -192px -32px;
+}
+
+/**图片*/
+span.file-icon.pic {
+	background-position: 0 -64px;
+}
+
+span.file-icon.psd {
+	background-position: -32px -64px;
+}
+
+span.file-icon.png {
+	background-position: -64px -64px;
+}
+
+span.file-icon.jpg {
+	background-position: -96px -64px;
+}
+
+span.file-icon.jpeg {
+	background-position: -96px -64px;
+}
+
+span.file-icon.gif {
+	background-position: -128px -64px;
+}
+
+span.file-icon.tif {
+	background-position: -160px -64px;
+}
+
+span.file-icon.tiff {
+	background-position: -160px -64px;
+}
+
+span.file-icon.ico {
+	background-position: -192px -64px;
+}
+
+/**音乐*/
+span.file-icon.mp3 {
+	background-position: -0px -96px;
+}
+
+span.file-icon.mid {
+	background-position: -32px -96px;
+}
+
+span.file-icon.wma {
+	background-position: -64px -96px;
+}
+
+/**视频*/
+span.file-icon.avi {
+	background-position: -0px -128px;
+}
+
+span.file-icon.wmv {
+	background-position: -32px -128px;
+}
+
+span.file-icon.mpg {
+	background-position: -64px -128px;
+}
+
+span.file-icon.mpeg {
+	background-position: -64px -128px;
+}
+
+span.file-icon.mkv {
+	background-position: 0 0;
+}
