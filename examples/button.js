@@ -1,4 +1,4 @@
-define(["jquery", "vue", "bc/vue/button"], function ($, Vue) {
+define(["vue", "bc/vue/button"], function (Vue) {
 	"use strict";
 	return new Vue({
 		el: document.body,
