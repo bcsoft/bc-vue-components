@@ -1,0 +1,17 @@
+{
+  "name": "bc-vue-components",
+  "description": "BC 平台的 vue 组件",
+  "authors": [
+    "dragon <rongjihuang@gmail.com>"
+  ],
+  "license": "Apache License 2.0",
+  "dependencies": {
+    "vue": "~v1.0.26",
+    "jquery": "~1.8.3",
+    "jquery-ui": "~1.8.23",
+    "requirejs": "~2.2.0",
+    "domReady": "requirejs-domReady#~2.0.1",
+    "text": "requirejs-text#~2.0.15",
+    "require-css": "~0.1.8"
+  }
+}
