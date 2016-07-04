@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>loading</title>
+  <meta charset="UTF-8">
+  <style>
+    body > .content-container {
+      position: relative;
+    }
+  </style>
+</head>
+
+<body>
+  <bc-theme :unit="unit"></bc-theme>
+  <h2>bc/vue/loading - 加载提示组件</h2>
+  <h3>默认 - 带蒙罩、大小=3.5em、旋转速度=1000ms</h3>
+  <div class="content-container ui-widget-content" style="width: 10em;height: 6em;">
+    ui-widget-content<br>底部文字底部文字底部文字底部文字底部文字底部文字底部文字
+    <bc-loading></bc-loading>
+  </div>
+
+  <h3>可调整 - 大小=
+    <input type="number" " min="0 " step="0.5 " v-model="size " style="width:3em ">{{unit}}、
+      旋转速度=<input type="number "" min="0" step="100" v-model="speed" style="width:4em">ms、
+    <input type="checkbox" v-model="maskable">显示蒙罩
+    <input type="checkbox" v-model="countable">显示计时
+    <input type="button" @click="$refs.loading2.reset()" value="重置计时器"></h3>
+  <div class="content-container ui-widget-content" style="width: 10em;height: 6em;">
+    ui-widget-content<br>底部文字底部文字底部文字底部文字底部文字底部文字底部文字
+    <bc-loading v-ref:loading2 :transparent="false" :maskable="maskable" :countable="countable" :size="size + unit" :speed="speed + 'ms'">
+    </bc-loading>
+  </div>
+  <script>
+    var demos = ["css!demo-css", "bc/vue/theme", "../examples/loading"];
+  </script>
+  <script data-main="main" src="../bower_components/requirejs/require.js"></script>
+</body>
+</html>
