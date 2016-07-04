@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>button</title>
+  <meta charset="UTF-8">
+</head>
+
+<body>
+  <bc-theme></bc-theme>
+  <h2>bc/vue/table-col - 列宽定义组件</h2>
+  <h3>1）默认无自动添加列</h3>
+  <table style="width: auto;border-collapse: collapse;">
+    <colgroup is="bc-table-col" :columns="columns"></colgroup>
+    <thead>
+      <tr>
+        <th class="cell ui-widget-content text" v-for="c in columns" data-key="{{c.key}}">{{c.label}}</th>
+      </tr>
+    </thead>
+  </table>
+
+  <h3>2）添加首列序号列、尾列自动列宽列</h3>
+  <table style="width: 35em;border-collapse: collapse;">
+    <colgroup is="bc-table-col" :columns="columns" :add-sn="true" :add-empty="true"></colgroup>
+    <thead>
+      <tr>
+        <th data-key="_sn" class="sn ui-widget-content"></th>
+        <th class="cell ui-widget-content text" v-for="c in columns" data-key="{{c.key}}">{{c.label}}</th>
+        <th class="empty ui-widget-content"></th>
+      </tr>
+    </thead>
+  </table>
+  <script>
+    var demos = ["css!demo-css", "bc/vue/theme", "../examples/table-col"];
+  </script>
+  <script data-main="main" src="../bower_components/requirejs/require.js"></script>
+</body>
+</html>
