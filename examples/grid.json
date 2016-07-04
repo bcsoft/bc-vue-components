@@ -1,0 +1,48 @@
+{
+  "columns": [
+    {
+      "id": "date",
+      "label": "日期",
+      "width": "110px"
+    },
+    {
+      "id": "title",
+      "label": "标题",
+      "width": "15em"
+    },
+    {
+      "id": "detail",
+      "label": "明细",
+      "width": "18em"
+    }
+  ],
+  "pageNo": 2,
+  "pageSize": 50,
+  "count": 1000,
+  "rows": [
+    {
+      "date": "2016-01-20",
+      "title": "轻量级 JavaScript 框架 Vue.js"
+    },
+    {
+      "selected": true,
+      "date": "2016-01-19",
+      "title": "选择 Vue 而不选择 Angular",
+      "detail": "在 API 与设计两方面上 Vue.js 都比 Angular 简单得多，因此你可以快速地掌握它的全部特性并投入开发。"
+    },
+    {
+      "date": "2016-01-03",
+      "title": "vuejs 官方英文网站",
+      "detail": "http://vuejs.org.cn/"
+    },
+    {
+      "date": "2016-01-02",
+      "title": "vuejs 官方中文网站",
+      "detail": "http://vuejs.org/"
+    },
+    {
+      "date": "2016-01-01",
+      "title": "bc 平台 vuejs 组件集"
+    }
+  ]
+}
