@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>view</title>
+  <meta charset="UTF-8">
+  <style>
+    .c {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      width: auto;
+      position: absolute;
+      top: 3em;
+      bottom: 0.5em;
+      left: 0;
+      right: 0
+    }
+    
+    .c > .bc-vue-toolbar {
+      flex: none;
+    }
+    
+    .c > .bc-vue-grid {
+      flex: 1 1 0%;
+      border-width: 0 0 0 0;
+    }
+  </style>
+</head>
+
+<body>
+  <bc-theme :size="12" unit="px"></bc-theme>
+  <h2>视图</h2>
+  <div class="c ui-widget-content">
+    <bc-toolbar :style="{'border-width': '0 0 1px 0'}">
+      <bc-button icon-class="ui-icon-check" @click="clickCheck" text="查看"></bc-button>
+      <bc-button icon-class="ui-icon-document" text="新建"></bc-button>
+      <bc-button icon-class="ui-icon-pencil" text="编辑"></bc-button>
+      <bc-button icon-class="ui-icon-trash" text="删除"></bc-button>
+      <bc-search :style="{float:'right'}" @search="search" placeholder="输入关键字"></bc-search>
+    </bc-toolbar>
+    <bc-grid url="grid.json" :pageable="true"></bc-grid>
+  </div>
+
+  <script>
+    var demos = ["css!demo-css", "bc/vue/theme", "../examples/view"];
+  </script>
+  <script data-main="main" src="../bower_components/requirejs/require.js"></script>
+</body>
+</html>
