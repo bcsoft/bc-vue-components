@@ -25,23 +25,30 @@ examples                           // demo
 server.js                          // 演示用 HTTP 静态文件服务
 ```
 
-## 项目构建
+## 项目初始化、构建、运行 Demo - 自动
+```
+$ ./tools/start.sh
+```
+
+## 项目初始化、构建、运行 Demo - 手动
 ```
 $ git clone git@bitbucket.org:bctaxi/bc-vue-components.git
 $ cd bc-vue-components
 $ npm install
-$ r.js -o tools/build.js
-$ cp build/bc/vue/components.js dist/bc/vue/components.js
-文件 dist/bc/vue/components.js 就是要发布的最终版本
-```
-
-## 访问 demo: [http://127.0.0.1:3000/examples/index.html]
-```
+$ npm install -g bower
+$ bower install
+$ r.js -o tools\build.js
+$ mkdir -p dist\bc\vue
+$ cp temp\bc\vue\components.js dist\bc\vue\components.js
 $ node server.js
 ```
+注：文件 dist\bc\vue\components.js 是最终发布版本
+
+## 访问 [demo](http://127.0.0.1:3000/examples/index.html)
 
 ## 备注
-在 windows 命令行环境下请将 r.js 改为 r.js.cmd 或者使用 [DOSKEY]:(http://www.microsoft.com/resources/documentation/windows/xp/all/proddocs/en-us/doskey.mspx?mfr=true)
+在 windows 命令行环境下可以用 [DOSKEY](http://www.microsoft.com/resources/documentation/windows/xp/all/proddocs/en-us/doskey.mspx?mfr=true)
+ 将 r.js.cmd 改为 r.js : 
 ```
 DOSKEY r.js=r.js.cmd $*
 ```
