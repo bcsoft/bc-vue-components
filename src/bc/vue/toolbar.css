@@ -1,0 +1,12 @@
+/*! bc/vue/toolbar 样式 */
+.bc-vue-toolbar {
+  position:relative;
+  padding:0;
+  min-height:2em;
+  word-spacing: -0.4em;
+}
+.bc-vue-toolbar > * {
+  word-spacing: normal;
+  font-family:inherit;
+  margin: 0.2em;
+}
