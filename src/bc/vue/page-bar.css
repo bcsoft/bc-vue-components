@@ -1,0 +1,59 @@
+/*! 分页条样式 */
+
+.bc-page-bar {
+  clear: both;
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+.bc-page-bar li {
+  list-style: none;
+  cursor: default;
+  position: relative;
+  margin: 0.2em;
+  padding: 4px 0;
+  float: left;
+}
+
+.bc-page-bar .icon {
+  cursor: pointer;
+}
+
+.bc-page-bar li span.ui-icon {
+  float: left;
+  margin: 0 4px;
+}
+
+.bc-page-bar .icons {
+  padding: 2px 2px;
+}
+
+.bc-page-bar .icons a.icon {
+  margin: 0;
+  border: 0;
+}
+
+.bc-page-bar .icons span.ui-icon {
+  margin: 2px;
+}
+
+.bc-page-bar li span.pageNo, .bc-page-bar li span.pageSize {
+  float: left;
+  height: 16px;
+  font-size: 12px;
+}
+
+.bc-page-bar li span.pageNo {
+  margin: 2px 4px;
+  cursor: default;
+}
+
+.bc-page-bar li span.pageSize {
+  margin: 2px 4px;
+}
+
+.bc-page-bar li a {
+  float: left;
+  display: block;
+}
