@@ -5,6 +5,7 @@
   "main": "server.js",
   "dependencies": {
     "koa": "^1.2.0",
+    "koa-router": "^5.4.0",
     "koa-static": "^2.0.0"
   },
   "devDependencies": {
@@ -18,7 +19,7 @@
     "url": "git+https://bitbucket.org/bctaxi/bc-vue-components"
   },
   "author": "dragon <rongjihuang@gmail.com>",
-  "license": "Apache License 2.0",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://bitbucket.org/bctaxi/bc-vue-components/issues"
   },
