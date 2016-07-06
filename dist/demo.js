@@ -1,9 +1,12 @@
 define(["vue", "bc/vue/components"], function (Vue, t, b) {
-  "use strict"; 
+  "use strict";
   return new Vue({
     el: document.body,
-    data: {},
-    watch: {},
+    data: {
+      searchText: "",
+      showBorder: false,
+      quickSearch: false
+    },
     methods: {
       clickCheck: function () {
         console.log("clickCheck");
@@ -13,6 +16,13 @@ define(["vue", "bc/vue/components"], function (Vue, t, b) {
       },
       search: function (text) {
         console.log("search: text=%s", text);
+        this.$refs.grid.reload();
+      },
+      export: function (scope) {
+        console.log("[Grid] export: scope=%s", scope);
+      },
+      import: function () {
+        console.log("[Grid] import");
       }
     }
   });

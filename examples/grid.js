@@ -10,13 +10,17 @@ define(["vue", "bc/vue/grid"], function (Vue) {
         // 数据行
         rows: j.rows,
         singleChoice: false,
-        search: "test"
+        searchText: "test"
       },
       ready: function () {
       },
       methods: {
         dblclickRow: function (row, index) {
           console.log("dblclickRow: index=%d, row=%s", index, JSON.stringify(row));
+        },
+        search: function (text) {
+          console.log("search: text=%s", text);
+          this.$refs.grid.reload();
         }
       }
     });

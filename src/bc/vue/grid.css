@@ -3,12 +3,34 @@
 
 /* 容器布局 */
 
+.bc-page > .bc-vue-grid, .bc-vue-grid.fillup {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow: hidden;
+}
+
+.bc-page > .bc-vue-grid, .bc-vue-grid.noborder {
+  border-width: 0;
+}
+
+.bc-vue-grid.border {
+  border-width: 1px;
+}
+
+.bc-vue-grid > .bc-vue-toolbar {
+  border-width: 0 0 1px 0;
+}
+
 .bc-vue-grid {
   display: flex;
   flex-direction: column;
   overflow: hidden;
   box-sizing: border-box;
   position: relative;
+  font-weight: normal;
 }
 
 .bc-vue-grid > * {

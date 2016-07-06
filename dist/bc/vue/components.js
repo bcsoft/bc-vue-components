@@ -142,7 +142,7 @@ define("bc/vue/theme", [ "jquery", "vue" ], function($, Vue) {
 }), define("bc/vue/search", [ "vue" ], function(Vue) {
     "use strict";
     return Vue.component("bc-search", {
-        template: '<div class="bc-vue-search" style="position:relative;display:inline-block"><span @click="search" class="ui-icon ui-icon-search" title="点击执行查询" style="position:absolute;top:50%;margin-top:-8px;left:2px;cursor:pointer"></span><input debounce="200" @keyup.enter="search" type="text" v-model="text" class="ui-widget-content" style="padding:.4em 18px;width:12em;min-height:1em;font-family:inherit;font-size:1.1em" :placeholder="placeholder"><span v-if="advanced" @click="showAdvanced" class="ui-icon ui-icon-triangle-1-s" title="点击显示更多查询条件" style="position:absolute;top:50%;margin-top:-8px;right:2px;cursor:pointer"></span></div>',
+        template: '<div class="bc-vue-search" style="position:relative;display:inline-block"><span @click="search" class="ui-icon ui-icon-search" title="点击执行查询" style="position:absolute;top:50%;margin-top:-8px;left:2px;cursor:pointer"></span><input debounce="200" @keyup.enter="search" type="text" v-model="value" class="ui-widget-content" style="padding:.4em 18px;width:12em;min-height:1em;font-family:inherit;font-size:1.1em" :placeholder="placeholder"><span v-if="advanced" @click="showAdvanced" class="ui-icon ui-icon-triangle-1-s" title="点击显示更多查询条件" style="position:absolute;top:50%;margin-top:-8px;right:2px;cursor:pointer"></span></div>',
         replace: !0,
         props: {
             placeholder: {
@@ -150,7 +150,7 @@ define("bc/vue/theme", [ "jquery", "vue" ], function($, Vue) {
                 required: !1,
                 twoWay: !0
             },
-            text: {
+            value: {
                 type: String,
                 required: !1,
                 twoWay: !0
@@ -169,13 +169,13 @@ define("bc/vue/theme", [ "jquery", "vue" ], function($, Vue) {
             }
         },
         watch: {
-            text: function(value, old) {
+            value: function(value, old) {
                 this.$dispatch("change", value, old), this.quickSearch && this.$dispatch("search", value);
             }
         },
         methods: {
             search: function() {
-                this.$dispatch("search", this.text);
+                this.$dispatch("search", this.value);
             },
             showAdvanced: function() {
                 console.log("[search] showAdvanced");
@@ -274,7 +274,7 @@ define("bc/vue/theme", [ "jquery", "vue" ], function($, Vue) {
             exportable: {
                 type: Boolean,
                 required: !1,
-                "default": !0,
+                "default": !1,
                 twoWay: !0
             },
             importable: {
@@ -318,9 +318,6 @@ define("bc/vue/theme", [ "jquery", "vue" ], function($, Vue) {
                 this.pageNo = this.pageNo < 2 ? this.pageNo : Math.floor((this.pageNo - 1) * this.pageSize / pageSize + 1), 
                 this.pageSize = pageSize, this.pageCount = Math.ceil(this.count / this.pageSize), 
                 this.$dispatch("change", "changePageSize", this.pageNo, this.pageSize));
-            },
-            "export": function(scope) {
-                console.log("[PageBar] TODO export: Decide export scope. Default all."), this.$dispatch("export", scope);
             }
         }
     });
@@ -389,13 +386,11 @@ define("bc/vue/theme", [ "jquery", "vue" ], function($, Vue) {
         }
     });
 }), define("text!bc/vue/grid.html", [], function() {
-    return '<div class="bc-vue-grid ui-widget-content" data-rowspan="{{$refs.cols.rowspan}}">\r\n  <!-- 表头 -->\r\n  <table class="head" :style="{width:\'100%\',position:\'relative\',\'user-select\':\'initial\',left:v.scrollLeft + \'px\'}">\r\n    <colgroup v-ref:cols is="bc-table-col" :columns="columns" :add-sn="true" :add-empty="true">\r\n    </colgroup>\r\n    <thead>\r\n      <tr class="main head ui-widget-content">\r\n        <th rowspan="{{$refs.cols.rowspan}}" data-id="_sn" class="sn"><input type="checkbox" v-if="!singleChoice" v-model="v.selectAll" title="{{v.selectAll ? \'点击全部不选择\' : \'点击选择全部\'}}"></th>\r\n        <th v-for="c in columns" class="cell text" :class="c.headCellClass" :style="c.headCellStyle" data-id="{{c.id}}" colspan="{{c.children && c.children.length > 0 ? c.children.length : 1}}"\r\n          rowspan="{{c.children && c.children.length > 0 ? 1 : $refs.cols.rowspan}}">{{c.label}}</th>\r\n        <th rowspan="{{$refs.cols.rowspan}}" data-id="_empty" class="empty"></th>\r\n      </tr>\r\n      <!-- 分组的表头 -->\r\n      <tr class="sub head ui-widget-content" v-if="$refs.cols.rowspan > 1">\r\n        <template v-for="c in columns | filterBy isGroupColumn">\r\n          <th v-for="d in c.children" class="cell text" data-id="{{d.id}}">{{d.label}}</th>\r\n        </template>\r\n      </tr>\r\n    </thead>\r\n  </table>\r\n\r\n  <!-- 数据 -->\r\n  <div class="rows" :style="{overflow:\'auto\',\'user-select\':\'initial\'}" @scroll="v.scrollLeft = -1 * $event.target.scrollLeft">\r\n    <table class="rows" style="width:100%">\r\n      <colgroup is="bc-table-col" :columns="columns" :add-sn="true" :add-empty="true"></colgroup>\r\n      <tbody>\r\n        <tr class="row" v-for="r in rows" data-id="{{r.id}}" class="{{r.class}}" :class="{\'ui-state-highlight\': r.selected, \'ui-widget-content\': true}"\r\n          style="{{r.style}}">\r\n          <td class="sn" data-id="_sn"><span v-if="r.selected" class="ui-icon ui-icon-check"></span>{{$index + 1}}</td>\r\n          <template v-for="c in columns">\r\n            <td v-if="isGroupColumn(c)" v-for="d in c.children" class="cell text" :class="d.rowCellClass" :style="d.rowCellStyle" data-id="{{d.id}}">{{r[d.id]}}</td>\r\n            <td v-if="!isGroupColumn(c)" class="cell text" :class="c.rowCellClass" :style="c.rowCellStyle" data-id="{{c.id}}">{{r[c.id]}}</td>\r\n          </template>\r\n          <td class="empty" data-id="_empty"></td>\r\n        </tr>\r\n      </tbody>\r\n    </table>\r\n  </div>\r\n\r\n  <!-- 分页条 -->\r\n  <bc-page-bar v-if="showPageBar" style="border-width: 1px 0 0 0" :pageable="pageable" :page-no="pageNo" :page-size="pageSize"\r\n    :page-sizes="pageSizes" :count="count" :refreshable="refreshable" :exportable="exportable" :importable="importable">\r\n  </bc-page-bar>\r\n  <bc-loading v-ref:loading v-if="v.loading"></bc-loading>\r\n</div>';
+    return '<div class="bc-vue-grid ui-widget-content" data-rowspan="{{$refs.cols.rowspan}}">\r\n  <!-- 顶部扩展区 -->\r\n  <slot name="top"></slot>\r\n\r\n  <!-- 表头 -->\r\n  <table class="head" :style="{width:\'100%\',position:\'relative\',\'user-select\':\'initial\',left:v.scrollLeft + \'px\'}">\r\n    <colgroup v-ref:cols is="bc-table-col" :columns="columns" :add-sn="true" :add-empty="true">\r\n    </colgroup>\r\n    <thead>\r\n      <tr class="main head ui-widget-content">\r\n        <th rowspan="{{$refs.cols.rowspan}}" data-id="_sn" class="sn"><input type="checkbox" v-if="!singleChoice" v-model="v.selectAll" title="{{v.selectAll ? \'点击全部不选择\' : \'点击选择全部\'}}"></th>\r\n        <th v-for="c in columns" class="cell text" :class="c.headCellClass" :style="c.headCellStyle" data-id="{{c.id}}" colspan="{{c.children && c.children.length > 0 ? c.children.length : 1}}"\r\n          rowspan="{{c.children && c.children.length > 0 ? 1 : $refs.cols.rowspan}}">{{c.label}}</th>\r\n        <th rowspan="{{$refs.cols.rowspan}}" data-id="_empty" class="empty"></th>\r\n      </tr>\r\n      <!-- 分组的表头 -->\r\n      <tr class="sub head ui-widget-content" v-if="$refs.cols.rowspan > 1">\r\n        <template v-for="c in columns | filterBy isGroupColumn">\r\n          <th v-for="d in c.children" class="cell text" data-id="{{d.id}}">{{d.label}}</th>\r\n        </template>\r\n      </tr>\r\n    </thead>\r\n  </table>\r\n\r\n  <!-- 数据 -->\r\n  <div class="rows" :style="{overflow:\'auto\',\'user-select\':\'initial\'}" @scroll="v.scrollLeft = -1 * $event.target.scrollLeft">\r\n    <table class="rows" style="width:100%">\r\n      <colgroup is="bc-table-col" :columns="columns" :add-sn="true" :add-empty="true"></colgroup>\r\n      <tbody>\r\n        <tr class="row" v-for="r in rows" data-id="{{r.id}}" class="{{r.class}}" :class="{\'ui-state-highlight\': r.selected, \'ui-widget-content\': true}"\r\n          style="{{r.style}}">\r\n          <td class="sn" data-id="_sn"><span v-if="r.selected" class="ui-icon ui-icon-check"></span>{{$index + 1}}</td>\r\n          <template v-for="c in columns">\r\n            <td v-if="isGroupColumn(c)" v-for="d in c.children" class="cell text" :class="d.rowCellClass" :style="d.rowCellStyle" data-id="{{d.id}}">{{r[d.id]}}</td>\r\n            <td v-if="!isGroupColumn(c)" class="cell text" :class="c.rowCellClass" :style="c.rowCellStyle" data-id="{{c.id}}">{{r[c.id]}}</td>\r\n          </template>\r\n          <td class="empty" data-id="_empty"></td>\r\n        </tr>\r\n      </tbody>\r\n    </table>\r\n  </div>\r\n\r\n  <!-- 分页条 -->\r\n  <bc-page-bar v-if="showPageBar" style="border-width: 1px 0 0 0" :pageable="pageable" :page-no.sync="pageNo" :page-size.sync="pageSize" :page-sizes.sync="pageSizes" :count.sync="count" :refreshable="refreshable" :exportable="exportable" :importable="importable" @change="reload">\r\n  </bc-page-bar>\r\n\r\n  <!-- 加载器 -->\r\n  <bc-loading v-ref:loading v-if="v.loading"></bc-loading>\r\n\r\n  <!-- 底部扩展区 -->\r\n  <slot name="bottom"></slot>\r\n</div>';
 }), define("css!bc/vue/grid", [], function() {}), define("bc/vue/grid", [ "jquery", "vue", "bc/vue/table-col", "bc/vue/page-bar", "text!bc/vue/grid.html", "css!bc/vue/grid", "bc/vue/loading" ], function($, Vue, tableCol, pageBar, template) {
     "use strict";
     var DEFAULT_PAGE_SIZES = [ 25, 50, 100 ];
-    return Vue.filter("isGridChildColumn", function(column) {
-        return !1;
-    }), Vue.component("bc-grid", {
+    return Vue.component("bc-grid", {
         template: template,
         replace: !0,
         components: {},
@@ -421,13 +416,8 @@ define("bc/vue/theme", [ "jquery", "vue" ], function($, Vue) {
                 required: !1,
                 twoWay: !0
             },
-            fuzzySearch: {
+            condition: {
                 type: String,
-                required: !1,
-                twoWay: !0
-            },
-            advanceSearch: {
-                type: Object,
                 required: !1,
                 twoWay: !0
             },
@@ -476,7 +466,7 @@ define("bc/vue/theme", [ "jquery", "vue" ], function($, Vue) {
             exportable: {
                 type: Boolean,
                 required: !1,
-                "default": !0,
+                "default": !1,
                 twoWay: !0
             },
             importable: {
@@ -505,14 +495,7 @@ define("bc/vue/theme", [ "jquery", "vue" ], function($, Vue) {
             };
         },
         ready: function() {
-            console.log("[Grid] ready url=%s", this.url), this.$on("change", function(type, pageNo, pageSize) {
-                console.log("[Grid] change: type=%s, pageNo=%d, pageSize=%d", type, pageNo, pageSize), 
-                this.reload();
-            }), this.$on("export", function(scope) {
-                console.log("[Grid] export: scope=%s", scope);
-            }), this.$on("import", function(scope) {
-                console.log("[Grid] import: scope=%s", scope);
-            });
+            console.log("[Grid] ready url=%s", this.url);
             var delaying, timer, cancelClick, $el = $(this.$el), vm = this;
             $el.on({
                 mouseover: function() {
@@ -539,6 +522,10 @@ define("bc/vue/theme", [ "jquery", "vue" ], function($, Vue) {
             }, "tr.row"), this.reload();
         },
         methods: {
+            changePageBar: function(type, pageNo, pageSize) {
+                console.log("[Grid] changePageBar: type=%s, pageNo=%d, pageSize=%d", type, pageNo, pageSize), 
+                this.reload();
+            },
             reload: function() {
                 if (this.url) {
                     this.v.loading = !0;
@@ -546,9 +533,7 @@ define("bc/vue/theme", [ "jquery", "vue" ], function($, Vue) {
                         pageNo: this.pageNo,
                         pageSize: this.pageSize
                     };
-                    this.fuzzySearch && this.fuzzySearch.length > 0 && (params.search = this.fuzzySearch), 
-                    this.advanceSearch && (params.search4advance = JSON.stringify(this.advanceSearch)), 
-                    console.log("[Grid] reload loading url=%s, params=%o", this.url, params);
+                    this.condition && (params.condition = this.condition), console.log("[Grid] reload loading url=%s, params=%o", this.url, params);
                     var vm = this;
                     $.getJSON(this.url, params).then(function(j) {
                         console.log("[Grid] reload loaded data=%o", j), j.columns && vm.$set("columns", j.columns), 
@@ -582,4 +567,4 @@ define("bc/vue/theme", [ "jquery", "vue" ], function($, Vue) {
 }), function(c) {
     var d = document, a = "appendChild", i = "styleSheet", s = d.createElement("style");
     s.type = "text/css", d.getElementsByTagName("head")[0][a](s), s[i] ? s[i].cssText = c : s[a](d.createTextNode(c));
-}(".bc-vue-toolbar{position:relative;padding:0;min-height:2em;word-spacing:-0.4em;}.bc-vue-toolbar > *{word-spacing:normal;font-family:inherit;margin:0.2em;}.bc-page-bar{clear:both;display:block;margin:0;padding:0;}.bc-page-bar li{list-style:none;cursor:default;position:relative;margin:0.2em;padding:4px 0;float:left;}.bc-page-bar .icon{cursor:pointer;}.bc-page-bar li span.ui-icon{float:left;margin:0 4px;}.bc-page-bar .icons{padding:2px 2px;}.bc-page-bar .icons a.icon{margin:0;border:0;}.bc-page-bar .icons span.ui-icon{margin:2px;}.bc-page-bar li span.pageNo,.bc-page-bar li span.pageSize{float:left;height:16px;font-size:12px;}.bc-page-bar li span.pageNo{margin:2px 4px;cursor:default;}.bc-page-bar li span.pageSize{margin:2px 4px;}.bc-page-bar li a{float:left;display:block;}.bc-vue-loading-container{position:absolute;top:0;left:0;width:100%;height:100%;}.bc-vue-loading-container > .counter,.bc-vue-loading-container > .actor{position:absolute;box-sizing:border-box;top:50%;left:50%;}.bc-vue-loading-container > .counter{width:6em;height:2em;line-height:2em;text-align:center;margin:-1em auto auto -3em;border:none;background:none;}.bc-vue-loading-container > .actor{opacity:0.8;width:3.5em;height:3.5em;margin:-1.75em auto auto -1.75em;border-width:0.5em;border-radius:50%;border-left-color:transparent;border-right-color:transparent;animation:bc-vue-loading-spin 1000ms infinite linear;}.bc-vue-loading-container > .actor.transparent{background:none;}@keyframes bc-vue-loading-spin{100%{transform:rotate(360deg);transform:rotate(360deg);}}.bc-vue-grid{display:flex;flex-direction:column;overflow:hidden;box-sizing:border-box;position:relative;}.bc-vue-grid > *{flex:none;}.bc-vue-grid > div.rows{flex:1 1 0%;}.bc-vue-grid table.head,.bc-vue-grid table.rows{table-layout:fixed;border-collapse:collapse;}.bc-vue-grid table.rows{margin-bottom:-1px;}.bc-vue-grid tr.head > th{font-weight:inherit;}.bc-vue-grid tr.head,.bc-vue-grid tr.row{height:2em;}.bc-vue-grid td.cell{text-align:left;white-space:normal;word-wrap:break-word;word-break:break-all;}.bc-vue-grid td.sn{text-align:center;cursor:default;}.bc-vue-grid td.sn > .ui-icon-check{display:inline-block;}.bc-vue-grid tr.main.head,.bc-vue-grid tr.row{border-width:1px 0 1px 0;}.bc-vue-grid tr.main.head:first-child,.bc-vue-grid tr.row:first-child,.bc-vue-grid tr.main.head:first-child > th,.bc-vue-grid tr.row:first-child > td{border-top:none;}.bc-vue-grid tr.main.head >:first-child,.bc-vue-grid tr.row >:first-child{border-left:none;}.bc-vue-grid tr.main.head >:last-child,.bc-vue-grid tr.row >:last-child{border-right:none;}.bc-vue-grid tr.head > *,.bc-vue-grid tr.row > *{padding:0;border-width:1px;border-color:inherit;border-style:inherit;}.bc-vue-grid td.cell.text,.bc-vue-grid th.cell.text{padding:0 0.4em;}");
+}(".bc-vue-toolbar{position:relative;padding:0;min-height:2em;word-spacing:-0.4em;font-weight:normal;}.bc-vue-toolbar > *{word-spacing:normal;font-family:inherit;margin:0.2em;}.bc-vue-toolbar > .bc-vue-search{float:right}.bc-page-bar{clear:both;display:block;margin:0;padding:0;}.bc-page-bar li{list-style:none;cursor:default;position:relative;margin:0.2em;padding:4px 0;float:left;}.bc-page-bar .icon{cursor:pointer;}.bc-page-bar li span.ui-icon{float:left;margin:0 4px;}.bc-page-bar .icons{padding:2px 2px;}.bc-page-bar .icons a.icon{margin:0;border:0;}.bc-page-bar .icons span.ui-icon{margin:2px;}.bc-page-bar li span.pageNo,.bc-page-bar li span.pageSize{float:left;height:16px;font-size:12px;}.bc-page-bar li span.pageNo{margin:2px 4px;cursor:default;}.bc-page-bar li span.pageSize{margin:2px 4px;}.bc-page-bar li a{float:left;display:block;}.bc-vue-loading-container{position:absolute;top:0;left:0;width:100%;height:100%;}.bc-vue-loading-container > .counter,.bc-vue-loading-container > .actor{position:absolute;box-sizing:border-box;top:50%;left:50%;}.bc-vue-loading-container > .counter{width:6em;height:2em;line-height:2em;text-align:center;margin:-1em auto auto -3em;border:none;background:none;}.bc-vue-loading-container > .actor{opacity:0.8;width:3.5em;height:3.5em;margin:-1.75em auto auto -1.75em;border-width:0.5em;border-radius:50%;border-left-color:transparent;border-right-color:transparent;animation:bc-vue-loading-spin 1000ms infinite linear;}.bc-vue-loading-container > .actor.transparent{background:none;}@keyframes bc-vue-loading-spin{100%{transform:rotate(360deg);transform:rotate(360deg);}}.bc-page > .bc-vue-grid,.bc-vue-grid.fillup{position:absolute;top:0;bottom:0;left:0;right:0;overflow:hidden;}.bc-page > .bc-vue-grid,.bc-vue-grid.noborder{border-width:0;}.bc-vue-grid.border{border-width:1px;}.bc-vue-grid > .bc-vue-toolbar{border-width:0 0 1px 0;}.bc-vue-grid{display:flex;flex-direction:column;overflow:hidden;box-sizing:border-box;position:relative;font-weight:normal;}.bc-vue-grid > *{flex:none;}.bc-vue-grid > div.rows{flex:1 1 0%;}.bc-vue-grid table.head,.bc-vue-grid table.rows{table-layout:fixed;border-collapse:collapse;}.bc-vue-grid table.rows{margin-bottom:-1px;}.bc-vue-grid tr.head > th{font-weight:inherit;}.bc-vue-grid tr.head,.bc-vue-grid tr.row{height:2em;}.bc-vue-grid td.cell{text-align:left;white-space:normal;word-wrap:break-word;word-break:break-all;}.bc-vue-grid td.sn{text-align:center;cursor:default;}.bc-vue-grid td.sn > .ui-icon-check{display:inline-block;}.bc-vue-grid tr.main.head,.bc-vue-grid tr.row{border-width:1px 0 1px 0;}.bc-vue-grid tr.main.head:first-child,.bc-vue-grid tr.row:first-child,.bc-vue-grid tr.main.head:first-child > th,.bc-vue-grid tr.row:first-child > td{border-top:none;}.bc-vue-grid tr.main.head >:first-child,.bc-vue-grid tr.row >:first-child{border-left:none;}.bc-vue-grid tr.main.head >:last-child,.bc-vue-grid tr.row >:last-child{border-right:none;}.bc-vue-grid tr.head > *,.bc-vue-grid tr.row > *{padding:0;border-width:1px;border-color:inherit;border-style:inherit;}.bc-vue-grid td.cell.text,.bc-vue-grid th.cell.text{padding:0 0.4em;}");

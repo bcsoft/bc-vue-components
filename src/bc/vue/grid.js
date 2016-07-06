@@ -4,10 +4,6 @@
 define(['jquery', 'vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/grid.html', 'css!bc/vue/grid', 'bc/vue/loading'], function ($, Vue, tableCol, pageBar, template) {
   "use strict";
   var DEFAULT_PAGE_SIZES = [25, 50, 100];
-  Vue.filter('isGridChildColumn', function (column) {
-    //console.log("0---%s", column.id);
-    return false;//!!(column.children && column.children.length);
-  });
   return Vue.component("bc-grid", {
     template: template,
     replace: true,
@@ -18,10 +14,8 @@ define(['jquery', 'vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/gri
       rows: { type: Array, required: false, twoWay: true },
       url: { type: String, required: false, twoWay: true },
 
-      // 模糊搜索条件
-      fuzzySearch: { type: String, required: false, twoWay: true },
-      // 高级搜索条件
-      advanceSearch: { type: Object, required: false, twoWay: true },
+      // 搜索条件
+      condition: { type: String, required: false, twoWay: true },
 
       // 分页条的参数
       showPageBar: { type: Boolean, required: false, default: true, twoWay: true },  // 是否显示分页条
@@ -32,7 +26,7 @@ define(['jquery', 'vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/gri
       count: { type: Number, required: false, default: 0, twoWay: true },            // 总条目数
 
       refreshable: { type: Boolean, required: false, default: true, twoWay: true },  // 刷新
-      exportable: { type: Boolean, required: false, default: true, twoWay: true },   // 导出
+      exportable: { type: Boolean, required: false, default: false, twoWay: true },   // 导出
       importable: { type: Boolean, required: false, default: false, twoWay: true }   // 导入
     },
     computed: {
@@ -55,18 +49,6 @@ define(['jquery', 'vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/gri
     },
     ready: function () {
       console.log("[Grid] ready url=%s", this.url);
-
-      // 监听分页条事件
-      this.$on("change", function (type, pageNo, pageSize) {
-        console.log("[Grid] change: type=%s, pageNo=%d, pageSize=%d", type, pageNo, pageSize);
-        this.reload();
-      });
-      this.$on("export", function (scope) {
-        console.log("[Grid] export: scope=%s", scope);
-      });
-      this.$on("import", function (scope) {
-        console.log("[Grid] import: scope=%s", scope);
-      });
 
       // 监听行事件
       var $el = $(this.$el);
@@ -129,12 +111,16 @@ define(['jquery', 'vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/gri
       this.reload();
     },
     methods: {
+      // 分页条变更页码时间
+      changePageBar: function(type, pageNo, pageSize) {
+        console.log("[Grid] changePageBar: type=%s, pageNo=%d, pageSize=%d", type, pageNo, pageSize);
+        this.reload();
+      },
       // 重新加载数据
       reload: function () {
         if (!this.url) return;
 
         // 重置动画加载器
-        //this.$refs.loading.reset();
         this.v.loading = true;
 
         var params = {
@@ -142,9 +128,8 @@ define(['jquery', 'vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/gri
           pageSize: this.pageSize
         };
 
-        // 附加模糊搜索和高级搜索条件
-        if (this.fuzzySearch && this.fuzzySearch.length > 0) params.search = this.fuzzySearch;
-        if (this.advanceSearch) params.search4advance = JSON.stringify(this.advanceSearch);
+        // 附加搜索条件
+        if (this.condition) params.condition = this.condition;
 
         console.log("[Grid] reload loading url=%s, params=%o", this.url, params);
         var vm = this;
@@ -173,7 +158,6 @@ define(['jquery', 'vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/gri
         });
       },
       isGroupColumn: function (column) {
-        //console.log("0---%s", column.id);
         return !!(column.children && column.children.length);
       }
     },

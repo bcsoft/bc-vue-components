@@ -5,25 +5,17 @@
   <title>view</title>
   <meta charset="UTF-8">
   <style>
-    .c {
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      width: auto;
+    .demo {
       position: absolute;
       top: 3em;
       bottom: 0.5em;
       left: 0;
-      right: 0
+      right: 0;
     }
     
-    .c > .bc-vue-toolbar {
-      flex: none;
-    }
-    
-    .c > .bc-vue-grid {
-      flex: 1 1 0%;
-      border-width: 0 0 0 0;
+    .bc-page {
+      display: block;
+      position: relative;
     }
   </style>
 </head>
@@ -31,15 +23,29 @@
 <body>
   <bc-theme :size="12" unit="px"></bc-theme>
   <h2>视图</h2>
-  <div class="c ui-widget-content">
-    <bc-toolbar :style="{'border-width': '0 0 1px 0'}">
-      <bc-button icon-class="ui-icon-check" @click="clickCheck" text="查看"></bc-button>
-      <bc-button icon-class="ui-icon-document" text="新建"></bc-button>
-      <bc-button icon-class="ui-icon-pencil" text="编辑"></bc-button>
-      <bc-button icon-class="ui-icon-trash" text="删除"></bc-button>
-      <bc-search :style="{float:'right'}" @search="search" placeholder="输入关键字"></bc-search>
-    </bc-toolbar>
-    <bc-grid url="../examples/grid.json" :pageable="true"></bc-grid>
+  <div class="demo bc-ui-dialog ui-widget-header" style=" padding: 0.5em">
+    <div class="bc-page">
+      <bc-grid :class="{border: showBorder}" v-ref:grid url="/data/grid.json" :pageable="true" :condition="searchText" :exportable="true"
+        :importable="true" @export="export" @import="import">
+        <bc-toolbar slot="top">
+          <bc-button icon-class="ui-icon-check" @click="clickCheck" text="查看"></bc-button>
+          <bc-button icon-class="ui-icon-document" text="新建"></bc-button>
+          <bc-button icon-class="ui-icon-pencil" text="编辑"></bc-button>
+          <bc-button icon-class="ui-icon-trash" text="删除"></bc-button>
+
+          <bc-button-set :active="2" @change="changeStatus" :items="[{id: 30, label: '在案'}, {id: 20, label: '注销'}, {id: 'abc', label: '全部'}]"></bc-button-set>
+
+          <label style="margin-left: 1em">
+            <input type="checkbox" v-model="showBorder">显示边框
+          </label>
+          <label style="margin-left: 1em">
+            <input type="checkbox" v-model="quickSearch">即输即搜
+          </label>
+
+          <bc-search :quick-search="quickSearch" :value.sync="searchText" @search="search" placeholder="输入关键字"></bc-search>
+        </bc-toolbar>
+      </bc-grid>
+    </div>
   </div>
 
   <script>

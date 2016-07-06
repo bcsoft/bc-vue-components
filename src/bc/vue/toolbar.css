@@ -1,12 +1,19 @@
 /*! bc/vue/toolbar 样式 */
+
 .bc-vue-toolbar {
-  position:relative;
-  padding:0;
-  min-height:2em;
+  position: relative;
+  padding: 0;
+  min-height: 2em;
   word-spacing: -0.4em;
+  font-weight: normal;
 }
+
 .bc-vue-toolbar > * {
   word-spacing: normal;
-  font-family:inherit;
+  font-family: inherit;
   margin: 0.2em;
+}
+
+.bc-vue-toolbar > .bc-vue-search {
+  float: right
 }

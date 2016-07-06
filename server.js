@@ -15,13 +15,15 @@ var dataRouter = new Router({
   prefix: '/data'
 });
 dataRouter.get('/grid.json', function* (next) {
-  var params = this.query;
-  var pageNo = parseInt(params.pageNo || 1);
-  var pageSize = parseInt(params.pageSize || 25);
-  console.log("params=", params);
-  console.log("pageNo=%d", pageNo);
-  console.log("pageSize=%d", pageSize);
-  this.body = 'ok';
+  // load data
+  var dataService = require("./examples/grid-data");
+  var date = dataService.page(this.request.path,
+    this.query.pageNo ? parseInt(this.query.pageNo) : undefined,
+    this.query.pageSize ? parseInt(this.query.pageSize) : undefined);
+
+  // respone
+  this.type = "json";
+  this.body = JSON.stringify(date);
 });
 app.use(dataRouter.routes()).use(dataRouter.allowedMethods());
 

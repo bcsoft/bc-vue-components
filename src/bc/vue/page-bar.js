@@ -36,7 +36,7 @@ define(['jquery', 'vue', 'text!bc/vue/page-bar.html', 'css!bc/vue/page-bar'], fu
       count: { type: Number, required: false, default: 0, twoWay: true },				// 总条目数
 
       refreshable: { type: Boolean, required: false, default: true, twoWay: true },	// 刷新
-      exportable: { type: Boolean, required: false, default: true, twoWay: true },	// 导出
+      exportable: { type: Boolean, required: false, default: false, twoWay: true },	// 导出
       importable: { type: Boolean, required: false, default: false, twoWay: true }	// 导入
     },
     data: function () {
@@ -80,11 +80,6 @@ define(['jquery', 'vue', 'text!bc/vue/page-bar.html', 'css!bc/vue/page-bar'], fu
         this.pageSize = pageSize;
         this.pageCount = Math.ceil(this.count / this.pageSize);
         this.$dispatch('change', 'changePageSize', this.pageNo, this.pageSize);
-      },
-      /** 导出 */
-      export: function (scope) {
-        console.log("[PageBar] TODO export: Decide export scope. Default all.");
-        this.$dispatch('export', scope);
       }
     }
   });

@@ -11,8 +11,8 @@
   <h2>bc/vue/grid - 列表组件（表头不分组）</h2>
   <h2>Grid 组件</h2>
 
-  <h3>1-1）分页 - 固定高宽、指定 url、模糊搜索：<input v-model="search"><input type="checkbox" v-model="singleChoice">单选</h3>
-  <bc-grid url="grid.json" :pageable="true" :page-size="50" :fuzzy-search="search" style="height:15em;width:37em" :single-choice="singleChoice"
+  <h3>1-1）分页 - 固定高宽、指定 url、模糊搜索：<input v-model="searchText" @keyup.enter="search"><input type="checkbox" v-model="singleChoice">单选</h3>
+  <bc-grid v-ref:grid url="grid.json" :pageable="true" :page-size="50" :condition="searchText" style="height:15em;width:37em" :single-choice="singleChoice"
     @dblclick-row="dblclickRow"></bc-grid>
 
   <h3>1-2）分页 - 自动高宽、指定 url</h3>
