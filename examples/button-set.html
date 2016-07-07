@@ -2,35 +2,30 @@
 <html>
 
 <head>
-  <title>button-set</title>
-  <meta charset="UTF-8">
+	<title>button-set</title>
+	<meta charset="UTF-8">
 </head>
 
 <body>
-  <bc-theme></bc-theme>
-  <h2>bc/vue/button-set - 分组按钮组件</h2>
-  <h3>单选按钮组 - 2 项</h3>
-  <div class="ui-widget-content" style="padding:0.2em;min-height:2.5em">
-    <bc-button-set :items="['在案', '注销']"></bc-button-set>
-    <bc-button-set :active="0" :items="[{id: 'abc', label: '在案'}, '注销']"></bc-button-set>
-    <bc-button-set :active="1" :items="[{id: 10, label: '在案'}, {id: 20, label: '注销'}]"></bc-button-set>
-  </div>
-  <h3>单选按钮组 - 3 项，响应 change 事件 ( <span id="debug" style="font-weight:normal;color:#666">Change Something</span> )</h3>
-  <div class="ui-widget-content" style="padding:0.2em;min-height:2.5em">
-    <bc-button-set :items="['在案', '注销', '全部']" @change="change"></bc-button-set>
-    <bc-button-set :active="0" :items="[{id: 'abc', label: '在案'}, '注销', '全部']" @change="change"></bc-button-set>
-    <bc-button-set :active="1" :items="[{id: 30, label: '在案'}, {id: 20, label: '注销'}, {id: 10, label: '全部'}]" @change="change"></bc-button-set>
-    <bc-button-set :active="2" :items="['在案', '注销', '全部']" @change="change"></bc-button-set>
-  </div>
+	<bc-theme></bc-theme>
+	<h2>bc/vue/button-set - 分组按钮组件</h2>
+	<h3>单选按钮组 - 2 项</h3>
+	<div class="ui-widget-content" style="padding:0.2em;min-height:2.5em">
+		<bc-button-set :items="['在案', '注销']"></bc-button-set>
+		<bc-button-set value="a" :items="[{id: 'a', label: '在案'}, '注销']"></bc-button-set>
+		<bc-button-set value="2" :items="[{id: 1, label: '在案'}, {id: 2, label: '注销'}]"></bc-button-set>
+	</div>
+	<h3>单选按钮组 - 3 项，响应 change 事件 ( <span id="debug" style="font-weight:normal;color:#666">Change Something</span> )</h3>
+	<div class="ui-widget-content" style="padding:0.2em;min-height:2.5em">
+		<bc-button-set :items="['在案', '注销', '全部']" @change="change"></bc-button-set>
+		<bc-button-set value="a" :items="[{id: 'a', label: '在案'}, '注销', '全部']" @change="change"></bc-button-set>
+		<bc-button-set value="2" :items="[{id: 1, label: '在案'}, {id: 2, label: '注销'}, {id: 3, label: '全部'}]" @change="change"></bc-button-set>
+		<bc-button-set value="全部" :items="['在案', '注销', '全部']" @change="change"></bc-button-set>
+	</div>
 
-  <h3>多选按钮组</h3>
-  <div class="ui-widget-content" style="padding:0.2em;min-height:2.5em">
-    TODO
-  </div>
-
-  <script type="text/javascript">
-    var demos = ["css!demo-css", "bc/vue/theme", "../examples/button-set"];
-  </script>
-  <script data-main="main" src="../bower_components/requirejs/require.js"></script>
+	<script type="text/javascript">
+		var demos = ["css!demo-css", "bc/vue/theme", "../examples/button-set"];
+	</script>
+	<script data-main="main" src="../bower_components/requirejs/require.js"></script>
 </body>
 </html>

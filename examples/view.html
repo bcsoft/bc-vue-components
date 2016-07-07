@@ -2,55 +2,55 @@
 <html>
 
 <head>
-  <title>view</title>
-  <meta charset="UTF-8">
-  <style>
-    .demo {
-      position: absolute;
-      top: 3em;
-      bottom: 0.5em;
-      left: 0;
-      right: 0;
-    }
-    
-    .bc-page {
-      display: block;
-      position: relative;
-    }
-  </style>
+	<title>view</title>
+	<meta charset="UTF-8">
+	<style>
+		.demo {
+			position: absolute;
+			top: 3em;
+			bottom: 0.5em;
+			left: 0;
+			right: 0;
+		}
+		
+		.bc-page {
+			display: block;
+			position: relative;
+		}
+	</style>
 </head>
 
 <body>
-  <bc-theme :size="12" unit="px"></bc-theme>
-  <h2>视图</h2>
-  <div class="demo bc-ui-dialog ui-widget-header" style=" padding: 0.5em">
-    <div class="bc-page">
-      <bc-grid :class="{border: showBorder}" v-ref:grid url="/data/grid.json" :pageable="true" :condition="searchText" :exportable="true"
-        :importable="true" @export="export" @import="import">
-        <bc-toolbar slot="top">
-          <bc-button icon-class="ui-icon-check" @click="clickCheck" text="查看"></bc-button>
-          <bc-button icon-class="ui-icon-document" text="新建"></bc-button>
-          <bc-button icon-class="ui-icon-pencil" text="编辑"></bc-button>
-          <bc-button icon-class="ui-icon-trash" text="删除"></bc-button>
+	<bc-theme :size="12" unit="px"></bc-theme>
+	<h2>视图</h2>
+	<div class="demo bc-ui-dialog ui-widget-header" style=" padding: 0.5em">
+		<div class="bc-page">
+			<bc-grid :class="{border: showBorder}" v-ref:grid url="/data/grid.json" :pageable="true" :condition="condition" :exportable="true" :importable="true" :auto-load="false" @export="export" @import="import">
+				<bc-toolbar slot="top">
+					<bc-button icon-class="ui-icon-check" @click="clickCheck" text="查看"></bc-button>
+					<bc-button icon-class="ui-icon-document" text="新建"></bc-button>
+					<bc-button icon-class="ui-icon-pencil" text="编辑"></bc-button>
+					<bc-button icon-class="ui-icon-trash" text="删除"></bc-button>
 
-          <bc-button-set :active="2" @change="changeStatus" :items="[{id: 30, label: '在案'}, {id: 20, label: '注销'}, {id: 'abc', label: '全部'}]"></bc-button-set>
+					<bc-button-set :value.sync="condition.status" :items="[{id: '0', label: '在案'}, {id: '1', label: '注销', active: true}, {id: '', label: '全部'}]" @change="changeStatus"></bc-button-set>
 
-          <label style="margin-left: 1em">
-            <input type="checkbox" v-model="showBorder">显示边框
-          </label>
-          <label style="margin-left: 1em">
-            <input type="checkbox" v-model="quickSearch">即输即搜
-          </label>
+					<label style="margin-left: 1em">
+						<input type="checkbox" v-model="showBorder">显示边框
+					</label>
+					<label style="margin-left: 1em">
+						<input type="checkbox" v-model="quickSearch">即输即搜
+					</label>
 
-          <bc-search :quick-search="quickSearch" :value.sync="searchText" @search="search" placeholder="输入关键字"></bc-search>
-        </bc-toolbar>
-      </bc-grid>
-    </div>
-  </div>
+					<bc-search :quick-search="quickSearch" :value.sync="condition.searchText" @search="search" placeholder="输入关键字"></bc-search>
+				</bc-toolbar>
+			</bc-grid>
+		</div>
+	</div>
 
-  <script>
-    var demos = ["css!demo-css", "bc/vue/theme", "../examples/view"];
-  </script>
-  <script data-main="main" src="../bower_components/requirejs/require.js"></script>
+	<script>
+		var demos = ["css!demo-css", "bc/vue/theme", "../examples/view"];
+	</script>
+	<script data-main="main" src="../bower_components/requirejs/require.js"></script>
 </body>
+
 </html>

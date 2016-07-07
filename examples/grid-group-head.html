@@ -2,26 +2,26 @@
 <html>
 
 <head>
-  <title>grid</title>
-  <meta charset="UTF-8">
+	<title>grid</title>
+	<meta charset="UTF-8">
 </head>
 
 <body>
-  <bc-theme></bc-theme>
-  <h2>bc/vue/grid - 表头分组 vs 表头不分组</h2>
+	<bc-theme></bc-theme>
+	<h2>bc/vue/grid - 表头分组 vs 表头不分组</h2>
 
-  <h3>1-1）表头单一分组 <input type="checkbox" v-model="singleChoice">单选</h3>
-  <bc-grid url="grid-group-head1.json" :pageable="true" style="height:15em;width:37em" @dblclick-row="dblclickRow" :single-choice="singleChoice">
-  </bc-grid>
+	<h3>1-1）表头单一分组 <label><input type="checkbox" v-model="singleChoice">单选</label></h3>
+	<bc-grid url="grid-group-head1.json" :pageable="true" style="height:15em;width:37em" @dblclick-row="dblclickRow" :single-choice="singleChoice">
+	</bc-grid>
 
-  <h3>1-2）表头多分组</h3>
-  <bc-grid url="grid-group-head2.json" :pageable="true" style="height:15em;width:45em"></bc-grid>
+	<h3>1-2）表头多分组</h3>
+	<bc-grid url="grid-group-head2.json" :pageable="true" style="height:15em;width:45em"></bc-grid>
 
-  <h3>2）表头不分组</h3>
-  <bc-grid url="grid.json" :pageable="true" style="height:15em;width:37em"></bc-grid>
+	<h3>2）表头不分组</h3>
+	<bc-grid url="grid.json" :pageable="true" style="height:15em;width:37em"></bc-grid>
 
-  <script>
-    var demos = ["css!demo-css", "bc/vue/theme", "../examples/grid-group-head"];
-  </script>
-  <script data-main="main" src="../bower_components/requirejs/require.js"></script>
+	<script>
+		var demos = ["css!demo-css", "bc/vue/theme", "../examples/grid-group-head"];
+	</script>
+	<script data-main="main" src="../bower_components/requirejs/require.js"></script>
 </body>

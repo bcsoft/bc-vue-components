@@ -2,28 +2,30 @@
 <html>
 
 <head>
-  <title>button</title>
-  <meta charset="UTF-8">
+	<title>button</title>
+	<meta charset="UTF-8">
 </head>
 
 <body>
-  <bc-theme></bc-theme>
-  <h2>bc/vue/button - 按钮组件</h2>
-  <h3>仅文字</h3>
-  <div>
-    <bc-button text="测试11" @click="myClick"></bc-button>
-    <bc-button @click="myClick"></bc-button>
-    <bc-button text="测试13" @click="myClick">测试14</bc-button>
-  </div>
-  <h3>图标+文字</h3>
-  <div>
-    <bc-button text="测试21" icon-class="ui-icon-heart"></bc-button>
-    <bc-button icon-class="ui-icon-heart">测试22</bc-button>
-    <bc-button text="测试23" icon-class="ui-icon-heart">测试24</bc-button>
-  </div>
-  <script>
-    var demos = ["css!demo-css", "bc/vue/theme", "../examples/button"];
-  </script>
-  <script data-main="main" src="../bower_components/requirejs/require.js"></script>
+	<bc-theme></bc-theme>
+	<h2>bc/vue/button - 按钮组件</h2>
+	<h3>仅文字</h3>
+	<div>
+		<bc-button text="测试11" @click="myClick">
+		</bc-button>
+		<bc-button @click="myClick"></bc-button>
+		<bc-button text="测试13" @click="myClick">测试14</bc-button>
+	</div>
+	<h3>图标+文字</h3>
+	<div>
+		<bc-button text="测试21" icon-class="ui-icon-heart"></bc-button>
+		<bc-button icon-class="ui-icon-heart">测试22</bc-button>
+		<bc-button text="测试23" icon-class="ui-icon-heart">测试24</bc-button>
+	</div>
+	<script>
+		var demos = ["css!demo-css", "bc/vue/theme", "../examples/button"];
+	</script>
+	<script data-main="main" src="../bower_components/requirejs/require.js"></script>
 </body>
+
 </html>

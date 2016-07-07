@@ -30,7 +30,7 @@ define(['jquery', 'vue'], function ($, Vue) {
 				else if (!hasText && this.iconClass) c = "ui-button-icon-only";
 				else if (hasText && !this.iconClass) c = "ui-button-text-only";
 				else c = "ui-button-text-only";
-				console.log("[Button] computed.btnClass=%s", c);
+				//console.log("[Button] computed.btnClass=%s", c);
 				return c;
 			}
 		},

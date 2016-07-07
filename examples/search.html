@@ -2,27 +2,27 @@
 <html>
 
 <head>
-  <title>search</title>
-  <meta charset="UTF-8">
+	<title>search</title>
+	<meta charset="UTF-8">
 </head>
 
 <body>
-  <bc-theme></bc-theme>
-  <h2>bc/vue/search - 搜索组件</h2>
-  <h3>1) <input type="checkbox" v-model="quickSearch"> 输入后立即触发搜索 (默认为按回车键方触发搜索)</h3>
-  <div>
-    <bc-search :quick-search="quickSearch" @search="search" @change="change" placeholder="输入关键字"></bc-search>
-    <bc-search :quick-search="quickSearch" @search="search"></bc-search>
-  </div>
+	<bc-theme></bc-theme>
+	<h2>bc/vue/search - 搜索组件</h2>
+	<h3>1) <label><input type="checkbox" v-model="quickSearch"> 即输即搜 (默认为按回车键方触发搜索)</label></h3>
+	<div>
+		<bc-search :quick-search="quickSearch" @search="search" @change="change" placeholder="输入关键字"></bc-search>
+		<bc-search :quick-search="quickSearch" @search="search"></bc-search>
+	</div>
 
-  <h3>2) <input type="checkbox" v-model="advanced"> 高级搜索</h3>
-  <div>
-    <bc-search :advanced="advanced" @search="search" text="测试"></bc-search>
-  </div>
+	<h3>2) <label><input type="checkbox" v-model="advanced"> 高级搜索</label></h3>
+	<div>
+		<bc-search :advanced="advanced" @search="search" text="测试"></bc-search>
+	</div>
 
-  <script>
-    var demos = ["css!demo-css", "bc/vue/theme", "../examples/search"];
-  </script>
-  <script data-main="main" src="../bower_components/requirejs/require.js"></script>
+	<script>
+		var demos = ["css!demo-css", "bc/vue/theme", "../examples/search"];
+	</script>
+	<script data-main="main" src="../bower_components/requirejs/require.js"></script>
 </body>
 </html>

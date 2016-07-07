@@ -1,97 +1,97 @@
 {
-  "columns": [
-    {
-      "id": "date",
-      "label": "日期",
-      "width": "110px",
-      "headCellClass": "align-center",
-      "headCellStyle": "text-align:center",
-      "rowCellClass": "align-right",
-      "rowCellStyle": "text-align:right"
-    },
-    {
-      "id": "g1",
-      "label": "分组1",
-      "children": [
-        {
-          "id": "g1c1",
-          "label": "子项11",
-          "width": "100px",
-          "rowCellStyle": "white-space: nowrap;text-overflow: ellipsis;overflow: hidden"
-        },
-        {
-          "id": "g1c2",
-          "label": "子项12",
-          "width": "100px"
-        }
-      ]
-    },
-    {
-      "id": "sp",
-      "label": "分隔",
-      "width": "4em"
-    },
-    {
-      "id": "g2",
-      "label": "分组2",
-      "children": [
-        {
-          "id": "g2c1",
-          "label": "子项21",
-          "width": "100px"
-        },
-        {
-          "id": "g2c2",
-          "label": "子项22",
-          "width": "100px"
-        }
-      ]
-    },
-    {
-      "id": "detail",
-      "label": "备注",
-      "width": "150px"
-    }
-  ],
-  "pageNo": 1,
-  "pageSize": 25,
-  "count": 800,
-  "refreshable": false,
-  "exportable": false,
-  "importable": false,
-  "rows": [
-    {
-      "date": "2016-01-20",
-      "g1c1": "g1c1",
-      "g1c2": "g1c2",
-      "sp": "sp",
-      "g2c1": "g2c1",
-      "g2c2": "g2c2",
-      "detail": "detail",
-      "rowClass": "test",
-      "rowStyle": "color: #666"
-    },
-    {
-      "date": "2016-01-19",
-      "g1c1": "Vue框架",
-      "g1c2": "编程语言",
-      "detail": "轻量级前端框架"
-    },
-    {
-      "selected": true,
-      "date": "2016-01-03",
-      "g1c1": "vuejs 官方英文网站",
-      "g1c2": "http://vuejs.org.cn/",
-      "rowStyle": "font-size: 60%"
-    },
-    {
-      "date": "2016-01-02",
-      "g1c1": "vuejs 官方中文网站",
-      "g1c2": "http://vuejs.org/"
-    },
-    {
-      "date": "2016-01-01",
-      "g1c1": "bc 平台组件集"
-    }
-  ]
+	"columns": [
+		{
+			"id": "date",
+			"label": "日期",
+			"width": "110px",
+			"headCellClass": "align-center",
+			"headCellStyle": "text-align:center",
+			"rowCellClass": "align-right",
+			"rowCellStyle": "text-align:right"
+		},
+		{
+			"id": "g1",
+			"label": "分组1",
+			"children": [
+				{
+					"id": "g1c1",
+					"label": "子项11",
+					"width": "100px",
+					"rowCellStyle": "white-space: nowrap;text-overflow: ellipsis;overflow: hidden"
+				},
+				{
+					"id": "g1c2",
+					"label": "子项12",
+					"width": "100px"
+				}
+			]
+		},
+		{
+			"id": "sp",
+			"label": "分隔",
+			"width": "4em"
+		},
+		{
+			"id": "g2",
+			"label": "分组2",
+			"children": [
+				{
+					"id": "g2c1",
+					"label": "子项21",
+					"width": "100px"
+				},
+				{
+					"id": "g2c2",
+					"label": "子项22",
+					"width": "100px"
+				}
+			]
+		},
+		{
+			"id": "detail",
+			"label": "备注",
+			"width": "150px"
+		}
+	],
+	"pageNo": 1,
+	"pageSize": 25,
+	"count": 800,
+	"refreshable": false,
+	"exportable": false,
+	"importable": false,
+	"rows": [
+		{
+			"date": "2016-01-20",
+			"g1c1": "g1c1",
+			"g1c2": "g1c2",
+			"sp": "sp",
+			"g2c1": "g2c1",
+			"g2c2": "g2c2",
+			"detail": "detail",
+			"rowClass": "test",
+			"rowStyle": "color: #666"
+		},
+		{
+			"date": "2016-01-19",
+			"g1c1": "Vue框架",
+			"g1c2": "编程语言",
+			"detail": "轻量级前端框架"
+		},
+		{
+			"selected": true,
+			"date": "2016-01-03",
+			"g1c1": "vuejs 官方英文网站",
+			"g1c2": "http://vuejs.org.cn/",
+			"rowStyle": "font-size: 60%"
+		},
+		{
+			"date": "2016-01-02",
+			"g1c1": "vuejs 官方中文网站",
+			"g1c2": "http://vuejs.org/"
+		},
+		{
+			"date": "2016-01-01",
+			"g1c1": "bc 平台组件集"
+		}
+	]
 }

@@ -4,109 +4,109 @@
 /* 容器布局 */
 
 .bc-page > .bc-vue-grid, .bc-vue-grid.fillup {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  overflow: hidden;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	overflow: hidden;
 }
 
 .bc-page > .bc-vue-grid, .bc-vue-grid.noborder {
-  border-width: 0;
+	border-width: 0;
 }
 
 .bc-vue-grid.border {
-  border-width: 1px;
+	border-width: 1px;
 }
 
 .bc-vue-grid > .bc-vue-toolbar {
-  border-width: 0 0 1px 0;
+	border-width: 0 0 1px 0;
 }
 
 .bc-vue-grid {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  box-sizing: border-box;
-  position: relative;
-  font-weight: normal;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	box-sizing: border-box;
+	position: relative;
+	font-weight: normal;
 }
 
 .bc-vue-grid > * {
-  flex: none;
+	flex: none;
 }
 
 .bc-vue-grid > div.rows {
-  flex: 1 1 0%;
+	flex: 1 1 0%;
 }
 
 .bc-vue-grid table.head, .bc-vue-grid table.rows {
-  table-layout: fixed;
-  border-collapse: collapse;
+	table-layout: fixed;
+	border-collapse: collapse;
 }
 
 .bc-vue-grid table.rows {
-  margin-bottom: -1px;
+	margin-bottom: -1px;
 }
 
 .bc-vue-grid tr.head > th {
-  font-weight: inherit;
+	font-weight: inherit;
 }
 
 
 /* 行高 */
 
 .bc-vue-grid tr.head, .bc-vue-grid tr.row {
-  height: 2em;
+	height: 2em;
 }
 
 
 /* 默认的单元格文本对齐方式 */
 
 .bc-vue-grid td.cell {
-  text-align: left;
-  white-space: normal;
-  word-wrap: break-word;
-  word-break: break-all;
+	text-align: left;
+	white-space: normal;
+	word-wrap: break-word;
+	word-break: break-all;
 }
 
 .bc-vue-grid td.sn {
-  text-align: center;
-  cursor: default;
+	text-align: center;
+	cursor: default;
 }
 
 .bc-vue-grid td.sn > .ui-icon-check {
-  display: inline-block;
+	display: inline-block;
 }
 
 
 /* 边框 */
 
 .bc-vue-grid tr.main.head, .bc-vue-grid tr.row {
-  border-width: 1px 0 1px 0;
+	border-width: 1px 0 1px 0;
 }
 
 .bc-vue-grid tr.main.head:first-child, .bc-vue-grid tr.row:first-child, .bc-vue-grid tr.main.head:first-child > th, .bc-vue-grid tr.row:first-child > td {
-  border-top: none;
+	border-top: none;
 }
 
 .bc-vue-grid tr.main.head >:first-child, .bc-vue-grid tr.row >:first-child {
-  border-left: none;
+	border-left: none;
 }
 
 .bc-vue-grid tr.main.head >:last-child, .bc-vue-grid tr.row >:last-child {
-  border-right: none;
-  /*min-width: 1em;*/
+	border-right: none;
+	/*min-width: 1em;*/
 }
 
 .bc-vue-grid tr.head > *, .bc-vue-grid tr.row > * {
-  padding: 0;
-  border-width: 1px;
-  border-color: inherit;
-  border-style: inherit;
+	padding: 0;
+	border-width: 1px;
+	border-color: inherit;
+	border-style: inherit;
 }
 
 .bc-vue-grid td.cell.text, .bc-vue-grid th.cell.text {
-  padding: 0 0.4em;
+	padding: 0 0.4em;
 }

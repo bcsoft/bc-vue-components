@@ -1,62 +1,62 @@
 {
-  "columns": [
-    {
-      "id": "date",
-      "label": "日期",
-      "width": "7em"
-    },
-    {
-      "id": "g1",
-      "label": "分组1",
-      "children": [
-        {
-          "id": "g1c1",
-          "label": "子项1",
-          "width": "7em"
-        },
-        {
-          "id": "g1c2",
-          "label": "子项2",
-          "width": "7em"
-        }
-      ]
-    },
-    {
-      "id": "detail",
-      "label": "备注",
-      "width": "150px"
-    }
-  ],
-  "pageNo": 1,
-  "pageSize": 25,
-  "count": 800,
-  "rows": [
-    {
-      "date": "2016-01-20",
-      "g1c1": "g1c1",
-      "g1c2": "g1c2",
-      "detail": "detail"
-    },
-    {
-      "selected": true,
-      "date": "2016-01-20",
-      "g1c1": "Vue框架",
-      "g1c2": "编程语言",
-      "detail": "轻量级前端框架"
-    },
-    {
-      "date": "2016-01-03",
-      "g1c1": "vuejs 官方英文网站",
-      "g1c2": "http://vuejs.org.cn/"
-    },
-    {
-      "date": "2016-01-02",
-      "g1c1": "vuejs 官方中文网站",
-      "g1c2": "http://vuejs.org/"
-    },
-    {
-      "date": "2016-01-01",
-      "g1c1": "bc 平台组件集"
-    }
-  ]
+	"columns": [
+		{
+			"id": "date",
+			"label": "日期",
+			"width": "7em"
+		},
+		{
+			"id": "g1",
+			"label": "分组1",
+			"children": [
+				{
+					"id": "g1c1",
+					"label": "子项1",
+					"width": "7em"
+				},
+				{
+					"id": "g1c2",
+					"label": "子项2",
+					"width": "7em"
+				}
+			]
+		},
+		{
+			"id": "detail",
+			"label": "备注",
+			"width": "150px"
+		}
+	],
+	"pageNo": 1,
+	"pageSize": 25,
+	"count": 800,
+	"rows": [
+		{
+			"date": "2016-01-20",
+			"g1c1": "g1c1",
+			"g1c2": "g1c2",
+			"detail": "detail"
+		},
+		{
+			"selected": true,
+			"date": "2016-01-20",
+			"g1c1": "Vue框架",
+			"g1c2": "编程语言",
+			"detail": "轻量级前端框架"
+		},
+		{
+			"date": "2016-01-03",
+			"g1c1": "vuejs 官方英文网站",
+			"g1c2": "http://vuejs.org.cn/"
+		},
+		{
+			"date": "2016-01-02",
+			"g1c1": "vuejs 官方中文网站",
+			"g1c2": "http://vuejs.org/"
+		},
+		{
+			"date": "2016-01-01",
+			"g1c1": "bc 平台组件集"
+		}
+	]
 }

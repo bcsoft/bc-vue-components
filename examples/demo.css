@@ -1,7 +1,7 @@
 body {
-  overflow: auto;
+	overflow: auto;
 }
 
 body > * {
-  margin: 1em;
+	margin: 1em;
 }

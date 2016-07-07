@@ -2,32 +2,30 @@
 <html>
 
 <head>
-  <title>page-bar</title>
-  <meta charset="UTF-8">
+	<title>page-bar</title>
+	<meta charset="UTF-8">
 </head>
 
 <body>
-  <bc-theme></bc-theme>
-  <h2>bc/vue/page-bar - 分页条组件</h2>
-  <h3>1）默认 (非分页、刷新、导出)</h3>
-  <bc-page-bar class="ui-widget-content"></bc-page-bar>
+	<bc-theme></bc-theme>
+	<h2>bc/vue/page-bar - 分页条组件</h2>
+	<h3>1）默认 (非分页、刷新、导出)</h3>
+	<bc-page-bar class="ui-widget-content"></bc-page-bar>
 
-  <h3>2）刷新、导出、导入、指定宽度</h3>
-  <bc-page-bar style="width:35em" class="ui-widget-content" :refreshable="true" :exportable="true" :importable="true">
-  </bc-page-bar>
+	<h3>2）刷新、导出、导入、指定宽度</h3>
+	<bc-page-bar style="width:35em" class="ui-widget-content" :refreshable="true" :exportable="true" :importable="true">
+	</bc-page-bar>
 
-  <h3>3）常规分页、自动宽度</h3>
-  <bc-page-bar style="display:inline-block;" class="ui-widget-content" :pageable="true" :refreshable="true" :exportable="true"
-    :importable="true">
-  </bc-page-bar>
+	<h3>3）常规分页、自动宽度</h3>
+	<bc-page-bar style="display:inline-block;" class="ui-widget-content" :pageable="true" :refreshable="true" :exportable="true" :importable="true">
+	</bc-page-bar>
 
-  <h3>4）分页并指定页码、页容量等</h3>
-  <bc-page-bar style="display:inline-block;" class="ui-widget-content" :pageable="true" :refreshable="true" :exportable="true"
-    :importable="true" :page-no="4" :page-size="100" :page-sizes="[25, 50, 100, 200, 300]" :count="1000">
-  </bc-page-bar>
-  <script>
-    var demos = ["css!demo-css", "bc/vue/theme", "../examples/page-bar"];
-  </script>
-  <script data-main="main" src="../bower_components/requirejs/require.js"></script>
+	<h3>4）分页并指定页码、页容量等</h3>
+	<bc-page-bar style="display:inline-block;" class="ui-widget-content" :pageable="true" :refreshable="true" :exportable="true" :importable="true" :page-no="4" :page-size="100" :page-sizes="[25, 50, 100, 200, 300]" :count="1000">
+	</bc-page-bar>
+	<script>
+		var demos = ["css!demo-css", "bc/vue/theme", "../examples/page-bar"];
+	</script>
+	<script data-main="main" src="../bower_components/requirejs/require.js"></script>
 </body>
 </html>

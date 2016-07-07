@@ -21,33 +21,33 @@
  * </pre>
  */
 define(['vue'], function (Vue) {
-  'use strict';
-  return Vue.component('bc-search', {
-    template: '<div class="bc-vue-search" style="position:relative;display:inline-block">' +
-    '<span @click="search" class="ui-icon ui-icon-search" title="点击执行查询" style="position:absolute;top:50%;margin-top:-8px;left:2px;cursor:pointer"></span>' +
-    '<input debounce="200" @keyup.enter="search" type="text" v-model="value" class="ui-widget-content" style="padding:.4em 18px;width:12em;min-height:1em;font-family:inherit;font-size:1.1em" :placeholder="placeholder">' +
-    '<span v-if="advanced" @click="showAdvanced" class="ui-icon ui-icon-triangle-1-s" title="点击显示更多查询条件" style="position:absolute;top:50%;margin-top:-8px;right:2px;cursor:pointer"></span>' +
-    '</div>',
-    replace: true,
-    props: {
-      placeholder: { type: String, required: false, twoWay: true },
-      value: { type: String, required: false, twoWay: true },
-      advanced: { type: Boolean, required: false, default: false, twoWay: true },
-      quickSearch: { type: Boolean, required: false, default: false, twoWay: true }
-    },
-    watch: {
-      value: function (value, old) {
-        this.$dispatch("change", value, old);
-        if (this.quickSearch) this.$dispatch("search", value);
-      }
-    },
-    methods: {
-      search: function () {
-        this.$dispatch("search", this.value);
-      },
-      showAdvanced: function () {
-        console.log("[search] showAdvanced");
-      }
-    }
-  });
+	'use strict';
+	return Vue.component('bc-search', {
+		template: '<div class="bc-vue-search" style="position:relative;display:inline-block">' +
+		'<span @click="search" class="ui-icon ui-icon-search" title="点击执行查询" style="position:absolute;top:50%;margin-top:-8px;left:2px;cursor:pointer"></span>' +
+		'<input debounce="200" @keyup.enter="search" type="text" v-model="value" class="ui-widget-content" style="padding:.4em 18px;width:12em;min-height:1em;font-family:inherit;font-size:1.1em" :placeholder="placeholder">' +
+		'<span v-if="advanced" @click="showAdvanced" class="ui-icon ui-icon-triangle-1-s" title="点击显示更多查询条件" style="position:absolute;top:50%;margin-top:-8px;right:2px;cursor:pointer"></span>' +
+		'</div>',
+		replace: true,
+		props: {
+			placeholder: { type: String, required: false, twoWay: true },
+			value: { type: String, required: false, twoWay: true },
+			advanced: { type: Boolean, required: false, default: false, twoWay: true },
+			quickSearch: { type: Boolean, required: false, default: false, twoWay: true }
+		},
+		watch: {
+			value: function (value, old) {
+				this.$dispatch("change", value, old);
+				if (this.quickSearch) this.$dispatch("search", value);
+			}
+		},
+		methods: {
+			search: function () {
+				this.$dispatch("search", this.value);
+			},
+			showAdvanced: function () {
+				console.log("[search] showAdvanced");
+			}
+		}
+	});
 });

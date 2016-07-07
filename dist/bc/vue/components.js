@@ -84,7 +84,7 @@ define("bc/vue/theme", [ "jquery", "vue" ], function($, Vue) {
             btnClass: function() {
                 var c, hasText = this.text && "　" != this.text;
                 return c = hasText && this.iconClass ? "ui-button-text-icon-primary" : !hasText && this.iconClass ? "ui-button-icon-only" : (hasText && !this.iconClass, 
-                "ui-button-text-only"), console.log("[Button] computed.btnClass=%s", c), c;
+                "ui-button-text-only");
             }
         },
         ready: function() {
@@ -106,7 +106,7 @@ define("bc/vue/theme", [ "jquery", "vue" ], function($, Vue) {
 }), define("bc/vue/button-set", [ "jquery", "vue" ], function($, Vue) {
     "use strict";
     return Vue.component("bc-button-set", {
-        template: '<div class="bc-vue-button-set ui-buttonset" style="display:inline-block"><div v-for="i in items" data-id="{{i.hasOwnProperty(\'id\') ? i.id : $index}}" class="ui-button ui-widget ui-state-default ui-button-text-only" style="font-family:inherit"' + " :class=\"{'ui-corner-left': $index == 0, 'ui-corner-right': $index == items.length - 1, 'ui-state-active': $index == active}\" :style=\"{'margin-right': '-1px', 'z-index': $index == active ? items.length : 0}\"><span class=\"ui-button-text\" @click=\"clickItem(i, $index)\">{{i.label || i}}</span></div></div>",
+        template: '<div class="bc-vue-button-set ui-buttonset" style="display:inline-block"><div v-for="i in items" data-id="{{i.hasOwnProperty(\'id\') ? i.id : $index}}" class="ui-button ui-widget ui-state-default ui-button-text-only" style="font-family:inherit"' + " :class=\"{'ui-corner-left': $index == 0, 'ui-corner-right': $index == items.length - 1, 'ui-state-active': value == i.id}\" :style=\"{'margin-right': '-1px', 'z-index': value == i.id ? items.length : 0}\"><span class=\"ui-button-text\" @click=\"clickItem(i, $index)\">{{i.label || i}}</span></div></div>",
         replace: !0,
         props: {
             items: {
@@ -114,28 +114,30 @@ define("bc/vue/theme", [ "jquery", "vue" ], function($, Vue) {
                 required: !0,
                 twoWay: !0
             },
-            active: {
-                type: Number,
+            value: {
                 required: !1,
-                twoWay: !0
-            },
-            type: {
-                type: String,
-                required: !1,
-                "default": "radios",
+                "default": null,
                 twoWay: !0
             }
         },
-        computed: {},
-        ready: function() {},
+        created: function() {
+            if (null === this.value) {
+                for (var i = 0; i < this.items.length; i++) if (this.items[i].active) {
+                    this.value = this.items[i].id;
+                    break;
+                }
+                null === this.value && (this.value = this.items[0].id), console.log("[button-set] created value=%s", this.value);
+            }
+        },
         watch: {
-            active: function(value, old) {
-                this.$dispatch("change", this.items[value], this.items[old]);
+            value: function(value, old) {
+                this.$dispatch("change", value, old);
             }
         },
         methods: {
             clickItem: function(item, index) {
-                this.active !== index && (this.active = index);
+                this.value;
+                this.value != item.id && (this.value = item.id);
             }
         }
     });
@@ -221,13 +223,13 @@ define("bc/vue/theme", [ "jquery", "vue" ], function($, Vue) {
                     rowspan = 2;
                     break;
                 }
-                return console.log("[Table-Col] computed rowspan=%d", rowspan), rowspan;
+                return rowspan;
             }
         },
         ready: function() {}
     });
 }), define("text!bc/vue/page-bar.html", [], function() {
-    return '<ul class="bc-page-bar ui-widget-content ui-widget ui-helper-clearfix">\r\n  <li v-if="refreshable" class="icon ui-state-default ui-corner-all" title="刷新" @click="this.$dispatch(\'change\', \'clickRefresh\', this.pageNo, this.pageSize)">\r\n    <span class="ui-icon ui-icon-refresh"></span>\r\n  </li>\r\n  <template v-if="pageable">\r\n    <li class="icons ui-state-default ui-corner-all">\r\n      <a href="#" class="icon ui-state-default ui-corner-all" @click="toPage(1)">\r\n        <span class="ui-icon ui-icon-seek-first" title="首页"></span>\r\n      </a>\r\n      <a href="#" class="icon ui-state-default ui-corner-all" @click="toPage(Math.max(this.pageNo - 1, 1))">\r\n        <span class="ui-icon ui-icon-seek-prev" title="上一页"></span>\r\n      </a>\r\n      <span class="pageNo">\r\n        <span>{{pageNo}}</span>/<span>{{pageCount}}</span>(<span>{{count}}</span>)\r\n      </span>\r\n      <a href="#" class="icon ui-state-default ui-corner-all" @click="toPage(Math.min(this.pageNo + 1, this.pageCount))">\r\n        <span class="ui-icon ui-icon-seek-next" title="下一页"></span>\r\n      </a>\r\n      <a href="#" class="icon ui-state-default ui-corner-all" @click="toPage(this.pageCount)">\r\n        <span class="ui-icon ui-icon-seek-end" title="尾页"></span>\r\n      </a>\r\n    </li>\r\n    <li class="icons ui-state-default ui-corner-all" title="每页显示的数量">\r\n      <a href="#" v-for="s in pageSizes" class="icon ui-state-default ui-corner-all" :class="{\'ui-state-active\': pageSize == s}"\r\n        @click="changePageSize(s)">\r\n        <span class="pageSize">{{s}}</span>\r\n      </a>\r\n    </li>\r\n  </template>\r\n  <li v-if="exportable" class="icon ui-state-default ui-corner-all" title="导出" @click="this.$dispatch(\'export\', -1)">\r\n    <span class="ui-icon ui-icon-arrowthickstop-1-s"></span>\r\n  </li>\r\n  <li v-if="importable" class="icon ui-state-default ui-corner-all" title="导入" @click="this.$dispatch(\'import\')">\r\n    <span class="ui-icon ui-icon-arrowthickstop-1-n"></span>\r\n  </li>\r\n</ul>';
+    return '<ul class="bc-page-bar ui-widget-content ui-widget ui-helper-clearfix">\r\n	<li v-if="refreshable" class="icon ui-state-default ui-corner-all" title="刷新" @click="this.$dispatch(\'change\', \'clickRefresh\', this.pageNo, this.pageSize)">\r\n		<span class="ui-icon ui-icon-refresh"></span>\r\n	</li>\r\n	<template v-if="pageable">\r\n		<li class="icons ui-state-default ui-corner-all">\r\n			<a href="#" class="icon ui-state-default ui-corner-all" @click="toPage(1)">\r\n				<span class="ui-icon ui-icon-seek-first" title="首页"></span>\r\n			</a>\r\n			<a href="#" class="icon ui-state-default ui-corner-all" @click="toPage(Math.max(this.pageNo - 1, 1))">\r\n				<span class="ui-icon ui-icon-seek-prev" title="上一页"></span>\r\n			</a>\r\n			<span class="pageNo">\r\n				<span>{{pageNo}}</span>/<span>{{pageCount}}</span>(<span>{{count}}</span>)\r\n			</span>\r\n			<a href="#" class="icon ui-state-default ui-corner-all" @click="toPage(Math.min(this.pageNo + 1, this.pageCount))">\r\n				<span class="ui-icon ui-icon-seek-next" title="下一页"></span>\r\n			</a>\r\n			<a href="#" class="icon ui-state-default ui-corner-all" @click="toPage(this.pageCount)">\r\n				<span class="ui-icon ui-icon-seek-end" title="尾页"></span>\r\n			</a>\r\n		</li>\r\n		<li class="icons ui-state-default ui-corner-all" title="每页显示的数量">\r\n			<a href="#" v-for="s in pageSizes" class="icon ui-state-default ui-corner-all" :class="{\'ui-state-active\': pageSize == s}" @click="changePageSize(s)">\r\n				<span class="pageSize">{{s}}</span>\r\n			</a>\r\n		</li>\r\n	</template>\r\n	<li v-if="exportable" class="icon ui-state-default ui-corner-all" title="导出" @click="this.$dispatch(\'export\', -1)">\r\n		<span class="ui-icon ui-icon-arrowthickstop-1-s"></span>\r\n	</li>\r\n	<li v-if="importable" class="icon ui-state-default ui-corner-all" title="导入" @click="this.$dispatch(\'import\')">\r\n		<span class="ui-icon ui-icon-arrowthickstop-1-n"></span>\r\n	</li>\r\n</ul>';
 }), define("css!bc/vue/page-bar", [], function() {}), define("bc/vue/page-bar", [ "jquery", "vue", "text!bc/vue/page-bar.html", "css!bc/vue/page-bar" ], function($, Vue, template) {
     "use strict";
     var DEFAULT_PAGE_SIZES = [ 25, 50, 100 ];
@@ -305,7 +307,7 @@ define("bc/vue/theme", [ "jquery", "vue" ], function($, Vue) {
         },
         watch: {
             count: function(val, oldVal) {
-                console.log("[PageBar] watch.count: new=%s, old=%s", val, oldVal), this.pageCount = Math.ceil(val / this.pageSize);
+                this.pageCount = Math.ceil(val / this.pageSize);
             }
         },
         methods: {
@@ -386,7 +388,7 @@ define("bc/vue/theme", [ "jquery", "vue" ], function($, Vue) {
         }
     });
 }), define("text!bc/vue/grid.html", [], function() {
-    return '<div class="bc-vue-grid ui-widget-content" data-rowspan="{{$refs.cols.rowspan}}">\r\n  <!-- 顶部扩展区 -->\r\n  <slot name="top"></slot>\r\n\r\n  <!-- 表头 -->\r\n  <table class="head" :style="{width:\'100%\',position:\'relative\',\'user-select\':\'initial\',left:v.scrollLeft + \'px\'}">\r\n    <colgroup v-ref:cols is="bc-table-col" :columns="columns" :add-sn="true" :add-empty="true">\r\n    </colgroup>\r\n    <thead>\r\n      <tr class="main head ui-widget-content">\r\n        <th rowspan="{{$refs.cols.rowspan}}" data-id="_sn" class="sn"><input type="checkbox" v-if="!singleChoice" v-model="v.selectAll" title="{{v.selectAll ? \'点击全部不选择\' : \'点击选择全部\'}}"></th>\r\n        <th v-for="c in columns" class="cell text" :class="c.headCellClass" :style="c.headCellStyle" data-id="{{c.id}}" colspan="{{c.children && c.children.length > 0 ? c.children.length : 1}}"\r\n          rowspan="{{c.children && c.children.length > 0 ? 1 : $refs.cols.rowspan}}">{{c.label}}</th>\r\n        <th rowspan="{{$refs.cols.rowspan}}" data-id="_empty" class="empty"></th>\r\n      </tr>\r\n      <!-- 分组的表头 -->\r\n      <tr class="sub head ui-widget-content" v-if="$refs.cols.rowspan > 1">\r\n        <template v-for="c in columns | filterBy isGroupColumn">\r\n          <th v-for="d in c.children" class="cell text" data-id="{{d.id}}">{{d.label}}</th>\r\n        </template>\r\n      </tr>\r\n    </thead>\r\n  </table>\r\n\r\n  <!-- 数据 -->\r\n  <div class="rows" :style="{overflow:\'auto\',\'user-select\':\'initial\'}" @scroll="v.scrollLeft = -1 * $event.target.scrollLeft">\r\n    <table class="rows" style="width:100%">\r\n      <colgroup is="bc-table-col" :columns="columns" :add-sn="true" :add-empty="true"></colgroup>\r\n      <tbody>\r\n        <tr class="row" v-for="r in rows" data-id="{{r.id}}" class="{{r.class}}" :class="{\'ui-state-highlight\': r.selected, \'ui-widget-content\': true}"\r\n          style="{{r.style}}">\r\n          <td class="sn" data-id="_sn"><span v-if="r.selected" class="ui-icon ui-icon-check"></span>{{$index + 1}}</td>\r\n          <template v-for="c in columns">\r\n            <td v-if="isGroupColumn(c)" v-for="d in c.children" class="cell text" :class="d.rowCellClass" :style="d.rowCellStyle" data-id="{{d.id}}">{{r[d.id]}}</td>\r\n            <td v-if="!isGroupColumn(c)" class="cell text" :class="c.rowCellClass" :style="c.rowCellStyle" data-id="{{c.id}}">{{r[c.id]}}</td>\r\n          </template>\r\n          <td class="empty" data-id="_empty"></td>\r\n        </tr>\r\n      </tbody>\r\n    </table>\r\n  </div>\r\n\r\n  <!-- 分页条 -->\r\n  <bc-page-bar v-if="showPageBar" style="border-width: 1px 0 0 0" :pageable="pageable" :page-no.sync="pageNo" :page-size.sync="pageSize" :page-sizes.sync="pageSizes" :count.sync="count" :refreshable="refreshable" :exportable="exportable" :importable="importable" @change="reload">\r\n  </bc-page-bar>\r\n\r\n  <!-- 加载器 -->\r\n  <bc-loading v-ref:loading v-if="v.loading"></bc-loading>\r\n\r\n  <!-- 底部扩展区 -->\r\n  <slot name="bottom"></slot>\r\n</div>';
+    return '<div class="bc-vue-grid ui-widget-content" data-rowspan="{{$refs.cols.rowspan}}">\r\n	<!-- 顶部扩展区 -->\r\n	<slot name="top"></slot>\r\n\r\n	<!-- 表头 -->\r\n	<table class="head" :style="{width:\'100%\',position:\'relative\',\'user-select\':\'initial\',left:v.scrollLeft + \'px\'}">\r\n		<colgroup v-ref:cols is="bc-table-col" :columns="columns" :add-sn="true" :add-empty="true">\r\n		</colgroup>\r\n		<thead>\r\n			<tr class="main head ui-widget-content">\r\n				<th rowspan="{{$refs.cols.rowspan}}" data-id="_sn" class="sn"><input type="checkbox" v-if="!singleChoice" v-model="v.selectAll" title="{{v.selectAll ? \'点击全部不选择\' : \'点击选择全部\'}}"></th>\r\n				<th v-for="c in columns" class="cell text" :class="c.headCellClass" :style="c.headCellStyle" data-id="{{c.id}}" colspan="{{c.children && c.children.length > 0 ? c.children.length : 1}}" rowspan="{{c.children && c.children.length > 0 ? 1 : $refs.cols.rowspan}}">{{c.label}}</th>\r\n				<th rowspan="{{$refs.cols.rowspan}}" data-id="_empty" class="empty"></th>\r\n			</tr>\r\n			<!-- 分组的表头 -->\r\n			<tr class="sub head ui-widget-content" v-if="$refs.cols.rowspan > 1">\r\n				<template v-for="c in columns | filterBy isGroupColumn">\r\n					<th v-for="d in c.children" class="cell text" data-id="{{d.id}}">{{d.label}}</th>\r\n				</template>\r\n			</tr>\r\n		</thead>\r\n	</table>\r\n\r\n	<!-- 数据 -->\r\n	<div class="rows" :style="{overflow:\'auto\',\'user-select\':\'initial\'}" @scroll="v.scrollLeft = -1 * $event.target.scrollLeft">\r\n		<table class="rows" style="width:100%">\r\n			<colgroup is="bc-table-col" :columns="columns" :add-sn="true" :add-empty="true"></colgroup>\r\n			<tbody>\r\n				<tr class="row" v-for="r in rows" data-id="{{r.id}}" class="{{r.class}}" :class="{\'ui-state-highlight\': r.selected, \'ui-widget-content\': true}" style="{{r.style}}">\r\n					<td class="sn" data-id="_sn"><span v-if="r.selected" class="ui-icon ui-icon-check"></span>{{$index + 1}}</td>\r\n					<template v-for="c in columns">\r\n						<td v-if="isGroupColumn(c)" v-for="d in c.children" class="cell text" :class="d.rowCellClass" :style="d.rowCellStyle" data-id="{{d.id}}">{{r[d.id]}}</td>\r\n						<td v-if="!isGroupColumn(c)" class="cell text" :class="c.rowCellClass" :style="c.rowCellStyle" data-id="{{c.id}}">{{r[c.id]}}</td>\r\n					</template>\r\n					<td class="empty" data-id="_empty"></td>\r\n				</tr>\r\n			</tbody>\r\n		</table>\r\n	</div>\r\n\r\n	<!-- 分页条 -->\r\n	<bc-page-bar v-if="showPageBar" style="border-width: 1px 0 0 0" :pageable="pageable" :page-no.sync="pageNo" :page-size.sync="pageSize" :page-sizes.sync="pageSizes" :count.sync="count" :refreshable="refreshable" :exportable="exportable" :importable="importable" @change="reload">\r\n	</bc-page-bar>\r\n\r\n	<!-- 加载器 -->\r\n	<bc-loading v-ref:loading v-if="v.loading"></bc-loading>\r\n\r\n	<!-- 底部扩展区 -->\r\n	<slot name="bottom"></slot>\r\n</div>';
 }), define("css!bc/vue/grid", [], function() {}), define("bc/vue/grid", [ "jquery", "vue", "bc/vue/table-col", "bc/vue/page-bar", "text!bc/vue/grid.html", "css!bc/vue/grid", "bc/vue/loading" ], function($, Vue, tableCol, pageBar, template) {
     "use strict";
     var DEFAULT_PAGE_SIZES = [ 25, 50, 100 ];
@@ -417,8 +419,9 @@ define("bc/vue/theme", [ "jquery", "vue" ], function($, Vue) {
                 twoWay: !0
             },
             condition: {
-                type: String,
+                type: Object,
                 required: !1,
+                "default": {},
                 twoWay: !0
             },
             showPageBar: {
@@ -474,6 +477,12 @@ define("bc/vue/theme", [ "jquery", "vue" ], function($, Vue) {
                 required: !1,
                 "default": !1,
                 twoWay: !0
+            },
+            autoLoad: {
+                type: Boolean,
+                required: !1,
+                "default": !0,
+                twoWay: !0
             }
         },
         computed: {
@@ -495,7 +504,6 @@ define("bc/vue/theme", [ "jquery", "vue" ], function($, Vue) {
             };
         },
         ready: function() {
-            console.log("[Grid] ready url=%s", this.url);
             var delaying, timer, cancelClick, $el = $(this.$el), vm = this;
             $el.on({
                 mouseover: function() {
@@ -519,11 +527,11 @@ define("bc/vue/theme", [ "jquery", "vue" ], function($, Vue) {
                     cancelClick = !0, vm.$dispatch("dblclick-row", vm.rows[this.rowIndex], this.rowIndex), 
                     stopPrope();
                 }
-            }, "tr.row"), this.reload();
+            }, "tr.row"), this.autoLoad && this.reload();
         },
         methods: {
             changePageBar: function(type, pageNo, pageSize) {
-                console.log("[Grid] changePageBar: type=%s, pageNo=%d, pageSize=%d", type, pageNo, pageSize), 
+                console.log("[grid] changePageBar: type=%s, pageNo=%d, pageSize=%d", type, pageNo, pageSize), 
                 this.reload();
             },
             reload: function() {
@@ -533,17 +541,17 @@ define("bc/vue/theme", [ "jquery", "vue" ], function($, Vue) {
                         pageNo: this.pageNo,
                         pageSize: this.pageSize
                     };
-                    this.condition && (params.condition = this.condition), console.log("[Grid] reload loading url=%s, params=%o", this.url, params);
+                    this.condition && ("object" == typeof this.condition ? Object.assign(params, this.condition) : "string" == typeof this.condition && (params.condition = this.condition)), 
+                    console.log("[grid] reload url=%s, params=%o", this.url, params);
                     var vm = this;
                     $.getJSON(this.url, params).then(function(j) {
-                        console.log("[Grid] reload loaded data=%o", j), j.columns && vm.$set("columns", j.columns), 
-                        j.rows && vm.$set("rows", j.rows), vm.pageable && (j.pageNo && vm.$set("pageNo", j.pageNo), 
+                        j.columns && vm.$set("columns", j.columns), j.rows && vm.$set("rows", j.rows), vm.pageable && (j.pageNo && vm.$set("pageNo", j.pageNo), 
                         j.pageSize && vm.$set("pageSize", j.pageSize), j.pageSizes && vm.$set("pageSizes", j.pageSizes), 
                         j.count && vm.$set("count", j.count)), vm.showPageBar && (j.hasOwnProperty("refreshable") && vm.$set("refreshable", j.refreshable), 
                         j.hasOwnProperty("exportable") && vm.$set("exportable", j.exportable), j.hasOwnProperty("importable") && vm.$set("importable", j.importable)), 
                         j.hasOwnProperty("singleChoice") && vm.$set("singleChoice", j.singleChoice);
                     }, function(error) {
-                        console.log("[Grid] error: url=%s, error=%o", vm.url, error), alert("[Grid] 数据加载失败！");
+                        console.log("[grid] reload error: url=%s, error=%o", vm.url, error), alert("[grid] 数据加载失败！");
                     }).always(function() {
                         vm.v.loading = !1;
                     });

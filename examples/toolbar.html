@@ -2,36 +2,36 @@
 <html>
 
 <head>
-  <title>toolbar</title>
-  <meta charset="UTF-8">
+	<title>toolbar</title>
+	<meta charset="UTF-8">
 </head>
 
 <body>
-  <bc-theme></bc-theme>
-  <h2>bc/vue/toolbar - 工具条组件</h2>
-  <h2>工具条组件</h2>
-  <h3>1</h3>
-  <bc-toolbar>
-    <bc-button icon-class="ui-icon-check" @click="clickCheck" text="查看"></bc-button>
-    <bc-button icon-class="ui-icon-document" text="新建"></bc-button>
-    <bc-button icon-class="ui-icon-pencil" text="编辑"></bc-button>
-    <bc-button icon-class="ui-icon-trash" text="删除"></bc-button>
-    <bc-search :style="{float:'right'}" @search="search" placeholder="输入关键字"></bc-search>
-  </bc-toolbar>
-  <h3>2</h3>
-  <bc-toolbar>
-    <bc-button icon-class="ui-icon-check" @click="clickCheck" text="查看"></bc-button>
-    <bc-button icon-class="ui-icon-document" text="新建"></bc-button>
-    <bc-button icon-class="ui-icon-pencil" text="编辑"></bc-button>
-    <bc-button-set :active="2" @change="changeStatus" :items="[{id: 30, label: '在案'}, {id: 20, label: '注销'}, {id: 'abc', label: '全部'}]"></bc-button-set>
-    <bc-search :style="{float:'right'}" @search="search" placeholder="输入关键字" :advanced="true"></bc-search>
-  </bc-toolbar>
+	<bc-theme></bc-theme>
+	<h2>bc/vue/toolbar - 工具条组件</h2>
+	<h2>工具条组件</h2>
+	<h3>1</h3>
+	<bc-toolbar>
+		<bc-button icon-class="ui-icon-check" @click="clickCheck" text="查看"></bc-button>
+		<bc-button icon-class="ui-icon-document" text="新建"></bc-button>
+		<bc-button icon-class="ui-icon-pencil" text="编辑"></bc-button>
+		<bc-button icon-class="ui-icon-trash" text="删除"></bc-button>
+		<bc-search :style="{float:'right'}" @search="search" placeholder="输入关键字"></bc-search>
+	</bc-toolbar>
+	<h3>2</h3>
+	<bc-toolbar>
+		<bc-button icon-class="ui-icon-check" @click="clickCheck" text="查看"></bc-button>
+		<bc-button icon-class="ui-icon-document" text="新建"></bc-button>
+		<bc-button icon-class="ui-icon-pencil" text="编辑"></bc-button>
+		<bc-button-set :active="2" @change="changeStatus" :items="[{id: 30, label: '在案'}, {id: 20, label: '注销'}, {id: 'abc', label: '全部'}]"></bc-button-set>
+		<bc-search :style="{float:'right'}" @search="search" placeholder="输入关键字" :advanced="true"></bc-search>
+	</bc-toolbar>
 
-  <h3>3 空</h3>
-  <bc-toolbar :style="{padding:0}"></bc-toolbar>
-  <script>
-    var demos = ["css!demo-css", "bc/vue/theme", "../examples/toolbar"];
-  </script>
-  <script data-main="main" src="../bower_components/requirejs/require.js"></script>
+	<h3>3 空</h3>
+	<bc-toolbar :style="{padding:0}"></bc-toolbar>
+	<script>
+		var demos = ["css!demo-css", "bc/vue/theme", "../examples/toolbar"];
+	</script>
+	<script data-main="main" src="../bower_components/requirejs/require.js"></script>
 </body>
 </html>

@@ -13,9 +13,9 @@
  *             bc-grid
  */
 define(["bc/vue/theme", "bc/vue/button", "bc/vue/button-set", "bc/vue/search"
-  , "bc/vue/toolbar"
-  , "bc/vue/table-col", "bc/vue/page-bar", "bc/vue/loading"
-  , "bc/vue/grid"
+	, "bc/vue/toolbar"
+	, "bc/vue/table-col", "bc/vue/page-bar", "bc/vue/loading"
+	, "bc/vue/grid"
 ], function () {
-  return 0;
+	return 0;
 });
