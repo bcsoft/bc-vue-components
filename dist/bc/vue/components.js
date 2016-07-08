@@ -106,7 +106,7 @@ define("bc/vue/theme", [ "jquery", "vue" ], function($, Vue) {
 }), define("bc/vue/button-set", [ "jquery", "vue" ], function($, Vue) {
     "use strict";
     return Vue.component("bc-button-set", {
-        template: '<div class="bc-vue-button-set ui-buttonset" style="display:inline-block"><div v-for="i in items" data-id="{{i.hasOwnProperty(\'id\') ? i.id : $index}}" class="ui-button ui-widget ui-state-default ui-button-text-only" style="font-family:inherit"' + " :class=\"{'ui-corner-left': $index == 0, 'ui-corner-right': $index == items.length - 1, 'ui-state-active': value == i.id}\" :style=\"{'margin-right': '-1px', 'z-index': value == i.id ? items.length : 0}\"><span class=\"ui-button-text\" @click=\"clickItem(i, $index)\">{{i.label || i}}</span></div></div>",
+        template: '<div class="bc-vue-button-set ui-buttonset" style="display:inline-block"><div v-for="i in items" data-id="{{i.hasOwnProperty(\'id\') ? i.id : $index}}" class="ui-button ui-widget ui-state-default ui-button-text-only" style="font-family:inherit"' + " :class=\"{'ui-corner-left': $index == 0, 'ui-corner-right': $index == items.length - 1, 'ui-state-active': isActive(i)}\" :style=\"{'margin-right': '-1px', 'z-index': value == i.id ? items.length : 0}\"><span class=\"ui-button-text\" @click=\"clickItem(i, $index)\">{{i.label || i}}</span></div></div>",
         replace: !0,
         props: {
             items: {
@@ -121,23 +121,23 @@ define("bc/vue/theme", [ "jquery", "vue" ], function($, Vue) {
             }
         },
         created: function() {
-            if (null === this.value) {
-                for (var i = 0; i < this.items.length; i++) if (this.items[i].active) {
-                    this.value = this.items[i].id;
-                    break;
-                }
-                null === this.value && (this.value = this.items[0].id), console.log("[button-set] created value=%s", this.value);
+            if (null === this.value) for (var i = 0; i < this.items.length; i++) if (this.items[i].active) {
+                this.value = this.items[i].id;
+                break;
             }
+            console.log("[button-set] created value=%s", this.value);
         },
         watch: {
             value: function(value, old) {
-                this.$dispatch("change", value, old);
+                console.log("[button-set] change new=%s, old=%s", value, old), this.$dispatch("change", value, old);
             }
         },
         methods: {
             clickItem: function(item, index) {
-                this.value;
-                this.value != item.id && (this.value = item.id);
+                this.value = "object" == typeof item ? item.id : item;
+            },
+            isActive: function(item) {
+                return "object" == typeof item ? this.value == item.id : this.value == item;
             }
         }
     });
@@ -419,9 +419,7 @@ define("bc/vue/theme", [ "jquery", "vue" ], function($, Vue) {
                 twoWay: !0
             },
             condition: {
-                type: Object,
                 required: !1,
-                "default": {},
                 twoWay: !0
             },
             showPageBar: {
