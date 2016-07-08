@@ -4,6 +4,8 @@
 	"editor.tabSize": 2,
 	// 控制编辑器是否应呈现空白字符
 	"editor.renderWhitespace": true,
+	// Controls whether the editor should render indent guides
+	"editor.renderIndentGuides": true,
 	// 按 "Tab" 时插入空格。
 	"editor.insertSpaces": false,
 	// 当打开文件时，将基于文件内容检测 "editor.tabSize" 和 "editor.insertSpaces"。
