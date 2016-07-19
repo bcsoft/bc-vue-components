@@ -102,8 +102,6 @@ define(['jquery', 'vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/gri
 
 					// 发布双击行事件
 					vm.$dispatch("dblclick-row", vm.rows[this.rowIndex], this.rowIndex);
-
-					stopPrope();
 				}
 			}, "tr.row");
 
