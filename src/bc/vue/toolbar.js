@@ -10,7 +10,7 @@
 define(['vue', "css!bc/vue/toolbar"], function (Vue) {
 	'use strict';
 	return Vue.component('bc-toolbar', {
-		template: '<div class="bc-vue-toolbar ui-widget-content" style="">' +
+		template: '<div class="bc-vue-toolbar ui-widget-content">' +
 		'<slot></slot>' +
 		'</div>',
 		replace: true,
