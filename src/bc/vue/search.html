@@ -1,0 +1,33 @@
+<div class="bc-vue-search">
+	<div class="fuzzy" :style="{'text-align': align}">
+		<div>
+			<span @click="search" class="search ui-icon ui-icon-search" title="执行查询"></span>
+			<input debounce="200" @keyup.enter="search" type="text" v-model="fuzzyValue" class="fuzzy ui-widget-content" :placeholder="placeholder">
+			<span v-if="conditions.length > 0" @click="addCondition" class="add ui-icon ui-icon-plusthick" title="添加特定条件"></span>
+		</div>
+	</div>
+	<div class="advance ui-widget-content" v-if="pickedConditions.length > 0">
+		<table cellspacing="0" cellpadding="0">
+			<tbody>
+				<tr v-for="p in pickedConditions" class="condition">
+					<td class="ui-widget-content">
+						<select class="id ui-widget-content" v-model="p.id" @change="p.value = ''">
+							<option v-for="c in conditions" :value="c.id">{{c.label}}</option>
+						</select>
+					</td>
+					<td class="ui-widget-content">
+						<select class="operator ui-widget-content" v-model="p.operator">
+							<option v-for="o in operators(p.id)" :value="o.id">{{o.label}}</option>
+						</select>
+					</td>
+					<td class="ui-widget-content">
+						<input debounce="200" type="text" class="value ui-widget-content" v-model="p.value" @keyup.enter="search">
+					</td>
+					<td class="ui-widget-content">
+						<span @click="deleteCondition($index)" class="delete ui-icon ui-icon-minusthick" title="移除此条件"></span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

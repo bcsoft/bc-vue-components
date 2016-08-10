@@ -15,5 +15,7 @@
 }
 
 .bc-vue-toolbar > .bc-vue-search {
-	float: right
+	position: absolute;
+	top: 0.05em;
+	right: 0.05em;
 }

@@ -24,7 +24,7 @@
 		<bc-button icon-class="ui-icon-document" text="新建"></bc-button>
 		<bc-button icon-class="ui-icon-pencil" text="编辑"></bc-button>
 		<bc-button-set :active="2" @change="changeStatus" :items="[{id: 30, label: '在案'}, {id: 20, label: '注销'}, {id: 'abc', label: '全部'}]"></bc-button-set>
-		<bc-search :style="{float:'right'}" @search="search" placeholder="输入关键字" :advanced="true"></bc-search>
+		<bc-search :style="{float:'right'}" @search="search" placeholder="输入关键字" :conditions="conditions" align="right"></bc-search>
 	</bc-toolbar>
 
 	<h3>3 空</h3>

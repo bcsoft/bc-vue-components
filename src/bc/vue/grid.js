@@ -111,7 +111,7 @@ define(['jquery', 'vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/gri
 		methods: {
 			// 分页条变更页码时间
 			changePageBar: function (type, pageNo, pageSize) {
-				console.log("[grid] changePageBar: type=%s, pageNo=%d, pageSize=%d", type, pageNo, pageSize);
+				//console.log("[grid] changePageBar: type=%s, pageNo=%d, pageSize=%d", type, pageNo, pageSize);
 				this.reload();
 			},
 			// 重新加载数据
@@ -135,7 +135,7 @@ define(['jquery', 'vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/gri
 					}
 				}
 
-				console.log("[grid] reload url=%s, params=%o", this.url, params);
+				//console.log("[grid] reload url=%s, params=%s", this.url, JSON.stringify(params));
 				var vm = this;
 				$.getJSON(this.url, params).then(function (j) {
 					j.columns && vm.$set('columns', j.columns);

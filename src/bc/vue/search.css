@@ -1,0 +1,90 @@
+/*! 搜索框样式 */
+
+/* 容器 */
+.bc-vue-search {
+	position: relative;
+	display: inline-block;
+}
+
+/* 模糊搜索区 */
+.bc-vue-search > .fuzzy > div {
+	display: inline-block;
+	position: relative;
+}
+
+/* 搜索图标 */
+.bc-vue-search > .fuzzy .search {
+	position: absolute;
+	top: 50%;
+	margin-top: -8px;
+	left: 2px;
+	cursor: pointer;
+}
+
+/* 模糊搜索输入框 */
+.bc-vue-search > .fuzzy input.fuzzy {
+	box-sizing: border-box;
+	padding: .4em 18px;
+	width: 12em;
+	height: 2.5em;
+	font-family: inherit;
+	font-size: 1em;
+}
+
+/* 添加特定条件的图标 */
+.bc-vue-search > .fuzzy .add {
+	position: absolute;
+	top: 50%;
+	margin-top: -8px;
+	right: 2px;
+	cursor: pointer;
+}
+
+/* 高级搜索区 */
+.bc-vue-search > .advance {
+	position: relative;
+	margin-top: -1px;
+	background-image: none;
+	background-color: rgba(255, 255, 255, 0.8);
+	z-index: 90;
+	max-height: 18em;
+	overflow: auto;
+}
+.bc-vue-search > .advance > table{
+	border-collapse: collapse;
+	margin: 0.4em;
+	border: 0;
+}
+
+/* 单个条件 */
+.bc-vue-search .condition {
+	position: relative;
+	margin: 0.4em;
+}
+.bc-vue-search .condition > td {
+	vertical-align: middle;
+}
+.bc-vue-search .condition > td > * {
+	padding: .4em;
+	height: 2.5em;
+	font-family: inherit;
+	font-size: 1em;
+	box-sizing: border-box;
+	border-width: 0;
+}
+.bc-vue-search .condition .id {
+	min-width: 5em;
+	text-align: right;
+}
+.bc-vue-search .condition .operator {
+	width: 5.2em;
+	text-align: center;
+}
+.bc-vue-search .condition .value {
+	width: 10em;
+	text-align: left;
+}
+.bc-vue-search .condition .delete {
+	cursor: pointer;
+	height: 16px;
+}

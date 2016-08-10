@@ -25,23 +25,29 @@
 	<h2>视图</h2>
 	<div class="demo bc-ui-dialog ui-widget-header" style=" padding: 0.5em">
 		<div class="bc-page">
-			<bc-grid :class="{border: showBorder}" v-ref:grid url="/data/grid.json" :pageable="true" :condition="condition" :exportable="true" :importable="true" :auto-load="false" @export="export" @import="import">
-				<bc-toolbar slot="top">
+			<bc-grid v-ref:grid :class="{border: ui.showBorder}" url="/data/grid.json" :pageable="true" :condition="pageCondition" :exportable="true" :importable="true" :auto-load="false" @export="export" @import="import">
+				<bc-toolbar v-ref:toolbar slot="top">
 					<bc-button icon-class="ui-icon-check" @click="clickCheck" text="查看"></bc-button>
 					<bc-button icon-class="ui-icon-document" text="新建"></bc-button>
 					<bc-button icon-class="ui-icon-pencil" text="编辑"></bc-button>
 					<bc-button icon-class="ui-icon-trash" text="删除"></bc-button>
 
-					<bc-button-set :value.sync="condition.status" :items="[{id: '0', label: '在案'}, {id: '1', label: '注销', active: true}, {id: '', label: '全部'}]" @change="changeStatus"></bc-button-set>
+					<bc-button-set :value.sync="c.status" :items="[{id: '0', label: '在案'}, {id: '1', label: '注销', active: true}, {id: '', label: '全部'}]" @change="changeStatus"></bc-button-set>
 
 					<label style="margin-left: 1em">
-						<input type="checkbox" v-model="showBorder">显示边框
+						<input type="checkbox" v-model="ui.showBorder">显示边框
 					</label>
 					<label style="margin-left: 1em">
-						<input type="checkbox" v-model="quickSearch">即输即搜
+						<input type="checkbox" v-model="ui.quickSearch">即输即搜
+					</label>
+					<label style="margin-left: 1em">
+						<input type="checkbox" v-model="ui.toggleAdvance">高级搜索
 					</label>
 
-					<bc-search :quick-search="quickSearch" :value.sync="condition.searchText" @search="search" placeholder="输入关键字"></bc-search>
+					<bc-search v-ref:search align="right" :quick-search="ui.quickSearch" 
+						fuzzy-value="测试" :conditions="ui.conditions" placeholder="输入关键字"
+						@search="search" @change-condition="changeCondition">
+					</bc-search>
 				</bc-toolbar>
 			</bc-grid>
 		</div>
