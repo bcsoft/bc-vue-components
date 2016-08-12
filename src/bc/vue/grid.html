@@ -1,4 +1,4 @@
-<div class="bc-vue-grid ui-widget-content" data-rowspan="{{$refs.cols.rowspan}}">
+<div class="bc-vue-grid ui-widget-content">
 	<!-- 顶部扩展区 -->
 	<slot name="top"></slot>
 
@@ -8,12 +8,12 @@
 		</colgroup>
 		<thead>
 			<tr class="main head ui-widget-content">
-				<th rowspan="{{$refs.cols.rowspan}}" data-id="_sn" class="sn"><input type="checkbox" v-if="!singleChoice" v-model="v.selectAll" title="{{v.selectAll ? '点击全部不选择' : '点击选择全部'}}"></th>
-				<th v-for="c in columns" class="cell text" :class="c.headCellClass" :style="c.headCellStyle" data-id="{{c.id}}" colspan="{{c.children && c.children.length > 0 ? c.children.length : 1}}" rowspan="{{c.children && c.children.length > 0 ? 1 : $refs.cols.rowspan}}">{{c.label}}</th>
-				<th rowspan="{{$refs.cols.rowspan}}" data-id="_empty" class="empty"></th>
+				<th rowspan="{{headRowspan}}" data-id="_sn" class="sn"><input type="checkbox" v-if="!singleChoice" v-model="v.selectAll" title="{{v.selectAll ? '点击全部不选择' : '点击选择全部'}}"></th>
+				<th v-for="c in columns" class="cell text" :class="c.headCellClass" :style="c.headCellStyle" data-id="{{c.id}}" colspan="{{c.children && c.children.length > 0 ? c.children.length : 1}}" rowspan="{{c.children && c.children.length > 0 ? 1 : headRowspan}}">{{c.label}}</th>
+				<th rowspan="{{headRowspan}}" data-id="_empty" class="empty"></th>
 			</tr>
 			<!-- 分组的表头 -->
-			<tr class="sub head ui-widget-content" v-if="$refs.cols.rowspan > 1">
+			<tr class="sub head ui-widget-content" v-if="headRowspan > 1">
 				<template v-for="c in columns | filterBy isGroupColumn">
 					<th v-for="d in c.children" class="cell text" data-id="{{d.id}}">{{d.label}}</th>
 				</template>
@@ -26,7 +26,7 @@
 		<table class="rows" style="width:100%">
 			<colgroup is="bc-table-col" :columns="columns" :add-sn="true" :add-empty="true"></colgroup>
 			<tbody>
-				<tr class="row" v-for="r in rows" data-id="{{r.id}}" class="{{r.class}}" :class="{'ui-state-highlight': r.selected, 'ui-widget-content': true}" style="{{r.style}}">
+				<tr class="row" v-for="r in rows" data-id="{{r.id}}" class="{{r.class}}" :class="{'ui-state-highlight': r.selected, 'ui-widget-content': true}" :style="r.style">
 					<td class="sn" data-id="_sn"><span v-if="r.selected" class="ui-icon ui-icon-check"></span>{{$index + 1}}</td>
 					<template v-for="c in columns">
 						<td v-if="isGroupColumn(c)" v-for="d in c.children" class="cell text" :class="d.rowCellClass" :style="d.rowCellStyle" data-id="{{d.id}}">{{r[d.id]}}</td>

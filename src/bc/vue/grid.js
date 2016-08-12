@@ -9,8 +9,8 @@ define(['jquery', 'vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/gri
 		replace: true,
 		props: {
 			singleChoice: { type: Boolean, required: false, default: false },	// 单选|多选
-			columns: { type: Array, required: false },
-			rows: { type: Array, required: false },
+			columns: { type: Array, required: false, default: function () { return [] } },
+			rows: { type: Array, required: false, default: function () { return [] } },
 			url: { type: String, required: false },
 
 			// 搜索条件
@@ -43,6 +43,9 @@ define(['jquery', 'vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/gri
 					}
 					return ss;
 				}
+			},
+			headRowspan: function () {
+				return this.$refs.cols ? this.$refs.cols.rowspan : 1;
 			}
 		},
 		data: function () {
@@ -73,7 +76,6 @@ define(['jquery', 'vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/gri
 					$(this).removeClass("ui-state-hover");
 				},
 				"click": function () {
-					//console.log("click: rowIndex=%d, delaying=%s, cancelClick=%s, ts=%d", this.rowIndex, delaying, cancelClick, new Date().getTime());
 					if (delaying) {
 						clearTimeout(timer);
 					}
@@ -85,7 +87,6 @@ define(['jquery', 'vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/gri
 							cancelClick = false;
 							return;
 						}
-						//console.log("do click: rowIndex=%d, ts=%d", rowIndex, new Date().getTime());
 
 						// 单选模式需要将其它选中的行进行反选
 						if (vm.singleChoice) {
@@ -108,7 +109,6 @@ define(['jquery', 'vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/gri
 					}, 200);
 				},
 				"dblclick": function () {
-					//console.log("dblclick: rowIndex=%d, ts=%d", this.rowIndex, new Date().getTime());
 					cancelClick = true;
 
 					// 发布双击行事件
@@ -122,7 +122,6 @@ define(['jquery', 'vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/gri
 		methods: {
 			// 分页条变更页码时间
 			changePageBar: function (type, pageNo, pageSize) {
-				//console.log("[grid] changePageBar: type=%s, pageNo=%d, pageSize=%d", type, pageNo, pageSize);
 				this.reload();
 			},
 			// 重新加载数据

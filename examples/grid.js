@@ -1,7 +1,7 @@
 define(["vue", "bc/vue/grid"], function (Vue) {
 	"use strict";
 	$.getJSON("grid.json").then(function (j) {
-		console.log(j);
+		console.log('[example] load grid.json = %o', j);
 		return new Vue({
 			el: document.body,
 			data: {

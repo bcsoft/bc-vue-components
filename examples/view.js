@@ -29,22 +29,19 @@ define(["vue", "bc/vue/toolbar", "bc/vue/button", "bc/vue/button-set", "bc/vue/s
 		computed: {
 			// 混合视图中的各种条件：状态、搜索框
 			pageCondition: function () {
-				// 搜索组件的条件
-				var pageCondition = this.c.searchValue;
-
-				// 状态按钮组条件
-				pageCondition.push({ id: 'status', value: this.c.status, type: 'long', label: '状态' });
-
-				return JSON.stringify(pageCondition);
+				return JSON.stringify([].concat(
+					this.c.searchValue	// 搜索组件的条件
+					, { id: 'status', value: this.c.status, type: 'long', label: '状态' }) // 状态按钮组条件
+				);
 			}
 		},
 		methods: {
 			clickCheck: function () {
-				console.log("[inst] 点击查看按钮");
+				console.log("[example] 点击查看按钮");
 			},
 			// 状态按钮组改变时立即重新加载
 			changeStatus: function (status) {
-				console.log("[inst] changeStatus: status=%s", JSON.stringify(status));
+				console.log("[example] changeStatus: status=%s", JSON.stringify(status));
 				this.reload();
 			},
 			// 搜索组件的条件改变时记下条件值
@@ -62,12 +59,12 @@ define(["vue", "bc/vue/toolbar", "bc/vue/button", "bc/vue/button-set", "bc/vue/s
 				})
 			},
 			// 导出数据
-			export: function (scope) {
-				console.log("[inst] export: scope=%s", scope);
+			exportData: function (scope) {
+				console.log("[example] exportData: scope=%s", scope);
 			},
 			// 导入数据
-			import: function () {
-				console.log("[inst] import");
+			importData: function () {
+				console.log("[example] importData");
 			}
 		},
 		ready: function () {

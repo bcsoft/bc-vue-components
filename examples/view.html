@@ -25,7 +25,7 @@
 	<h2>视图</h2>
 	<div class="demo bc-ui-dialog ui-widget-header" style=" padding: 0.5em">
 		<div class="bc-page">
-			<bc-grid v-ref:grid :class="{border: ui.showBorder}" url="/data/grid.json" :pageable="true" :condition="pageCondition" :exportable="true" :importable="true" :auto-load="false" @export="export" @import="import">
+			<bc-grid v-ref:grid :class="{border: ui.showBorder}" url="/data/grid.json" :pageable="true" :condition="pageCondition" :exportable="true" :importable="true" :auto-load="false" @export="exportData" @import="importData">
 				<bc-toolbar v-ref:toolbar slot="top">
 					<bc-button icon-class="ui-icon-check" @click="clickCheck" text="查看"></bc-button>
 					<bc-button icon-class="ui-icon-document" text="新建"></bc-button>
@@ -44,7 +44,7 @@
 						<input type="checkbox" v-model="ui.toggleAdvance">高级搜索
 					</label>
 
-					<bc-search v-ref:search align="right" :quick-search="ui.quickSearch" 
+					<bc-search align="right" :quick-search="ui.quickSearch" 
 						fuzzy-value="测试" :conditions="ui.conditions" placeholder="输入关键字"
 						@search="search" @change-condition="changeCondition">
 					</bc-search>
