@@ -3,7 +3,7 @@
  * <pre>
  *   UI 使用：
  *   <bc-search [quick-search="true|false"] [fuzzy-value="xxx"] [placeholder="xxx"] 
- *              [@search="search"] [@change-condition="change"]></bc-search>
+ *              [@search="search"] [@change-value="change"]></bc-search>
  *   获取搜索框的值：var value = $bcSerach.value
  *   参数说明：
  *   <ul>
@@ -12,7 +12,7 @@
  *     <li>advanced {Boolean} [可选] 是否使用高级搜索，默认 false</li>
  *     <li>quick-search {Boolean} [可选] 是否即输即搜(输入值变化时就分发搜索事件)，默认 false (按回车键时触发)</li>
  *     <li>align {String} [可选] 高级搜索区出现时与模糊搜索区的对齐方式，left|center|right，默认 left</li>
- *     <li>conditions {Array} [可选] 高级搜索条件的配置，不配置代表无高级搜索功能，格式为：
+ *     <li>advanceConfig {Array} [可选] 高级搜索条件的配置，不配置代表无高级搜索功能，格式为：
  *           [{id, label[, type][, default][, value]}[, ...]]
  *           <ul>
  *             <li>id {String} 条件的标识符</li>
@@ -26,7 +26,7 @@
  *           1）模糊搜索时为 fuzzyValue 属性的值 (String 类型)
  *           1）有高级搜索时为 value 属性的值 (Object 类型 {id, value[, type][, label]})
  *     </li>
- *     <li>change-condition {Event} 搜索条件变动时分发的事件，事件第 1 个参数为新的搜索值，第 2 个参数为旧的搜索值</li>
+ *     <li>change-value {Event} 搜索条件变动时分发的事件，事件第 1 个参数为新的搜索值</li>
  *   </ul>
  * </pre>
  */
@@ -37,45 +37,80 @@ define(['vue', 'text!bc/vue/search.html', 'css!bc/vue/search'], function (Vue, t
 		template: template,
 		replace: true,
 		props: {
-			placeholder: { type: String, required: false, twoWay: true },
-			fuzzyValue: { type: String, required: false, twoWay: true },
-			quickSearch: { type: Boolean, required: false, default: false, twoWay: true },
-			align: { type: String, required: false, default: 'left', twoWay: true },
-			conditions: { type: Array, required: false, default: function () { return [] }, twoWay: true }
+			placeholder: { type: String, required: false },
+			align: { type: String, required: false, default: 'left' },
+			quickSearch: { type: Boolean, required: false, default: false },
+			fuzzyValue: { type: String, required: false, default: null },
+			advanceConfig: { type: Array, required: false, default: function () { return [] } },
 		},
 		data: function () {
 			return {
-				pickedConditions: []   // 用户添加的高级搜索条件
+				displayList: [],   // 用户添加的高级搜索条件
+				showAdvance: false // 高级搜索条件是否处于显示状态
 			};
 		},
-		watch: {
-			value: function (value, old) {
-				this.$dispatch("change-condition", value, old);
-				if (this.quickSearch) this.$dispatch("search", value);
+		computed: {
+			fuzzyValueObj: function () {
+				return this.fuzzyValue ? { id: FUZZY_ID, value: this.fuzzyValue } : null;
 			},
-			conditions: function (value, old) {
-				// 重置 pickedConditions
-				this.pickedConditions = [];
+			defaultDisplayList: function () {
+				var list = [];
+				for (var i = 0; i < this.advanceConfig.length; i++) {
+					if (this.advanceConfig[i].default) {
+						list.push({
+							id: this.advanceConfig[i].id,
+							value: this.advanceConfig[i].value,   // 默认值
+							operator: '='                         // 默认操作符
+						});
+					}
+				}
+				return list;
+			},
+			/** 
+			 * 搜索条件：混合模糊查询和高级查询的值
+			 * 1) 如果无高级查询，则返回 fuzzyValue 的值
+			 * 2) 如果有高级查询，则返回 fuzzyValue、advanceValue 混合后的数组值，fuzzyValue 被封装为如下结构：
+			 *    {id: '_fuzzy_', value: fuzzyValue}
+			 * @return {Array|String}
+			 */
+			valueStr: function () {
+				var vc = this.getValidConditions();
+				if (vc.length == 0) {	                // 无高级查询条件
+					return this.fuzzyValue || null;
+				} else {                              // 有高级查询
+					if (this.fuzzyValueObj) return JSON.stringify([].concat(vc, this.fuzzyValueObj));
+					else return JSON.stringify(vc);
+				}
+			},
+			value: function () {
+				var isObjStr = (typeof (this.valueStr) == "string" &&
+					(this.valueStr.indexOf("{") == 0 || this.valueStr.indexOf("[") == 0));
+				return isObjStr ? JSON.parse(this.valueStr) : this.valueStr;
 			}
 		},
-		computed: {
-			// 搜索框当前值：混合模糊查询和高级查询的值
-			value: function () {
-				var validConditions = this.getValidConditions();
-				if (this.fuzzyValue)
-					validConditions.push({ id: FUZZY_ID, value: this.fuzzyValue, type: 'string' });
-				return validConditions;
+		watch: {
+			valueStr: function (value, old) {
+				this.$dispatch("change-value", this.value);
+				if (this.quickSearch) this.$dispatch("search", this.value);
 			}
+		},
+		created: function () {
+			this.initDisplayList();
 		},
 		methods: {
-			// 发布搜索事件
-			search: function () {
-				this.$dispatch("search", this.value);
+			/** 初始化显示的条件列表 */
+			initDisplayList: function () {
+				for (var i = 0; i < this.defaultDisplayList.length; i++) {
+					this.displayList.push({
+						id: this.defaultDisplayList[i].id,
+						value: this.defaultDisplayList[i].value,   // 默认值
+						operator: '='                              // 默认操作符
+					});
+				}
 			},
-			// 获取操作符列表
+
+			/** 获取条件的可用操作符列表 */
 			operators: function (id) {
-				// console.log("[search] operators");
-				var cfg = this.getConditionConfig(id);
 				var operators = [
 					{ id: '=', label: '等于' },
 					{ id: '>', label: '大于' },
@@ -84,63 +119,80 @@ define(['vue', 'text!bc/vue/search.html', 'css!bc/vue/search'], function (Vue, t
 					{ id: '<=', label: '不大于' },
 					{ id: '>=', label: '不小于' }
 				];
-				if (!cfg.type || cfg.type == 'string') {
+				var cfg = this.getConditionConfig(id);
+				// console.log("[search] operators cfg=%s", JSON.stringify(cfg));
+				if (!cfg || !cfg.type || cfg.type == 'string') {
 					operators.push({ id: '@', label: '包含' });
 				}
 				return operators;
 			},
-			// 添加新条件
+
+			/** 添加新条件 */
 			addCondition: function () {
-				var c = 0;
-				if (this.pickedConditions.length == 0) {
-					// 默认条件立即显示
-					for (var i = 0; i < this.conditions.length; i++) {
-						if (this.conditions[i].default) {
-							this.pickedConditions.push({
-								id: this.conditions[i].id,
-								value: this.conditions[i].value,   // 默认值
-								operator: '='                      // 默认操作符
-							});
-							c++;
-						}
-					}
+				if (this.showAdvance) {
+					this.displayList.push({ operator: '=' });
+				} else {
+					this.showAdvance = true;
 				}
-
-				// 没有默认条件或已被用户清空则新建一个
-				if (c == 0) this.pickedConditions.push({ operator: '=' });
-
-				console.log("[search] addCondition: " + JSON.stringify(this.pickedConditions));
 			},
-			// 删除条件
+
+			/** 删除条件 */
 			deleteCondition: function (index) {
-				this.pickedConditions.splice(index, 1);
+				this.displayList.splice(index, 1);
+				if (!this.displayList.length) {
+					this.showAdvance = false;
+					this.initDisplayList();
+				}
 			},
-			// 获取有效配置的特殊条件
+
+			/** 发布搜索事件 */
+			search: function () {
+				this.$dispatch("search", this.value);
+			},
+
+			/** 获取有效配置的特殊条件 */
 			getValidConditions: function () {
-				var validConditions = [];
-				for (var i = 0; i < this.pickedConditions.length; i++) {
-					if (this.pickedConditions[i].value !== undefined
-						&& this.pickedConditions[i].value !== '') {
-						var cfg = this.getConditionConfig(this.pickedConditions[i].id);
-						validConditions.push({
-							id: this.pickedConditions[i].id,              // 键
-							value: this.pickedConditions[i].value,        // 值
-							type: cfg.type || 'string',                   // 类型
-							operator: this.pickedConditions[i].operator,  // 操作符
+				if (!this.showAdvance) return [];
+				var vc = [];
+				var d;
+				for (var i = 0; i < this.displayList.length; i++) {
+					d = this.displayList[i];
+					if (d.id && d.operator && d.value) {
+						var cfg = this.getConditionConfig(d.id);
+						vc.push({
+							id: d.id,                    // 键
+							value: d.value,              // 值
+							type: cfg.type || 'string',  // 类型
+							operator: d.operator,        // 操作符
 							label: cfg.label
 						});
 					}
 				}
-				return validConditions;
+				return vc;
 			},
-			// 获取条件的配置信息
+
+			/** 获取条件的配置信息 */
 			getConditionConfig: function (id) {
-				for (var i = 0; i < this.conditions.length; i++) {
-					if (this.conditions[i].id == id) {
-						return this.conditions[i];
-					}
-				}
+				for (var i = 0; i < this.advanceConfig.length; i++)
+					if (this.advanceConfig[i].id == id) return this.advanceConfig[i];
 				return null;
+			},
+
+			/** 内部控件的条件变动事件 
+			 * @param type {String} 变动类型：
+			 *        type='id'：用户改变了条件的表示符
+			 *        type='operator'：用户改变了条件的操作符
+			 *        type='value'：用户改变了条件的输入值
+			 * @param condition {Object} 条件
+			 */
+			changeCondition: function (type, condition) {
+				if (type == 'id') {
+					condition.value = null;  // 切换条件就清空值
+				} else if (type == 'operator') {
+
+				} else if (type == 'value') {
+
+				}
 			}
 		}
 	});

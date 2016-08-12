@@ -1,6 +1,6 @@
 define(["vue", "bc/vue/search"], function (Vue) {
 	"use strict";
-	var defaultConditions = [
+	var defaultAdvanceConfig = [
 		{ id: 'str', label: '文本' },
 		{ id: 'date', type: 'date', label: '日期', default: true, value: '111' },
 		{ id: 'num', type: 'number', label: '数字' },
@@ -12,19 +12,19 @@ define(["vue", "bc/vue/search"], function (Vue) {
 			toggleAdvance: true,
 			quickSearch: false,
 			align: 'left',
-			conditions: defaultConditions,
+			advanceConfig: defaultAdvanceConfig,
 		},
 		watch: {
 			toggleAdvance: function (value, old) {
-				this.conditions = value ? defaultConditions : null;
+				this.conditions = value ? defaultAdvanceConfig : null;
 			}
 		},
 		methods: {
-			change: function (value) {
-				console.log("searchExample change-condition value=%s", JSON.stringify(value));
+			changeCondition: function (value) {
+				console.log("[example] change-condition value=%s", typeof value == "object" ? JSON.stringify(value) : value);
 			},
 			search: function (value) {
-				console.log("searchExample search value=%s", JSON.stringify(value));
+				console.log("[example] search value=%s", typeof value == "object" ? JSON.stringify(value) : value);
 			}
 		}
 	});

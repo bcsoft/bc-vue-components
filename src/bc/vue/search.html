@@ -3,25 +3,25 @@
 		<div>
 			<span @click="search" class="search ui-icon ui-icon-search" title="执行查询"></span>
 			<input debounce="200" @keyup.enter="search" type="text" v-model="fuzzyValue" class="fuzzy ui-widget-content" :placeholder="placeholder">
-			<span v-if="conditions.length > 0" @click="addCondition" class="add ui-icon ui-icon-plusthick" title="添加特定条件"></span>
+			<span v-if="advanceConfig.length > 0" @click="addCondition" class="add ui-icon ui-icon-plusthick" title="添加特定条件"></span>
 		</div>
 	</div>
-	<div class="advance ui-widget-content" v-if="pickedConditions.length > 0">
+	<div class="advance ui-widget-content" v-if="showAdvance">
 		<table cellspacing="0" cellpadding="0">
 			<tbody>
-				<tr v-for="p in pickedConditions" class="condition">
+				<tr v-for="c in displayList" class="condition">
 					<td class="ui-widget-content">
-						<select class="id ui-widget-content" v-model="p.id" @change="p.value = ''">
-							<option v-for="c in conditions" :value="c.id">{{c.label}}</option>
+						<select class="id ui-widget-content" v-model="c.id" @change="changeCondition('id', c)">
+							<option v-for="cfg in advanceConfig" :value="cfg.id">{{cfg.label}}</option>
 						</select>
 					</td>
 					<td class="ui-widget-content">
-						<select class="operator ui-widget-content" v-model="p.operator">
-							<option v-for="o in operators(p.id)" :value="o.id">{{o.label}}</option>
+						<select class="operator ui-widget-content" v-model="c.operator" @change="changeCondition('operator', c)">
+							<option v-for="o in operators(c.id)" :value="o.id">{{o.label}}</option>
 						</select>
 					</td>
 					<td class="ui-widget-content">
-						<input debounce="200" type="text" class="value ui-widget-content" v-model="p.value" @keyup.enter="search">
+						<input debounce="200" type="text" class="value ui-widget-content" v-model="c.value" @keyup.enter="search" @change="changeCondition('value', c)">
 					</td>
 					<td class="ui-widget-content">
 						<span @click="deleteCondition($index)" class="delete ui-icon ui-icon-minusthick" title="移除此条件"></span>
