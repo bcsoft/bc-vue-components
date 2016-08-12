@@ -5,13 +5,13 @@ define(["vue", "bc/vue/page-bar"], function (Vue) {
 		data: {},
 		ready: function () {
 			this.$on("change", function (type, pageNo, pageSize) {
-				console.log("change: type=%s, pageNo=%d, pageSize=%d", type, pageNo, pageSize);
+				console.log("[example] change: type=%s, pageNo=%d, pageSize=%d", type, pageNo, pageSize);
 			});
 			this.$on("export", function (scope) {
-				console.log("export: scope=%s", scope);
+				console.log("[example] export: scope=%s", scope);
 			});
 			this.$on("import", function () {
-				console.log("import");
+				console.log("[example] import");
 			});
 		}
 	});

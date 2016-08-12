@@ -7,29 +7,28 @@ define(['jquery', 'vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/gri
 	return Vue.component("bc-grid", {
 		template: template,
 		replace: true,
-		components: {},
 		props: {
-			singleChoice: { type: Boolean, required: false, default: false, twoWay: true },	// 单选|多选
-			columns: { type: Array, required: false, twoWay: true },
-			rows: { type: Array, required: false, twoWay: true },
-			url: { type: String, required: false, twoWay: true },
+			singleChoice: { type: Boolean, required: false, default: false },	// 单选|多选
+			columns: { type: Array, required: false },
+			rows: { type: Array, required: false },
+			url: { type: String, required: false },
 
 			// 搜索条件
-			condition: { required: false, twoWay: true },
+			condition: { required: false },
 
 			// 分页条的参数
-			showPageBar: { type: Boolean, required: false, default: true, twoWay: true },  // 是否显示分页条
-			pageable: { type: Boolean, required: false, default: false, twoWay: true },    // 可分页
-			pageNo: { type: Number, required: false, default: 1, twoWay: true },           // 当前页码
-			pageSize: { type: Number, required: false, default: DEFAULT_PAGE_SIZES[0], twoWay: true },  // 当前页容量
-			pageSizes: { type: Array, required: false, default: DEFAULT_PAGE_SIZES, twoWay: true },     // 可选页容量
-			count: { type: Number, required: false, default: 0, twoWay: true },            // 总条目数
+			showPageBar: { type: Boolean, required: false, default: true },  // 是否显示分页条
+			pageable: { type: Boolean, required: false, default: false },    // 可分页
+			pageNo: { type: Number, required: false, default: 1 },           // 当前页码
+			pageSize: { type: Number, required: false, default: DEFAULT_PAGE_SIZES[0] },  // 当前页容量
+			pageSizes: { type: Array, required: false, default: function () { return DEFAULT_PAGE_SIZES } },     // 可选页容量
+			count: { type: Number, required: false, default: 0 },            // 总条目数
 
-			refreshable: { type: Boolean, required: false, default: true, twoWay: true },  // 刷新
-			exportable: { type: Boolean, required: false, default: false, twoWay: true },  // 导出
-			importable: { type: Boolean, required: false, default: false, twoWay: true },  // 导入
+			refreshable: { type: Boolean, required: false, default: true },  // 刷新
+			exportable: { type: Boolean, required: false, default: false },  // 导出
+			importable: { type: Boolean, required: false, default: false },  // 导入
 
-			autoLoad: { type: Boolean, required: false, default: true, twoWay: true }   // 是否自动加载 url
+			autoLoad: { type: Boolean, required: false, default: true }   // 是否自动加载 url
 		},
 		computed: {
 			selection: function () {
@@ -48,6 +47,18 @@ define(['jquery', 'vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/gri
 		},
 		data: function () {
 			return { v: { scrollLeft: 0, loading: false, selectAll: false } };
+		},
+		watch: {
+			"v.selectAll": function (value, old) {
+				var vm = this;
+				this.rows.forEach(function (row, index) {
+					if (row.hasOwnProperty("selected")) {
+						row.selected = value;
+					} else {
+						vm.$set("rows[" + index + "].selected", value);
+					}
+				});
+			}
 		},
 		ready: function () {
 			// 监听行事件
@@ -162,18 +173,6 @@ define(['jquery', 'vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/gri
 			},
 			isGroupColumn: function (column) {
 				return !!(column.children && column.children.length);
-			}
-		},
-		watch: {
-			"v.selectAll": function (value, old) {
-				var vm = this;
-				this.rows.forEach(function (row, index) {
-					if (row.hasOwnProperty("selected")) {
-						row.selected = value;
-					} else {
-						vm.$set("rows[" + index + "].selected", value);
-					}
-				});
 			}
 		}
 	});

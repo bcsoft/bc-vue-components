@@ -29,15 +29,15 @@ define(['jquery', 'vue', 'text!bc/vue/page-bar.html', 'css!bc/vue/page-bar'], fu
 		template: template,
 		replace: true,
 		props: {
-			pageable: { type: Boolean, required: false, default: false, twoWay: true },		// 可分页
-			pageNo: { type: Number, required: false, default: 1, twoWay: true },			// 当前页码
-			pageSize: { type: Number, required: false, default: DEFAULT_PAGE_SIZES[0], twoWay: true },	// 当前页容量
-			pageSizes: { type: Array, required: false, default: DEFAULT_PAGE_SIZES, twoWay: true },	// 可选页容量
-			count: { type: Number, required: false, default: 0, twoWay: true },				// 总条目数
+			pageable: { type: Boolean, required: false, default: false },		// 可分页
+			pageNo: { type: Number, required: false, default: 1 },			// 当前页码
+			pageSize: { type: Number, required: false, default: DEFAULT_PAGE_SIZES[0] },	// 当前页容量
+			pageSizes: { type: Array, required: false, default: function () { return DEFAULT_PAGE_SIZES } },	// 可选页容量
+			count: { type: Number, required: false, default: 0 },				// 总条目数
 
-			refreshable: { type: Boolean, required: false, default: true, twoWay: true },	// 刷新
-			exportable: { type: Boolean, required: false, default: false, twoWay: true },	// 导出
-			importable: { type: Boolean, required: false, default: false, twoWay: true }	// 导入
+			refreshable: { type: Boolean, required: false, default: true },	// 刷新
+			exportable: { type: Boolean, required: false, default: false },	// 导出
+			importable: { type: Boolean, required: false, default: false }	// 导入
 		},
 		data: function () {
 			return { pageCount: Math.ceil(this.count / this.pageSize) };	// 页码数
@@ -68,14 +68,14 @@ define(['jquery', 'vue', 'text!bc/vue/page-bar.html', 'css!bc/vue/page-bar'], fu
 			toPage: function (pageNo) {
 				pageNo = Math.max(1, pageNo); // 最小为第一页
 				if (pageNo == this.pageNo) return;
-				console.log('[PageBar] toPage: new=%s, old=%s', pageNo, this.pageNo);
+				// console.log('[PageBar] toPage: new=%s, old=%s', pageNo, this.pageNo);
 				this.pageNo = pageNo;
 				this.$dispatch('change', 'changePageNo', this.pageNo, this.pageSize);
 			},
 			/** 改变 pageSize */
 			changePageSize: function (pageSize) {
 				if (pageSize == this.pageSize) return;
-				console.log('[PageBar] changePageSize: new=%s, old=%s', pageSize, this.pageSize);
+				// console.log('[PageBar] changePageSize: new=%s, old=%s', pageSize, this.pageSize);
 				this.pageNo = this.pageNo < 2 ? this.pageNo : Math.floor(((this.pageNo - 1) * this.pageSize / pageSize + 1));
 				this.pageSize = pageSize;
 				this.pageCount = Math.ceil(this.count / this.pageSize);

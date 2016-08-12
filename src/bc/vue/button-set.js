@@ -27,12 +27,9 @@ define(['jquery', 'vue'], function ($, Vue) {
 		'</div>',
 		replace: true,
 		props: {
-			items: { type: Array, required: true, twoWay: true },     // 可选列表
-			value: { required: false, default: null, twoWay: true }   // 当前值
+			items: { type: Array, required: true },     // 可选列表
+			value: { required: false, default: null }   // 当前值
 		},
-		// data: function () {
-		// 	return {};
-		// },
 		created: function () {
 			if (this.value === null) { // 未设置就从列表中取 active=true 项的 id 值
 				for (var i = 0; i < this.items.length; i++) {
@@ -41,15 +38,10 @@ define(['jquery', 'vue'], function ($, Vue) {
 						break;
 					}
 				}
-
-				// 默认为列表中第一项的值
-				//if (this.value === null) this.value = (this.items[0].id || this.items[0]);
 			}
-			console.log("[button-set] created value=%s", this.value);
 		},
 		watch: {
 			value: function (value, old) {
-				console.log("[button-set] change new=%s, old=%s", value, old);
 				this.$dispatch("change", value, old);
 			}
 		},

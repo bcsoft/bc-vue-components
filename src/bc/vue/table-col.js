@@ -41,11 +41,9 @@ define(['vue'], function (Vue) {
 		'<colgroup v-if="addEmpty" data-id="_empty" style="width:auto;min-width:1em;"></colgroup>',
 		replace: true,
 		props: {
-			columns: { type: Array, required: true, twoWay: true },
-			addSn: { type: Boolean, required: false, default: false, twoWay: false },
-			addEmpty: { type: Boolean, required: false, default: false, twoWay: false }
-		},
-		created: function () {
+			columns: { type: Array, required: true },
+			addSn: { type: Boolean, required: false, default: false },
+			addEmpty: { type: Boolean, required: false, default: false }
 		},
 		computed: {
 			rowspan: function () {
@@ -56,11 +54,8 @@ define(['vue'], function (Vue) {
 						break;
 					}
 				}
-				//console.log("[Table-Col] computed rowspan=%d", rowspan);
 				return rowspan;// 简单表头
 			}
-		},
-		ready: function () {
 		}
 	});
 });

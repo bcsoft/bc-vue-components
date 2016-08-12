@@ -27,11 +27,11 @@ define(['vue', 'css!bc/vue/loading'], function (Vue) {
 		'</div>',
 		replace: true,
 		props: {
-			size: { type: String, required: false, default: "4.5em", twoWay: true },
-			speed: { type: String, required: false, default: "1s", twoWay: true },
-			maskable: { type: Boolean, required: false, default: true, twoWay: true },
-			countable: { type: Boolean, required: false, default: false, twoWay: true },
-			transparent: { type: Boolean, required: false, default: true, twoWay: true }
+			size: { type: String, required: false, default: "4.5em" },
+			speed: { type: String, required: false, default: "1s" },
+			maskable: { type: Boolean, required: false, default: true },
+			countable: { type: Boolean, required: false, default: false },
+			transparent: { type: Boolean, required: false, default: true }
 		},
 		data: function () {
 			return { counter: 0, minutes: 0, seconds: 0 };

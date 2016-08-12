@@ -22,8 +22,8 @@
 
 	<h3>可调整 - 大小=
 		<input type="number" " min="0 " step="0.5 " v-model="size " style="width:3em ">{{unit}}、旋转速度=<input type="number "" min="0" step="100" v-model="speed" style="width:4em">ms、
-		<input type="checkbox" v-model="maskable">显示蒙罩
-		<input type="checkbox" v-model="countable">显示计时
+		<label><input type="checkbox" v-model="maskable">显示蒙罩</label>
+		<label><input type="checkbox" v-model="countable">显示计时</label>
 		<input type="button" @click="$refs.loading2.reset()" value="重置计时器"></h3>
 	<div class="content-container ui-widget-content" style="width: 10em;height: 6em;">
 		ui-widget-content<br>底部文字底部文字底部文字底部文字底部文字底部文字底部文字

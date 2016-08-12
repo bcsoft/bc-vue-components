@@ -20,8 +20,8 @@ define(['jquery', 'vue'], function ($, Vue) {
 		'</button>',
 		replace: true,
 		props: {
-			text: { type: String, required: false, default: "　", twoWay: true },
-			iconClass: { type: String, required: false, twoWay: true }
+			text: { type: String, required: false, default: "　" },
+			iconClass: { type: String, required: false }
 		},
 		computed: {
 			btnClass: function () {
