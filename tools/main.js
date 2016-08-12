@@ -10,7 +10,7 @@ require.config({
     "normalize": '../bower_components/require-css/normalize',
 
     // vue: http://vuejs.org
-    "vue": "../bower_components/vue/dist/vue.min",
+    "vue": "../bower_components/vue/dist/vue",
 
     // jquery and plugins
     "jquery": "../bower_components/jquery/jquery.min",
