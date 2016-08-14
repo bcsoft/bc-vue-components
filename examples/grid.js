@@ -18,8 +18,8 @@ define(["vue", "bc/vue/grid"], function (Vue) {
 				dblclickRow: function (row, index) {
 					console.log("dblclickRow: index=%d, row=%s", index, JSON.stringify(row));
 				},
-				search: function (text) {
-					console.log("search: text=%s", text);
+				search: function () {
+					console.log("search: text=%s", this.searchText);
 					this.$refs.grid.reload();
 				}
 			}

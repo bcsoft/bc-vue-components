@@ -8,7 +8,7 @@
 		</colgroup>
 		<thead>
 			<tr class="main head ui-widget-content">
-				<th rowspan="{{headRowspan}}" data-id="_sn" class="sn"><input type="checkbox" v-if="!singleChoice" v-model="v.selectAll" title="{{v.selectAll ? '点击全部不选择' : '点击选择全部'}}"></th>
+				<th rowspan="{{headRowspan}}" data-id="_sn" class="sn"><input type="checkbox" v-if="!singleChoice" v-model="v.selectAll" title="{{v.selectAll ? '点击全部不选择' : '点击选择全部'}}" @change.stop></th>
 				<th v-for="c in columns" class="cell text" :class="c.headCellClass" :style="c.headCellStyle" data-id="{{c.id}}" colspan="{{c.children && c.children.length > 0 ? c.children.length : 1}}" rowspan="{{c.children && c.children.length > 0 ? 1 : headRowspan}}">{{c.label}}</th>
 				<th rowspan="{{headRowspan}}" data-id="_empty" class="empty"></th>
 			</tr>

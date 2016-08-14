@@ -1,9 +1,9 @@
 <div class="bc-vue-search">
 	<div class="fuzzy" :style="{'text-align': align}">
 		<div>
-			<span @click="search" class="search ui-icon ui-icon-search" title="执行查询"></span>
-			<input debounce="200" @keyup.enter="search" type="text" v-model="fuzzyValue" class="fuzzy ui-widget-content" :placeholder="placeholder">
-			<span v-if="advanceConfig.length > 0" @click="addCondition" class="add ui-icon ui-icon-plusthick" title="添加特定条件"></span>
+			<span @click.stop="search" class="search ui-icon ui-icon-search" title="执行查询"></span>
+			<input debounce="200" @keyup.enter.stop="search" type="text" v-model="fuzzyValue" class="fuzzy ui-widget-content" :placeholder="placeholder" @change.stop>
+			<span v-if="advance && advance.length" @click.stop="addCondition" class="add ui-icon ui-icon-plusthick" title="添加特定条件"></span>
 		</div>
 	</div>
 	<div class="advance ui-widget-content" v-if="showAdvance">
@@ -11,20 +11,20 @@
 			<tbody>
 				<tr v-for="c in displayList" class="condition">
 					<td class="ui-widget-content">
-						<select class="id ui-widget-content" v-model="c.id" @change="changeCondition('id', c)">
-							<option v-for="cfg in advanceConfig" :value="cfg.id">{{cfg.label}}</option>
+						<select class="id ui-widget-content" v-model="c.id" @change.stop="editCondition('id', c)">
+							<option v-for="cfg in advance" :value="cfg.id">{{cfg.label}}</option>
 						</select>
 					</td>
 					<td class="ui-widget-content">
-						<select class="operator ui-widget-content" v-model="c.operator" @change="changeCondition('operator', c)">
+						<select class="operator ui-widget-content" v-model="c.operator" @change.stop="editCondition('operator', c)">
 							<option v-for="o in operators(c.id)" :value="o.id">{{o.label}}</option>
 						</select>
 					</td>
 					<td class="ui-widget-content">
-						<input debounce="200" type="text" class="value ui-widget-content" v-model="c.value" @keyup.enter="search" @change="changeCondition('value', c)">
+						<input debounce="200" type="text" class="value ui-widget-content" v-model="c.value" @keyup.enter.stop="search" @change.stop="editCondition('value', c)">
 					</td>
 					<td class="ui-widget-content">
-						<span @click="deleteCondition($index)" class="delete ui-icon ui-icon-minusthick" title="移除此条件"></span>
+						<span @click.stop="deleteCondition($index)" class="delete ui-icon ui-icon-minusthick" title="移除此条件"></span>
 					</td>
 				</tr>
 			</tbody>

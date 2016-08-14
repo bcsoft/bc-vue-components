@@ -13,8 +13,8 @@ define(['jquery', 'vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/gri
 			rows: { type: Array, required: false, default: function () { return [] } },
 			url: { type: String, required: false },
 
-			// 搜索条件
-			condition: { required: false },
+			// 附加的查询条件
+			query: { required: false },
 
 			// 分页条的参数
 			showPageBar: { type: Boolean, required: false, default: true },  // 是否显示分页条
@@ -137,11 +137,13 @@ define(['jquery', 'vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/gri
 				};
 
 				// 附加搜索条件
-				if (this.condition) {
-					if (typeof this.condition == "object") {
-						Object.assign(params, this.condition);
-					} else if (typeof this.condition == "string") {
-						params.condition = this.condition;
+				if (this.query) {
+					if (Array.isArray(this.query)) {               // 数组
+						params.query = JSON.stringify(this.query);
+					} else if (typeof this.query == "object") {    // json 对象
+						Object.assign(params, this.query);
+					} else if (typeof this.query == "string") {    // 字符
+						params.query = this.query;
 					}
 				}
 

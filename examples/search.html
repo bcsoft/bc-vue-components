@@ -9,20 +9,20 @@
 <body>
 	<bc-theme></bc-theme>
 	<h2>bc/vue/search - 搜索组件</h2>
-	<label><input type="checkbox" v-model="quickSearch"> 即输即搜 (默认为按回车键方触发搜索)</label>
+	<label><input type="checkbox" v-model="quick"> 即输即搜 (默认为按回车键方触发搜索)</label>
 	<h3>1) 简单搜索</h3>
 	<div>
-		<bc-search :quick-search="quickSearch" @search="search" @change-value="changeCondition" placeholder="输入关键字"></bc-search>
-		<bc-search :quick-search="quickSearch" @search="search" @change-value="changeCondition" fuzzy-value="测试"></bc-search>
+		<bc-search :quick="quick" @search="search" @change="change" :value.sync="value"></bc-search>
+		<bc-search :quick="quick" @search="search" @change="change" value="测试" placeholder="输入关键字"></bc-search>
 	</div>
 
 	<h3>2) 高级搜索</h3>
 		<h4><label>启用高级搜索：<input type="checkbox" v-model="toggleAdvance"></label><h4>
-		<h4>高级搜索框水平对齐方式：<label><input type="radio" v-model="align" value="left"> 左</label>
-		                      <label><input type="radio" v-model="align" value="center"> 中</label>
-		                      <label><input type="radio" v-model="align" value="right"> 右</label></h4>
+		<h4>高级搜索框水平对齐方式：<label><input type="radio" v-model="align" value="left">左</label>
+		                        <label><input type="radio" v-model="align" value="center">中</label>
+		                        <label><input type="radio" v-model="align" value="right">右</label></h4>
 	<div>
-		<bc-search @change-value="changeCondition" @search="search" :align="align" :quick-search="quickSearch" :advance-config="advanceConfig"></bc-search>
+		<bc-search :quick="quick" @search="search" @change="change" :value.sync="value" :advance="advance" :align="align" ></bc-search>
 	</div>
 
 	<script>

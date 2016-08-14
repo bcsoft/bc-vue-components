@@ -10,9 +10,10 @@ define(["vue", "bc/vue/search"], function (Vue) {
 		el: document.body,
 		data: {
 			toggleAdvance: true,
-			quickSearch: false,
+			quick: false,
 			align: 'left',
-			advanceConfig: defaultAdvanceConfig,
+			advance: defaultAdvanceConfig,
+			value: null
 		},
 		watch: {
 			toggleAdvance: function (value, old) {
@@ -20,11 +21,11 @@ define(["vue", "bc/vue/search"], function (Vue) {
 			}
 		},
 		methods: {
-			changeCondition: function (value) {
-				console.log("[example] change-condition value=%s", typeof value == "object" ? JSON.stringify(value) : value);
-			},
 			search: function (value) {
 				console.log("[example] search value=%s", typeof value == "object" ? JSON.stringify(value) : value);
+			},
+			change: function(value){
+				console.log("[example] change args=%s", JSON.stringify(value));
 			}
 		}
 	});
