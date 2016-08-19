@@ -19,10 +19,10 @@ define(['jquery', 'vue'], function ($, Vue) {
 	'use strict';
 	return Vue.component('bc-button-set', {
 		template: '<div class="bc-vue-button-set ui-buttonset" style="display:inline-block">' +
-		'<div v-for="i in items" data-id="{{i.hasOwnProperty(\'id\') ? i.id : $index}}" class="ui-button ui-widget ui-state-default ui-button-text-only" style="font-family:inherit"' +
+		'<div v-for="i in items" data-id="{{i.hasOwnProperty(\'id\') ? i.id : $index}}" class="ui-button ui-widget ui-state-default ui-button-text-only" style="font-family:inherit;font-size:1em"' +
 		' :class="{\'ui-corner-left\': $index == 0, \'ui-corner-right\': $index == items.length - 1, \'ui-state-active\': isActive(i)}"' +
 		' :style="{\'margin-right\': \'-1px\', \'z-index\': value == i.id ? items.length : 0}">' +
-		'<span class="ui-button-text" @click="clickItem(i, $index)">{{i.label || i}}</span>' +
+		'<span style="font-size: 1em" class="ui-button-text" @click="clickItem(i, $index)">{{i.label || i}}</span>' +
 		'</div>' +
 		'</div>',
 		replace: true,

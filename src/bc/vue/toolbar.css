@@ -3,7 +3,7 @@
 .bc-vue-toolbar {
 	position: relative;
 	padding: 0;
-	min-height: 2em;
+	min-height: 2.2em;
 	word-spacing: -0.4em;
 	font-weight: normal;
 }
@@ -11,11 +11,17 @@
 .bc-vue-toolbar > * {
 	word-spacing: normal;
 	font-family: inherit;
+	font-size: 1em;
 	margin: 0.2em;
 }
 
 .bc-vue-toolbar > .bc-vue-search {
 	position: absolute;
 	top: 0.05em;
-	right: 0.05em;
+	right: 0.06em;
+}
+
+.bc-vue-toolbar > .bc-vue-search:first-child {
+	position: relative;
+	margin-left: 0.3em;
 }

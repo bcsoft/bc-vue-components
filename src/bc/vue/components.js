@@ -1,6 +1,6 @@
 /*! BC 平台的 vue 组件
  * @author dragon <rongjihuang@gmail.com>
- * @version v0.2.0-SNAPSHOT 2016-08-15
+ * @version v0.2.1-SNAPSHOT
  * @license Apache License 2.0
  * @components bc-theme
  *             bc-button
@@ -11,6 +11,7 @@
  *             bc-page-bar
  *             bc-loading
  *             bc-grid
+ * @history v0.2.0 2016-08-15
  * @history v0.1.0 2016-07-08
  */
 define(["bc/vue/theme", "bc/vue/button", "bc/vue/button-set", "bc/vue/search"
