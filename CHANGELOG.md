@@ -1,5 +1,8 @@
 # BC 平台的 vue 组件发布历史
 
+## 0.2.1 - 2016-08-19 
+- bc-toolbar|button|search 组件样式优化
+
 ## 0.2.0 - 2016-08-15 
 - [new] bc-search 组件增加高级搜索功能
 - [new] bc-grid 组件的 condition 属性更名为 query
