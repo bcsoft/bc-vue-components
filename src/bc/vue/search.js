@@ -179,7 +179,7 @@ define(['vue', 'text!bc/vue/search.html', 'css!bc/vue/search'], function (Vue, t
 			/** 添加新条件 */
 			addCondition: function () {
 				if (this.showAdvance) {  // 添加一个新的条件
-					this.displayList.push({ operator: '=' });
+					this.displayList.push({ id: null, operator: '=', value: null });
 				} else {                 // 初次显示时，列出默认要显示的条件
 					this.initDisplayList();
 					this.showAdvance = true;
@@ -202,7 +202,7 @@ define(['vue', 'text!bc/vue/search.html', 'css!bc/vue/search'], function (Vue, t
 			},
 			/** 内部控件的条件变动事件 
 			 * @param type {String} 变动类型：
-			 *        type='id'：用户改变了条件的表示符
+			 *        type='id'：用户改变了条件的标识符
 			 *        type='operator'：用户改变了条件的操作符
 			 *        type='value'：用户改变了条件的输入值
 			 * @param condition {Object} 条件
