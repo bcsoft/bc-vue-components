@@ -648,10 +648,8 @@ define("bc/vue/theme", [ "jquery", "vue" ], function($, Vue) {
             reload: function() {
                 if (this.url) {
                     this.v.loading = !0;
-                    var params = {
-                        pageNo: this.pageNo,
-                        pageSize: this.pageSize
-                    };
+                    var params = {};
+                    this.pageable && (params.pageNo = this.pageNo, params.pageSize = this.pageSize), 
                     this.query && (Array.isArray(this.query) ? params.query = JSON.stringify(this.query) : "object" == typeof this.query ? Object.assign(params, this.query) : "string" == typeof this.query && (params.query = this.query));
                     var vm = this;
                     $.getJSON(this.url, params).then(function(j) {
@@ -661,7 +659,9 @@ define("bc/vue/theme", [ "jquery", "vue" ], function($, Vue) {
                         j.hasOwnProperty("exportable") && vm.$set("exportable", j.exportable), j.hasOwnProperty("importable") && vm.$set("importable", j.importable)), 
                         j.hasOwnProperty("singleChoice") && vm.$set("singleChoice", j.singleChoice);
                     }, function(error) {
-                        console.log("[grid] reload error: url=%s, error=%o", vm.url, error), alert("[grid] 数据加载失败！");
+                        console.log("[grid] reload error: url=%s, error=%o", vm.url, error);
+                        var msg = error.responseText || "[grid] 数据加载失败！";
+                        bc.msg ? bc.msg.alert(msg) : alert(msg);
                     }).always(function() {
                         vm.v.loading = !1;
                     });

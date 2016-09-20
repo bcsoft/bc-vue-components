@@ -167,7 +167,9 @@ define(['jquery', 'vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/gri
 					j.hasOwnProperty("singleChoice") && vm.$set('singleChoice', j.singleChoice);
 				}, function (error) {
 					console.log("[grid] reload error: url=%s, error=%o", vm.url, error);
-					alert("[grid] 数据加载失败！");
+					var msg = error.responseText || "[grid] 数据加载失败！";
+					if(bc.msg) bc.msg.alert(msg);
+					else alert(msg);
 				}).always(function () {
 					// 隐藏动画加载器
 					vm.v.loading = false;
