@@ -3,7 +3,9 @@
  */
 define(['jquery', 'vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/grid.html', 'css!bc/vue/grid', 'bc/vue/loading'], function ($, Vue, tableCol, pageBar, template) {
 	"use strict";
+	var exportForm;
 	var DEFAULT_PAGE_SIZES = [25, 50, 100];
+
 	return Vue.component("bc-grid", {
 		template: template,
 		replace: true,
@@ -28,6 +30,7 @@ define(['jquery', 'vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/gri
 			exportable: { type: Boolean, required: false, default: false },  // 导出
 			importable: { type: Boolean, required: false, default: false },  // 导入
 
+			cellFilter: { type: Function, required: false },  // 单元格值的过滤函数，用于格式化单元格的值
 			autoLoad: { type: Boolean, required: false, default: true }   // 是否自动加载 url
 		},
 		computed: {
@@ -132,7 +135,7 @@ define(['jquery', 'vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/gri
 				this.v.loading = true;
 
 				var params = {};
-				if (this.pageable){
+				if (this.pageable) {
 					params.pageNo = this.pageNo;
 					params.pageSize = this.pageSize;
 				}
@@ -168,7 +171,7 @@ define(['jquery', 'vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/gri
 				}, function (error) {
 					console.log("[grid] reload error: url=%s, error=%o", vm.url, error);
 					var msg = error.responseText || "[grid] 数据加载失败！";
-					if(bc.msg) bc.msg.alert(msg);
+					if (bc.msg) bc.msg.alert(msg);
 					else alert(msg);
 				}).always(function () {
 					// 隐藏动画加载器
@@ -177,6 +180,24 @@ define(['jquery', 'vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/gri
 			},
 			isGroupColumn: function (column) {
 				return !!(column.children && column.children.length);
+			},
+			/** 单元格值的格式化 */
+			rowCellFilter: function (value, column) {
+				//console.log("value=%s, column=%s", value, column.id);
+				if (!column.filter) return value;
+				var cfg = column.filter.split(" ");
+				var filter = Vue.filter(cfg[0]); 	// 过滤器ID
+				if (!filter) console.error("filter '%s' not found (column=%s)", cfg[0], column.id);
+				var args = cfg.slice(1);
+				args.unshift(value); 					// 过滤器参数
+				//console.log("column=%s, filter=%s, args=%o", column.id, cfg[0], args);
+				return filter.apply(this, args);
+			},
+			// 获取用于导出报表的 form (如果没有会自动创建一个)
+			getExportForm: function () {
+				if (!exportForm)
+					exportForm = $('<form name="bc-vue-grid-exporter" method="get" style="display:none"></form>')[0];
+				return exportForm;
 			}
 		}
 	});
