@@ -131,10 +131,11 @@ define(['jquery', 'vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/gri
 				// 重置动画加载器
 				this.v.loading = true;
 
-				var params = {
-					pageNo: this.pageNo,
-					pageSize: this.pageSize
-				};
+				var params = {};
+				if (this.pageable){
+					params.pageNo = this.pageNo;
+					params.pageSize = this.pageSize;
+				}
 
 				// 附加搜索条件
 				if (this.query) {
