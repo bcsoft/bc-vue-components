@@ -1,4 +1,4 @@
-# [bc-vue-components](https://bitbucket.org/bctaxi/bc-vue-components)
+# [bc-vue-components](https://github.com/bcsoft/bc-vue-components)
 BC 平台的 vue 组件
 
 ## 目录结构
