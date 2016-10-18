@@ -3,7 +3,7 @@
 		<div>
 			<span @click.stop="search" class="search ui-icon ui-icon-search" title="执行查询"></span>
 			<input debounce="200" @keyup.enter.stop="search" type="text" v-model="fuzzyValue" class="fuzzy ui-widget-content" :placeholder="placeholder" @change.stop>
-			<span v-if="advance && advance.length" @click.stop="addCondition" class="add ui-icon ui-icon-plusthick" title="添加特定条件"></span>
+			<span v-if="advanceConfig && advanceConfig.length" @click.stop="addCondition" class="add ui-icon ui-icon-plusthick" title="添加特定条件"></span>
 		</div>
 	</div>
 	<div class="advance ui-widget-content" v-if="showAdvance">
@@ -12,7 +12,7 @@
 				<tr v-for="c in displayList" class="condition">
 					<td class="ui-widget-content">
 						<select class="id ui-widget-content" v-model="c.id" @change.stop="editCondition('id', c)">
-							<option v-for="cfg in advance" :value="cfg.id">{{cfg.label}}</option>
+							<option v-for="cfg in advanceConfig" :value="cfg.id">{{cfg.label}}</option>
 						</select>
 					</td>
 					<td class="ui-widget-content">

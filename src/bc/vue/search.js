@@ -11,7 +11,7 @@
  *     <li>quick {Boolean} [可选] 是否即输即搜(输入值变化时就分发搜索事件)，默认 false (按回车键时触发)</li>
  *     <li>simple {Boolean} [可选] 控制 value 属性值的输出格式，无高级搜索时 simple 默认为 true，有高级搜索时 simple 默认为 false。simple=true 时，模糊搜索将原值输出，否则封装为 {} 对象格式</li>
  *     <li>align {String} [可选] 高级搜索区出现时与模糊搜索区的对齐方式，left|center|right，默认 left</li>
- *     <li>advance {Array} [可选] 高级搜索条件的配置，不配置代表无高级搜索功能，格式为：
+ *     <li>advanceConfig {Array} [可选] 高级搜索条件的配置，不配置代表无高级搜索功能，格式为：
  *           [{id, label[, type][, default][, value]}[, ...]]
  *           <ul>
  *             <li>id {String} 条件的标识符</li>
@@ -31,7 +31,7 @@
  */
 define(['vue', 'text!bc/vue/search.html', 'css!bc/vue/search'], function (Vue, template) {
 	'use strict';
-	var FUZZY_ID = '_fuzzy_';
+	var DEFAULT_FUZZY_ID = 'fuzzy';
 	return Vue.component('bc-search', {
 		template: template,
 		replace: true,
@@ -41,7 +41,7 @@ define(['vue', 'text!bc/vue/search.html', 'css!bc/vue/search'], function (Vue, t
 			quick: { type: Boolean, required: false, default: false },
 			simple: { type: Boolean, required: false, default: undefined },
 			value: { type: [String, Array, Object], required: false },
-			advance: { type: Array, required: false, default: function () { return [] } },
+			advanceConfig: { type: Array, required: false, default: function () { return [] } },
 		},
 		data: function () {
 			return {
@@ -53,18 +53,18 @@ define(['vue', 'text!bc/vue/search.html', 'css!bc/vue/search'], function (Vue, t
 		computed: {
 			/** 模糊搜索值的高级条件对象封装 */
 			fuzzyValueObj: function () {
-				return this.fuzzyValue !== null && this.fuzzyValue !== '' ? { id: FUZZY_ID, value: this.fuzzyValue } : null;
+				return this.fuzzyValue !== null && this.fuzzyValue !== '' ? { id: DEFAULT_FUZZY_ID, value: this.fuzzyValue } : null;
 			},
 			/** 当高级搜索显示时默认就需显示的条件列表 */
 			defaultDisplayList: function () {
 				var list = [];
-				if (this.advance) {
-					for (var i = 0; i < this.advance.length; i++) {
-						if (this.advance[i].default) {
+				if (this.advanceConfig) {
+					for (var i = 0; i < this.advanceConfig.length; i++) {
+						if (this.advanceConfig[i].default) {
 							list.push({
-								id: this.advance[i].id,
-								value: this.advance[i].value,             // 默认值
-								operator: this.advance[i].operator || '=' // 默认操作符
+								id: this.advanceConfig[i].id,
+								value: this.advanceConfig[i].value,             // 默认值
+								operator: this.advanceConfig[i].operator || '=' // 默认操作符
 							});
 						}
 					}
@@ -73,7 +73,7 @@ define(['vue', 'text!bc/vue/search.html', 'css!bc/vue/search'], function (Vue, t
 			},
 			/** 获取有效配置的高级条件 */
 			advanceValue: function () {
-				if (!this.showAdvance || !this.advance || !this.advance.length) return [];
+				if (!this.showAdvance || !this.advanceConfig || !this.advanceConfig.length) return [];
 				var vc = [], d, cfg;
 				for (var i = 0; i < this.displayList.length; i++) {
 					d = this.displayList[i];
@@ -114,7 +114,7 @@ define(['vue', 'text!bc/vue/search.html', 'css!bc/vue/search'], function (Vue, t
 			// 无高级搜索时 simple 默认为 true
 			// 有高级搜索时 simple 默认为 false
 			if (typeof this.simple === 'undefined') {
-				this.simple = !(this.advance && this.advance.length);
+				this.simple = !(this.advanceConfig && this.advanceConfig.length);
 			}
 
 			// 用户传入的值默认设为模糊搜索框的值
@@ -126,7 +126,7 @@ define(['vue', 'text!bc/vue/search.html', 'css!bc/vue/search'], function (Vue, t
 			})
 		},
 		watch: {
-			advance: function (value, old) {
+			advanceConfig: function (value, old) {
 				this.showAdvance = false;
 				this.initDisplayList();
 			},
@@ -194,9 +194,9 @@ define(['vue', 'text!bc/vue/search.html', 'css!bc/vue/search'], function (Vue, t
 			},
 			/** 获取条件的配置信息 */
 			getConditionConfig: function (id) {
-				if (this.advance) {
-					for (var i = 0; i < this.advance.length; i++)
-						if (this.advance[i].id == id) return this.advance[i];
+				if (this.advanceConfig) {
+					for (var i = 0; i < this.advanceConfig.length; i++)
+						if (this.advanceConfig[i].id == id) return this.advanceConfig[i];
 				}
 				return null;
 			},
