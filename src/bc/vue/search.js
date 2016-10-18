@@ -40,7 +40,7 @@ define(['vue', 'text!bc/vue/search.html', 'css!bc/vue/search'], function (Vue, t
 			align: { type: String, required: false, default: 'left' },
 			quick: { type: Boolean, required: false, default: false },
 			simple: { type: Boolean, required: false, default: undefined },
-			value: { type: [String, Array, Object], required: false },
+			mixValue: { type: [String, Array, Object], required: false },
 			advanceConfig: { type: Array, required: false, default: function () { return [] } },
 		},
 		data: function () {
@@ -101,7 +101,7 @@ define(['vue', 'text!bc/vue/search.html', 'css!bc/vue/search'], function (Vue, t
 			 *    {id: '_fuzzy_', value: fuzzyValue}
 			 * @return {Array|String}
 			 */
-			value_: function () {
+			mixValue_: function () {
 				if (this.advanceValue.length == 0) {	// 无高级查询条件
 					return this.simple ? this.fuzzyValue : this.fuzzyValueObj;
 				} else {                              // 有高级查询
@@ -118,7 +118,7 @@ define(['vue', 'text!bc/vue/search.html', 'css!bc/vue/search'], function (Vue, t
 			}
 
 			// 用户传入的值默认设为模糊搜索框的值
-			if (typeof this.value === 'string') this.fuzzyValue = this.value;
+			if (typeof this.mixValue === 'string') this.fuzzyValue = this.mixValue;
 
 			// 延迟观察 fuzzyValue 的变化
 			this.$watch('fuzzyValue', function (value, old) {
@@ -138,15 +138,15 @@ define(['vue', 'text!bc/vue/search.html', 'css!bc/vue/search'], function (Vue, t
 			/** 触发 change 事件 */
 			change: function () {
 				// 输出条件值
-				this.value = this.value_;
+				this.mixValue = this.mixValue_;
 
 				// 触发事件
-				this.$dispatch("change", this.value);
-				if (this.quick) this.$dispatch("search", this.value);
+				this.$dispatch("change", this.mixValue);
+				if (this.quick) this.$dispatch("search", this.mixValue);
 			},
 			/** 触发 search 事件 */
 			search: function () {
-				this.$dispatch("search", this.value_);
+				this.$dispatch("search", this.mixValue_);
 			},
 			/** 初始化显示的条件列表 */
 			initDisplayList: function () {
