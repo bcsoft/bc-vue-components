@@ -173,6 +173,9 @@ define(['jquery', 'vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/gri
 						j.hasOwnProperty("importable") && vm.$set('importable', j.importable);
 					}
 					j.hasOwnProperty("singleChoice") && vm.$set('singleChoice', j.singleChoice);
+
+					// 触发数据加载完毕事件
+					vm.$dispatch('afterReload', j);
 				}, function (error) {
 					console.log("[grid] reload error: url=%s, error=%o", vm.url, error);
 					var msg = error.responseText || "[grid] 数据加载失败！";
