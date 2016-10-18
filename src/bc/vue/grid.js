@@ -21,6 +21,8 @@ define(['jquery', 'vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/gri
 
 			// 请求方法：默认为 'GET'
 			method: { type: String, required: false, default: "GET" },
+			// 重新加载数据前允许用户预处理请求参数和取消请求的处理函数，返回 false 则取消重新加载数据
+			beforeReload: { type: Function, required: false },
 
 			// 分页条的参数
 			showPageBar: { type: Boolean, required: false, default: true },  // 是否显示分页条
@@ -158,6 +160,14 @@ define(['jquery', 'vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/gri
 				//console.log("[grid] reload url=%s, params=%s", this.url, JSON.stringify(params));
 				var vm = this;
 				params.method = params.type = this.method || "GET";
+
+				// 重新加载前允许用户预处理请求参数和取消请求
+				if(this.beforeReload && this.beforeReload(params) === false) {
+					vm.v.loading = false;
+					return;
+				}
+
+				// 开始重新加载
 				$.ajax(this.url, params).then(function (j) {
 					j.columns && vm.$set('columns', j.columns);
 					j.rows && vm.$set('rows', j.rows);
