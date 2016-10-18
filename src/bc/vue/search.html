@@ -2,7 +2,7 @@
 	<div class="fuzzy" :style="{'text-align': align}">
 		<div>
 			<span @click.stop="search" class="search ui-icon ui-icon-search" title="执行查询"></span>
-			<input debounce="200" @keyup.enter.stop="search" type="text" v-model="fuzzyValue" class="fuzzy ui-widget-content" :placeholder="placeholder" @change.stop>
+			<input debounce="200" @keyup.enter.stop="search" type="text" v-model="value" class="fuzzy ui-widget-content" :placeholder="placeholder" @change.stop>
 			<span v-if="advanceConfig && advanceConfig.length" @click.stop="addCondition" class="add ui-icon ui-icon-plusthick" title="添加特定条件"></span>
 		</div>
 	</div>

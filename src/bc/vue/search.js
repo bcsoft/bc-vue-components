@@ -22,8 +22,8 @@
  *           </ul>
  *     </li>
  *     <li>search {Event} 分发的搜索事件，事件第 1 个参数为要搜索的值，此值格式为：
- *           1）模糊搜索时为 fuzzyValue 属性的值 (String 类型)
- *           1）有高级搜索时为 value 属性的值 (Object 类型 {id, value[, type][, label]})
+ *           1）模糊搜索时为 value 属性的值 (String 类型)
+ *           1）有高级搜索时为 mixValue 属性的值 (Object 类型 {id, value[, type][, label]})
  *     </li>
  *     <li>change {Event} 搜索条件变动时分发的事件，事件第 1 个参数为新的搜索值，参考 search 事件</li>
  *   </ul>
@@ -40,6 +40,7 @@ define(['vue', 'text!bc/vue/search.html', 'css!bc/vue/search'], function (Vue, t
 			align: { type: String, required: false, default: 'left' },
 			quick: { type: Boolean, required: false, default: false },
 			simple: { type: Boolean, required: false, default: undefined },
+			value: { type: String, required: false, default: '' },
 			mixValue: { type: [String, Array, Object], required: false },
 			advanceConfig: { type: Array, required: false, default: function () { return [] } },
 		},
@@ -47,13 +48,12 @@ define(['vue', 'text!bc/vue/search.html', 'css!bc/vue/search'], function (Vue, t
 			return {
 				displayList: [],    // 当前显示的高级搜索条件列表
 				showAdvance: false, // 高级搜索条件是否处于显示状态
-				fuzzyValue: ''
 			};
 		},
 		computed: {
 			/** 模糊搜索值的高级条件对象封装 */
 			fuzzyValueObj: function () {
-				return this.fuzzyValue !== null && this.fuzzyValue !== '' ? { id: DEFAULT_FUZZY_ID, value: this.fuzzyValue } : null;
+				return this.value !== null && this.value !== '' ? { id: DEFAULT_FUZZY_ID, value: this.value } : null;
 			},
 			/** 当高级搜索显示时默认就需显示的条件列表 */
 			defaultDisplayList: function () {
@@ -96,14 +96,14 @@ define(['vue', 'text!bc/vue/search.html', 'css!bc/vue/search'], function (Vue, t
 			},
 			/** 
 			 * 搜索条件：混合模糊查询和高级查询的值
-			 * 1) 如果无高级查询，则返回 fuzzyValue 的值
-			 * 2) 如果有高级查询，则返回 fuzzyValue、advanceValue 混合后的数组值，fuzzyValue 被封装为如下结构：
-			 *    {id: '_fuzzy_', value: fuzzyValue}
+			 * 1) 如果无高级查询，则返回 value 的值
+			 * 2) 如果有高级查询，则返回 value、advanceValue 混合后的数组值，value 被封装为如下结构：
+			 *    {id: 'fuzzy', value: value}
 			 * @return {Array|String}
 			 */
 			mixValue_: function () {
 				if (this.advanceValue.length == 0) {	// 无高级查询条件
-					return this.simple ? this.fuzzyValue : this.fuzzyValueObj;
+					return this.simple ? this.value : this.fuzzyValueObj;
 				} else {                              // 有高级查询
 					if (this.fuzzyValueObj) return [].concat(this.advanceValue, this.fuzzyValueObj);
 					else return [].concat(this.advanceValue);
@@ -118,10 +118,10 @@ define(['vue', 'text!bc/vue/search.html', 'css!bc/vue/search'], function (Vue, t
 			}
 
 			// 用户传入的值默认设为模糊搜索框的值
-			if (typeof this.mixValue === 'string') this.fuzzyValue = this.mixValue;
+			if (typeof this.mixValue === 'string') this.value = this.mixValue;
 
-			// 延迟观察 fuzzyValue 的变化
-			this.$watch('fuzzyValue', function (value, old) {
+			// 延迟观察 value 的变化
+			this.$watch('value', function (value, old) {
 				this.change();
 			})
 		},
