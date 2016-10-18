@@ -17,6 +17,10 @@ define(['jquery', 'vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/gri
 
 			// 附加的查询条件
 			query: { required: false },
+			queryKey: { type: String, required: false, default: "query" },   // get 请求时的参数名称
+
+			// 请求方法：默认为 'GET'
+			method: { type: String, required: false, default: "GET" },
 
 			// 分页条的参数
 			showPageBar: { type: Boolean, required: false, default: true },  // 是否显示分页条
@@ -143,17 +147,18 @@ define(['jquery', 'vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/gri
 				// 附加搜索条件
 				if (this.query) {
 					if (Array.isArray(this.query)) {               // 数组
-						params.query = JSON.stringify(this.query);
+						params[this.queryKey] = JSON.stringify(this.query);
 					} else if (typeof this.query == "object") {    // json 对象
 						Object.assign(params, this.query);
 					} else if (typeof this.query == "string") {    // 字符
-						params.query = this.query;
+						params[this.queryKey] = this.query;
 					}
 				}
 
 				//console.log("[grid] reload url=%s, params=%s", this.url, JSON.stringify(params));
 				var vm = this;
-				$.getJSON(this.url, params).then(function (j) {
+				params.method = params.type = this.method || "GET";
+				$.ajax(this.url, params).then(function (j) {
 					j.columns && vm.$set('columns', j.columns);
 					j.rows && vm.$set('rows', j.rows);
 					if (vm.pageable) { // 分页时
