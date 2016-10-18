@@ -1,7 +1,7 @@
 /**
  * grid 组件
  */
-define(['jquery', 'vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/grid.html', 'css!bc/vue/grid', 'bc/vue/loading'], function ($, Vue, tableCol, pageBar, template) {
+define(['vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/grid.html', 'css!bc/vue/grid', 'bc/vue/loading'], function (Vue, tableCol, pageBar, template) {
 	"use strict";
 	var exportForm;
 	var DEFAULT_PAGE_SIZES = [25, 50, 100];
@@ -151,7 +151,12 @@ define(['jquery', 'vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/gri
 					if (Array.isArray(this.query)) {               // 数组
 						params[this.queryKey] = JSON.stringify(this.query);
 					} else if (typeof this.query == "object") {    // json 对象
-						Object.assign(params, this.query);
+						var q = this.query;
+						Object.keys(q).forEach(function (key) {
+							var v = q[key], t = typeof (v);
+							if (v !== null && v !== "" && t !== "undefined")
+								params[key] = (t === "object" ? JSON.stringify(v) : v);
+						});
 					} else if (typeof this.query == "string") {    // 字符
 						params[this.queryKey] = this.query;
 					}
@@ -159,16 +164,33 @@ define(['jquery', 'vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/gri
 
 				//console.log("[grid] reload url=%s, params=%s", this.url, JSON.stringify(params));
 				var vm = this;
-				params.method = params.type = this.method || "GET";
+				var url = this.url;
+				var settings = {
+					method: this.method || "GET",
+					credentials: 'include'  // include cookies
+				};
+
+				// 处理请求提交的参数
+				if (settings.method == "POST") {
+					settings.headers = { "Content-Type": "application/json;charset=utf-8" }; // 默认UTF-8
+					settings.body = JSON.stringify(params); // post json
+				} else if (settings.method == "GET") {
+					// 将参数附加到url后面
+					var s = [];
+					Object.keys(params).forEach(function (key) {
+						s.push(key + "=" + params[key]);
+					});
+					if (s.length) url += "?" + s.join("&");
+				}
 
 				// 重新加载前允许用户预处理请求参数和取消请求
-				if(this.beforeReload && this.beforeReload(params) === false) {
+				if (this.beforeReload && this.beforeReload(settings) === false) {
 					vm.v.loading = false;
 					return;
 				}
 
 				// 开始重新加载
-				$.ajax(this.url, params).then(function (j) {
+				fetch(url, settings).then(function (j) {
 					j.columns && vm.$set('columns', j.columns);
 					j.rows && vm.$set('rows', j.rows);
 					if (vm.pageable) { // 分页时
@@ -191,7 +213,7 @@ define(['jquery', 'vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/gri
 					var msg = error.responseText || "[grid] 数据加载失败！";
 					if (bc.msg) bc.msg.alert(msg);
 					else alert(msg);
-				}).always(function () {
+				}).then(function () {
 					// 隐藏动画加载器
 					vm.v.loading = false;
 				});
