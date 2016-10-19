@@ -20,7 +20,7 @@ define(['vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/grid.html', '
 			queryKey: { type: String, required: false, default: "query" },   // get 请求时的参数名称
 
 			// 请求方法：默认为 'GET'
-			method: { type: String, required: false, default: "GET" },
+			method: { type: [String, Function], required: false },
 			// 重新加载数据前允许用户预处理请求参数和取消请求的处理函数，返回 false 则取消重新加载数据
 			beforeReload: { type: Function, required: false },
 
@@ -155,7 +155,7 @@ define(['vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/grid.html', '
 						Object.keys(q).forEach(function (key) {
 							var v = q[key], t = typeof (v);
 							if (v !== null && v !== "" && t !== "undefined")
-								params[key] = (t === "object" ? JSON.stringify(v) : v);
+								params[key] = v;
 						});
 					} else if (typeof this.query == "string") {    // 字符
 						params[this.queryKey] = this.query;
@@ -166,7 +166,7 @@ define(['vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/grid.html', '
 				var vm = this;
 				var url = this.url;
 				var settings = {
-					method: this.method || "GET",
+					method: typeof (this.method) == "function" ? this.method() : (this.method || "GET"),
 					credentials: 'include'  // include cookies
 				};
 
@@ -190,7 +190,9 @@ define(['vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/grid.html', '
 				}
 
 				// 开始重新加载
-				fetch(url, settings).then(function (j) {
+				fetch(url, settings).then(function (res) {
+					return res.ok ? res.json() : res.text().then(function(msg){throw new Error(msg)});
+				}).then(function (j) {
 					j.columns && vm.$set('columns', j.columns);
 					j.rows && vm.$set('rows', j.rows);
 					if (vm.pageable) { // 分页时
@@ -207,13 +209,16 @@ define(['vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/grid.html', '
 					j.hasOwnProperty("singleChoice") && vm.$set('singleChoice', j.singleChoice);
 
 					// 触发数据加载完毕事件
-					vm.$dispatch('afterReload', j);
-				}, function (error) {
+					vm.$dispatch('after-reload', j);
+
+					// 隐藏动画加载器
+					vm.v.loading = false;
+				}).catch(function (error) {
 					console.log("[grid] reload error: url=%s, error=%o", vm.url, error);
-					var msg = error.responseText || "[grid] 数据加载失败！";
+					var msg = error.message || "[grid] 数据加载失败！";
 					if (bc.msg) bc.msg.alert(msg);
 					else alert(msg);
-				}).then(function () {
+
 					// 隐藏动画加载器
 					vm.v.loading = false;
 				});
