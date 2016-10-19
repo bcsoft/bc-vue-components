@@ -8,8 +8,9 @@
  *   <ul>
  *     <li>placeholder {String} [可选] 搜索框未输入信息时的背景文字</li>
  *     <li>value {String} [可选] 模糊搜索的默认值，即搜索框默认输入的文字</li>
+ *     <li>advanceValue {Array} [可选] 高级搜索值，格式为 [[id, value[, operator, type]], ...]，operator 默认 '='，type 默认 'string'</li>
+ *     <li>mixValue {Array} [可选] 搜索的混合值，包含模糊搜索和高级搜索</li>
  *     <li>quick {Boolean} [可选] 是否即输即搜(输入值变化时就分发搜索事件)，默认 false (按回车键时触发)</li>
- *     <li>simple {Boolean} [可选] 控制 value 属性值的输出格式，无高级搜索时 simple 默认为 true，有高级搜索时 simple 默认为 false。simple=true 时，模糊搜索将原值输出，否则封装为 {} 对象格式</li>
  *     <li>align {String} [可选] 高级搜索区出现时与模糊搜索区的对齐方式，left|center|right，默认 left</li>
  *     <li>advanceConfig {Array} [可选] 高级搜索条件的配置，不配置代表无高级搜索功能，格式为：
  *           [{id, label[, type][, default][, value]}[, ...]]
@@ -21,10 +22,7 @@
  *             <li>value {String} [可选] 默认值</li>
  *           </ul>
  *     </li>
- *     <li>search {Event} 分发的搜索事件，事件第 1 个参数为要搜索的值，此值格式为：
- *           1）模糊搜索时为 value 属性的值 (String 类型)
- *           1）有高级搜索时为 mixValue 属性的值 (Object 类型 {id, value[, type][, label]})
- *     </li>
+ *     <li>search {Event} 分发的搜索事件，事件第 1 个参数为模糊搜索的值，第 2 个参数为高级搜索的值，第 3 个参数为混合搜索的值</li>
  *     <li>change {Event} 搜索条件变动时分发的事件，事件第 1 个参数为新的搜索值，参考 search 事件</li>
  *   </ul>
  * </pre>
@@ -39,9 +37,9 @@ define(['vue', 'text!bc/vue/search.html', 'css!bc/vue/search'], function (Vue, t
 			placeholder: { type: String, required: false },
 			align: { type: String, required: false, default: 'left' },
 			quick: { type: Boolean, required: false, default: false },
-			simple: { type: Boolean, required: false, default: undefined },
 			value: { type: String, required: false, default: '' },
-			mixValue: { type: [String, Array, Object], required: false },
+			advanceValue: { type: Array, required: false },
+			mixValue: { type: Array, required: false },
 			advanceConfig: { type: Array, required: false, default: function () { return [] } },
 		},
 		data: function () {
@@ -53,7 +51,7 @@ define(['vue', 'text!bc/vue/search.html', 'css!bc/vue/search'], function (Vue, t
 		computed: {
 			/** 模糊搜索值的高级条件对象封装 */
 			fuzzyValueObj: function () {
-				return this.value !== null && this.value !== '' ? { id: DEFAULT_FUZZY_ID, value: this.value } : null;
+				return this.value !== null && this.value !== '' ? [DEFAULT_FUZZY_ID, this.value] : null;
 			},
 			/** 当高级搜索显示时默认就需显示的条件列表 */
 			defaultDisplayList: function () {
@@ -63,8 +61,9 @@ define(['vue', 'text!bc/vue/search.html', 'css!bc/vue/search'], function (Vue, t
 						if (this.advanceConfig[i].default) {
 							list.push({
 								id: this.advanceConfig[i].id,
-								value: this.advanceConfig[i].value,             // 默认值
-								operator: this.advanceConfig[i].operator || '=' // 默认操作符
+								value: this.advanceConfig[i].value,
+								operator: this.advanceConfig[i].operator,
+								type: this.advanceConfig[i].type
 							});
 						}
 					}
@@ -72,54 +71,45 @@ define(['vue', 'text!bc/vue/search.html', 'css!bc/vue/search'], function (Vue, t
 				return list;
 			},
 			/** 获取有效配置的高级条件 */
-			advanceValue: function () {
+			advanceValue_: function () {
 				if (!this.showAdvance || !this.advanceConfig || !this.advanceConfig.length) return [];
-				var vc = [], d, cfg;
+				var vc = [], d, cfg, rv;
 				for (var i = 0; i < this.displayList.length; i++) {
 					d = this.displayList[i];
 					if (d.id && d.operator && d.value) {
-						cfg = this.getConditionConfig(d.id);
-						vc.push({
-							id: d.id,                    // 键
-							value: d.value,              // 值
-							type: cfg.type || 'string',  // 类型
-							operator: d.operator,        // 操作符
-							label: cfg.label
-						});
+						// [id, value, type, operator]
+						console.log("---d=%s", JSON.stringify(d));
+						rv = [d.id, d.value];
+						d.type && rv.push(d.type);
+						if (d.operator != '=') {
+							if (!d.type) rv.push(null);
+							rv.push(d.operator);
+						}
+						console.log("---rv=%s", JSON.stringify(rv));
+						vc.push(rv);
 					}
 				}
 				return vc;
 			},
-			/** advanceValue 的字符表示, 用于监控高级条件的值是否改变，从而正确触发 change 事件 */
+			/** advanceValue_ 的字符表示, 用于监控高级条件的值是否改变，从而正确触发 change 事件 */
 			advanceValueStr: function () {
-				return JSON.stringify(this.advanceValue);
+				return JSON.stringify(this.advanceValue_);
 			},
 			/** 
-			 * 搜索条件：混合模糊查询和高级查询的值
-			 * 1) 如果无高级查询，则返回 value 的值
-			 * 2) 如果有高级查询，则返回 value、advanceValue 混合后的数组值，value 被封装为如下结构：
-			 *    {id: 'fuzzy', value: value}
-			 * @return {Array|String}
+			 * 搜索条件的混合值，返回 value、advanceValue_ 混合后的数组值，value 被封装为如下结构：
+			 *    ['fuzzy', value]
+			 * @return {Array}
 			 */
 			mixValue_: function () {
-				if (this.advanceValue.length == 0) {	// 无高级查询条件
-					return this.simple ? this.value : this.fuzzyValueObj;
+				if (this.advanceValue_.length == 0) {	// 无高级查询条件
+					return this.fuzzyValueObj ? [this.fuzzyValueObj] : [];
 				} else {                              // 有高级查询
-					if (this.fuzzyValueObj) return [].concat(this.advanceValue, this.fuzzyValueObj);
-					else return [].concat(this.advanceValue);
+					if (this.fuzzyValueObj) return [].concat(this.advanceValue_, [this.fuzzyValueObj]);
+					else return [].concat(this.advanceValue_);
 				}
 			}
 		},
 		created: function () {
-			// 无高级搜索时 simple 默认为 true
-			// 有高级搜索时 simple 默认为 false
-			if (typeof this.simple === 'undefined') {
-				this.simple = !(this.advanceConfig && this.advanceConfig.length);
-			}
-
-			// 用户传入的值默认设为模糊搜索框的值
-			if (typeof this.mixValue === 'string') this.value = this.mixValue;
-
 			// 延迟观察 value 的变化
 			this.$watch('value', function (value, old) {
 				this.change();
@@ -139,14 +129,15 @@ define(['vue', 'text!bc/vue/search.html', 'css!bc/vue/search'], function (Vue, t
 			change: function () {
 				// 输出条件值
 				this.mixValue = this.mixValue_;
+				this.advanceValue = this.advanceValue_;
 
 				// 触发事件
-				this.$dispatch("change", this.mixValue);
-				if (this.quick) this.$dispatch("search", this.mixValue);
+				this.$dispatch("change", this.value, this.advanceValue, this.mixValue);
+				if (this.quick) this.$dispatch("search", this.value, this.advanceValue, this.mixValue);
 			},
 			/** 触发 search 事件 */
 			search: function () {
-				this.$dispatch("search", this.mixValue_);
+				this.$dispatch("search", this.value, this.advanceValue_, this.mixValue_);
 			},
 			/** 初始化显示的条件列表 */
 			initDisplayList: function () {
@@ -155,7 +146,8 @@ define(['vue', 'text!bc/vue/search.html', 'css!bc/vue/search'], function (Vue, t
 					this.displayList.push({
 						id: this.defaultDisplayList[i].id,
 						value: this.defaultDisplayList[i].value,
-						operator: this.defaultDisplayList[i].operator
+						operator: this.defaultDisplayList[i].operator,
+						type: this.defaultDisplayList[i].type
 					});
 				}
 			},
@@ -163,23 +155,24 @@ define(['vue', 'text!bc/vue/search.html', 'css!bc/vue/search'], function (Vue, t
 			operators: function (id) {
 				var operators = [
 					{ id: '=', label: '等于' },
+					{ id: '>=', label: '大于等于' },
+					{ id: '<=', label: '小于等于' },
 					{ id: '>', label: '大于' },
 					{ id: '<', label: '小于' },
-					{ id: '<>', label: '不等于' },
-					{ id: '<=', label: '不大于' },
-					{ id: '>=', label: '不小于' }
+					{ id: '!=', label: '不等于' }
 				];
 				var cfg = this.getConditionConfig(id);
-				// console.log("[search] operators cfg=%s", JSON.stringify(cfg));
 				if (!cfg || !cfg.type || cfg.type == 'string') {
 					operators.push({ id: '@', label: '包含' });
+					//operators.push({ id: '@left', label: '开头包含' });
+					//operators.push({ id: '@right', label: '结尾包含' });
 				}
 				return operators;
 			},
 			/** 添加新条件 */
 			addCondition: function () {
 				if (this.showAdvance) {  // 添加一个新的条件
-					this.displayList.push({ id: null, operator: '=', value: null });
+					this.displayList.push({ id: null, operator: '=', value: null, type: null });
 				} else {                 // 初次显示时，列出默认要显示的条件
 					this.initDisplayList();
 					this.showAdvance = true;
@@ -209,7 +202,11 @@ define(['vue', 'text!bc/vue/search.html', 'css!bc/vue/search'], function (Vue, t
 			 */
 			editCondition: function (type, condition) {
 				// 切换条件就清空值
-				if (type == 'id') condition.value = null;
+				if (type == 'id') {
+					condition.value = null;
+					var cfg = this.getConditionConfig(condition.id);
+					condition.type = cfg.type;
+				}
 			}
 		}
 	});

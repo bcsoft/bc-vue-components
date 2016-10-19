@@ -72,6 +72,9 @@
 	box-sizing: border-box;
 	border-width: 0;
 }
+.bc-vue-search .condition > td > select {
+	padding-right: 1em;
+}
 .bc-vue-search .condition .id {
 	min-width: 5em;
 	text-align: right;
