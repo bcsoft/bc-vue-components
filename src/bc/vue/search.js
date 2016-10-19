@@ -72,28 +72,26 @@ define(['vue', 'text!bc/vue/search.html', 'css!bc/vue/search'], function (Vue, t
 			},
 			/** 获取有效配置的高级条件 */
 			advanceValue_: function () {
-				if (!this.showAdvance || !this.advanceConfig || !this.advanceConfig.length) return [];
+				if (!this.showAdvance || !this.advanceConfig || !this.advanceConfig.length) return null;
 				var vc = [], d, cfg, rv;
 				for (var i = 0; i < this.displayList.length; i++) {
 					d = this.displayList[i];
 					if (d.id && d.operator && d.value) {
 						// [id, value, type, operator]
-						console.log("---d=%s", JSON.stringify(d));
 						rv = [d.id, d.value];
 						d.type && rv.push(d.type);
 						if (d.operator != '=') {
 							if (!d.type) rv.push(null);
 							rv.push(d.operator);
 						}
-						console.log("---rv=%s", JSON.stringify(rv));
 						vc.push(rv);
 					}
 				}
-				return vc;
+				return vc.length ? vc : null;
 			},
 			/** advanceValue_ 的字符表示, 用于监控高级条件的值是否改变，从而正确触发 change 事件 */
 			advanceValueStr: function () {
-				return JSON.stringify(this.advanceValue_);
+				return this.advanceValue_ ? JSON.stringify(this.advanceValue_) : this.advanceValue_;
 			},
 			/** 
 			 * 搜索条件的混合值，返回 value、advanceValue_ 混合后的数组值，value 被封装为如下结构：
@@ -101,12 +99,14 @@ define(['vue', 'text!bc/vue/search.html', 'css!bc/vue/search'], function (Vue, t
 			 * @return {Array}
 			 */
 			mixValue_: function () {
-				if (this.advanceValue_.length == 0) {	// 无高级查询条件
-					return this.fuzzyValueObj ? [this.fuzzyValueObj] : [];
+				var v;
+				if (!this.advanceValue_) {	// 无高级查询条件
+					v = this.fuzzyValueObj ? [this.fuzzyValueObj] : null;
 				} else {                              // 有高级查询
-					if (this.fuzzyValueObj) return [].concat(this.advanceValue_, [this.fuzzyValueObj]);
-					else return [].concat(this.advanceValue_);
+					if (this.fuzzyValueObj) v = [].concat(this.advanceValue_, [this.fuzzyValueObj]);
+					else v = [].concat(this.advanceValue_);
 				}
+				return v;
 			}
 		},
 		created: function () {
