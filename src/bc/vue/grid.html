@@ -26,11 +26,15 @@
 		<table class="rows" style="width:100%">
 			<colgroup is="bc-table-col" :columns="columns" :add-sn="true" :add-empty="true"></colgroup>
 			<tbody>
-				<tr class="row" v-for="r in rows" data-id="{{r.id}}" class="{{r.class}}" :class="{'ui-state-highlight': r.selected, 'ui-widget-content': true}" :style="r.style">
+				<tr class="row" v-for="r in rows" data-id="{{r.id}}" class="{{r.class}}" :class="{'ui-state-highlight': r.selected, 'ui-widget-content': true}"
+				    :style="(typeof rowStyle == 'function') ? rowStyle(r) : rowStyle">
 					<td class="sn" data-id="_sn"><span v-if="r.selected" class="ui-icon ui-icon-check"></span>{{$index + 1}}</td>
 					<template v-for="c in columns">
-						<td v-if="isGroupColumn(c)" v-for="d in c.children" class="cell text" :class="d.rowCellClass" :style="d.rowCellStyle" data-id="{{d.id}}">{{rowCellFilter(r[d.id], d)}}</td>
-						<td v-if="!isGroupColumn(c)" class="cell text" :class="c.rowCellClass" :style="c.rowCellStyle" data-id="{{c.id}}">{{rowCellFilter(r[c.id], c)}}</td>
+						<td v-if="isGroupColumn(c)" v-for="d in c.children" class="cell text" :class="d.rowCellClass" :style="d.rowCellStyle" data-id="{{d.id}}">{{rowCellFilter(r[d.id], r, d)}}</td>
+						<td v-if="!isGroupColumn(c)" class="cell text" :class="c.rowCellClass" :style="c.rowCellStyle" data-id="{{c.id}}">
+							<template v-if="c.escape !== false">{{rowCellFilter(r[c.id], r, c)}}</template>
+							<template v-if="c.escape === false">{{{rowCellFilter(r[c.id], r, c)}}}</template>
+						</td>
 					</template>
 					<td class="empty" data-id="_empty"></td>
 				</tr>

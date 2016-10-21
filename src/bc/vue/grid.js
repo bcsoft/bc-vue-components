@@ -14,6 +14,7 @@ define(['vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/grid.html', '
 			columns: { type: Array, required: false, default: function () { return [] } },
 			rows: { type: Array, required: false, default: function () { return [] } },
 			url: { type: String, required: false },
+			rowStyle: { type: Function, required: false },  // 数据行的样式渲染，第 1 个参数为行数据对象
 
 			// 附加的查询条件
 			query: { required: false },
@@ -191,7 +192,7 @@ define(['vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/grid.html', '
 
 				// 开始重新加载
 				fetch(url, settings).then(function (res) {
-					return res.ok ? res.json() : res.text().then(function(msg){throw new Error(msg)});
+					return res.ok ? res.json() : res.text().then(function (msg) { throw new Error(msg) });
 				}).then(function (j) {
 					j.columns && vm.$set('columns', j.columns);
 					j.rows && vm.$set('rows', j.rows);
@@ -227,16 +228,20 @@ define(['vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/grid.html', '
 				return !!(column.children && column.children.length);
 			},
 			/** 单元格值的格式化 */
-			rowCellFilter: function (value, column) {
+			rowCellFilter: function (value, row, column) {
 				//console.log("value=%s, column=%s", value, column.id);
 				if (!column.filter) return value;
-				var cfg = column.filter.split(" ");
-				var filter = Vue.filter(cfg[0]); 	// 过滤器ID
-				if (!filter) console.error("filter '%s' not found (column=%s)", cfg[0], column.id);
-				var args = cfg.slice(1);
-				args.unshift(value); 					// 过滤器参数
-				//console.log("column=%s, filter=%s, args=%o", column.id, cfg[0], args);
-				return filter.apply(this, args);
+				else if (typeof column.filter == "string") { // vue 过滤器
+					var cfg = column.filter.split(" ");
+					var filter = Vue.filter(cfg[0]); 	// 过滤器ID
+					if (!filter) console.error("filter '%s' not found (column=%s)", cfg[0], column.id);
+					var args = cfg.slice(1);
+					args.unshift(value); 					// 过滤器参数
+					//console.log("column=%s, filter=%s, args=%o", column.id, cfg[0], args);
+					return filter.apply(this, args);
+				} else if (typeof column.filter == "function") { // 自定义的渲染函数
+					return column.filter(value, row, column);
+				}
 			},
 			// 获取用于导出报表的 form (如果没有会自动创建一个)
 			getExportForm: function () {
