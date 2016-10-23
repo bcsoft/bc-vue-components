@@ -243,6 +243,10 @@ define(['vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/grid.html', '
 					return column.filter(value, row, column);
 				}
 			},
+			/** 单元格点击函数 */
+			rowCellClick: function (value, row, column) {
+				if(column.rowCellClick) column.rowCellClick(value, row, column);
+			},
 			// 获取用于导出报表的 form (如果没有会自动创建一个)
 			getExportForm: function () {
 				if (!exportForm)
