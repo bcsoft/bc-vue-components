@@ -28,8 +28,8 @@ define(['vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/grid.html', '
 			// 分页条的参数
 			showPageBar: { type: Boolean, required: false, default: true },  // 是否显示分页条
 			pageable: { type: Boolean, required: false, default: false },    // 可分页
-			pageNo: { type: Number, required: false, default: 1 },           // 当前页码
-			pageSize: { type: Number, required: false, default: DEFAULT_PAGE_SIZES[0] },  // 当前页容量
+			pageNo: { type: Number, required: false },           // 当前页码
+			pageSize: { type: Number, required: false },  // 当前页容量
 			pageSizes: { type: Array, required: false, default: function () { return DEFAULT_PAGE_SIZES } },     // 可选页容量
 			count: { type: Number, required: false, default: 0 },            // 总条目数
 
@@ -143,8 +143,8 @@ define(['vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/grid.html', '
 
 				var params = {};
 				if (this.pageable) {
-					params.pageNo = this.pageNo;
-					params.pageSize = this.pageSize;
+					if(this.pageNo) params.pageNo = this.pageNo;
+					if(this.pageSize) params.pageSize = this.pageSize;
 				}
 
 				// 附加搜索条件
