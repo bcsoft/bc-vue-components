@@ -179,7 +179,7 @@ define(['vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/grid.html', '
 					// 将参数附加到url后面
 					var s = [];
 					Object.keys(params).forEach(function (key) {
-						s.push(key + "=" + params[key]);
+						s.push(key + "=" + encodeURIComponent(params[key]));
 					});
 					if (s.length) url += "?" + s.join("&");
 				}
