@@ -2,9 +2,13 @@
  * @pageNo 页码，默认为 1
  * @pageSize 页容量，默认为 25
  */
-const page = function (url, pageNo = 1, pageSize = 25) {
+const page = function (url, pageNo, pageSize) {
 	console.log("url=%s, pageNo=%s, pageSize=%s", url, pageNo, pageSize);
 	let d = { pageNo: pageNo, pageSize: pageSize, count: 333 };
+	if(pageNo) d.pageNo = pageNo;
+	else pageNo = 1;
+	if(pageSize) d.pageSize = pageSize;
+	else pageSize = 25;
 
 	// 表头列
 	d.columns = [

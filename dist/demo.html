@@ -25,7 +25,7 @@
 	<h2>视图</h2>
 	<div class="demo bc-ui-dialog ui-widget-header" style=" padding: 0.5em">
 		<div class="bc-page">
-			<bc-grid v-ref:grid :class="{border: ui.showBorder}" url="/data/grid.json" :pageable="true" :query="pageCondition" :single-choice="ui.singleChoice" :auto-load="false"
+			<bc-grid v-ref:grid :class="{border: ui.showBorder}" url="/data/grid.json" :pageable="true" :query.sync="condition" :single-choice="ui.singleChoice" :auto-load="false"
 			:exportable="true" :importable="true" @export="exportData" @import="importData">
 				<bc-toolbar v-ref:toolbar slot="top">
 					<bc-button icon-class="ui-icon-check" @click="open" text="查看"></bc-button>
@@ -33,7 +33,7 @@
 					<bc-button icon-class="ui-icon-pencil" text="编辑"></bc-button>
 					<bc-button icon-class="ui-icon-trash" text="删除"></bc-button>
 
-					<bc-button-set :value.sync="query.status" :items="[{id: '0', label: '在案'}, {id: '1', label: '注销', active: true}, {id: '', label: '全部'}]" @change="changeStatus"></bc-button-set>
+					<bc-button-set :value.sync="status" :items="[{id: '0', label: '在案'}, {id: '1', label: '注销', active: true}, {id: '', label: '全部'}]" @change="changeStatus"></bc-button-set>
 
 					<label style="margin-left: 1em">
 						<input type="checkbox" v-model="ui.showBorder">显示边框
@@ -48,8 +48,8 @@
 						<input type="checkbox" v-model="ui.quickSearch">即输即搜
 					</label>
 
-					<bc-search @search="search" :value.sync="query.searchValue"
-						:advance="ui.advance" align="right" :quick="ui.quickSearch">
+					<bc-search @search="search" :mix-value.sync="mixSearch"
+						:advance-config="ui.advanceConfig" align="right" :quick="ui.quickSearch">
 					</bc-search>
 				</bc-toolbar>
 			</bc-grid>
