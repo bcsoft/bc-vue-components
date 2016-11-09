@@ -86,7 +86,14 @@
 	width: 10em;
 	text-align: left;
 }
-.bc-vue-search .condition .delete {
+.bc-vue-search .condition .delete,
+.bc-vue-search .condition .clear {
 	cursor: pointer;
 	height: 16px;
+}
+.bc-vue-search .operate > td {
+	padding: 0.35em;
+}
+.bc-vue-search .operate > td button {
+	font-family: inherit;
 }

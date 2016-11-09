@@ -17,7 +17,7 @@
  *           <ul>
  *             <li>id {String} 条件的标识符</li>
  *             <li>label {String} 条件的显示文字</li>
- *             <li>type {String} [可选] 值的类型，string|int|float|double|long|date|money，默认 string</li>
+ *             <li>type {String} [可选] 值的类型，string|int|float|double|long|date|month|time|datetime|money，默认 string</li>
  *             <li>default {Boolean} [可选] 默认是否显示，默认 false 不显示</li>
  *             <li>value {String} [可选] 默认值</li>
  *           </ul>
@@ -124,6 +124,23 @@ define(['vue', 'text!bc/vue/search.html', 'css!bc/vue/search'], function (Vue, t
 				this.change();
 			}
 		},
+		ready: function () {
+			// 监听 operate 按钮事件
+			$(this.$el).on({
+				"mouseover": function () {
+					$(this).addClass("ui-state-hover");
+				},
+				"mouseout": function () {
+					$(this).removeClass("ui-state-hover");
+				}
+			}, '.operate button');
+
+			this.initDisplayList();
+		},
+		destroyed: function () {
+			console.log('[search] destroyed');
+			$(this.$el).off();
+		},
 		methods: {
 			/** 触发 change 事件 */
 			change: function () {
@@ -171,12 +188,7 @@ define(['vue', 'text!bc/vue/search.html', 'css!bc/vue/search'], function (Vue, t
 			},
 			/** 添加新条件 */
 			addCondition: function () {
-				if (this.showAdvance) {  // 添加一个新的条件
-					this.displayList.push({ id: null, operator: '=', value: null, type: null });
-				} else {                 // 初次显示时，列出默认要显示的条件
-					this.initDisplayList();
-					this.showAdvance = true;
-				}
+				this.displayList.push({ id: null, operator: '=', value: null, type: null });
 			},
 			/** 删除条件 */
 			deleteCondition: function (index) {
@@ -184,6 +196,10 @@ define(['vue', 'text!bc/vue/search.html', 'css!bc/vue/search'], function (Vue, t
 				if (!this.displayList.length) {
 					this.showAdvance = false;
 				}
+			},
+			/** 清空所有条件 */
+			clearCondition: function () {
+				this.displayList.forEach(function (c) { c.value = "" });
 			},
 			/** 获取条件的配置信息 */
 			getConditionConfig: function (id) {
