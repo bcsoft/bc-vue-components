@@ -77,13 +77,16 @@
 }
 .bc-vue-search .condition .id {
 	min-width: 5em;
+	width: 100%;
 	text-align: right;
 }
 .bc-vue-search .condition .operator {
 	text-align: center;
+	width: 100%;
 }
 .bc-vue-search .condition .value {
-	width: 10em;
+	min-width: 10em;
+	width: 100%;
 	text-align: left;
 }
 .bc-vue-search .condition .delete,

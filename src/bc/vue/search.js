@@ -55,16 +55,16 @@ define(['vue', 'text!bc/vue/search.html', 'css!bc/vue/search'], function (Vue, t
 			},
 			/** 当高级搜索显示时默认就需显示的条件列表 */
 			defaultDisplayList: function () {
-				var list = [];
+				var list = [], o, a;
 				if (this.advanceConfig) {
 					for (var i = 0; i < this.advanceConfig.length; i++) {
-						if (this.advanceConfig[i].default) {
-							list.push({
-								id: this.advanceConfig[i].id,
-								value: this.advanceConfig[i].value,
-								operator: this.advanceConfig[i].operator,
-								type: this.advanceConfig[i].type
+						a = this.advanceConfig[i];
+						if (a.default) {
+							o = {};
+							Object.keys(a).forEach(function (key) {
+								o[key] = a[key];
 							});
+							list.push(o);
 						}
 					}
 				}
@@ -159,13 +159,14 @@ define(['vue', 'text!bc/vue/search.html', 'css!bc/vue/search'], function (Vue, t
 			/** 初始化显示的条件列表 */
 			initDisplayList: function () {
 				this.displayList.length = 0;
+				var o, d;
 				for (var i = 0; i < this.defaultDisplayList.length; i++) {
-					this.displayList.push({
-						id: this.defaultDisplayList[i].id,
-						value: this.defaultDisplayList[i].value,
-						operator: this.defaultDisplayList[i].operator,
-						type: this.defaultDisplayList[i].type
+					d = this.defaultDisplayList[i];
+					o = {};
+					Object.keys(d).forEach(function (key) {
+						o[key] = d[key];
 					});
+					this.displayList.push(o);
 				}
 			},
 			/** 获取条件的可用操作符列表 */
@@ -222,6 +223,40 @@ define(['vue', 'text!bc/vue/search.html', 'css!bc/vue/search'], function (Vue, t
 					condition.value = null;
 					var cfg = this.getConditionConfig(condition.id);
 					condition.type = cfg.type;
+				}
+			},
+			/** 
+			 * 获取条件的输入控件类型
+			 * 
+			 * @param condition {Object} 条件
+			 */
+			getInputType: function (condition) {
+				// string|int|float|double|long|date|month|time|datetime|money
+				switch (condition.type) {
+					case 'datetime':
+						return "datetime-local";
+					case 'datetime-local':
+						return "datetime-local";
+					case 'date':
+						return "date";
+					case 'month':
+						return "month";
+					case 'time':
+						return "time";
+					case 'int':
+						return "number";
+					case 'float':
+						return "number";
+					case 'double':
+						return "number";
+					case 'long':
+						return "long";
+					case 'money':
+						return "number";
+					case 'number':
+						return "number";
+					default:
+						return "text";
 				}
 			}
 		}

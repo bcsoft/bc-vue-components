@@ -15,13 +15,22 @@
 							<option v-for="cfg in advanceConfig" :value="cfg.id">{{cfg.label}}</option>
 						</select>
 					</td>
-					<td class="ui-widget-content">
+					<td class="ui-widget-content" style="max-width:7em">
 						<select class="operator ui-widget-content" v-model="c.operator" @change.stop="editCondition('operator', c)">
 							<option v-for="o in operators(c.id)" :value="o.id">{{o.label}}</option>
 						</select>
 					</td>
 					<td class="ui-widget-content">
-						<input debounce="200" type="text" class="value ui-widget-content" v-model="c.value" @keyup.enter.stop="search" @change.stop="editCondition('value', c)">
+						<input v-if="!c.tag || c.tag == 'input'" debounce="200" type="{{getInputType(c)}}" class="value ui-widget-content" v-model="c.value"
+							:step="c.step" :min="c.min" :max="c.max"
+							@keyup.enter.stop="search"
+							@change.stop="editCondition('value', c)">
+						<select v-if="c.tag == 'select'" class="value ui-widget-content" v-model="c.value"
+							@change.stop="editCondition('value', c)">
+							<option v-for="option in c.options" v-bind:value="option.hasOwnProperty('value') ? option.value : option">
+								{{ option.hasOwnProperty('value') ? option.text : option }}
+							</option>
+						</select>
 					</td>
 					<td class="ui-widget-content">
 						<span @click.stop="deleteCondition($index)" class="delete ui-icon ui-icon-minusthick" title="移除此条件"></span>
