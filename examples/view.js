@@ -10,32 +10,32 @@ define(["vue", "bc/vue/toolbar", "bc/vue/button", "bc/vue/button-set", "bc/vue/s
 	return new Vue({
 		el: document.body,
 		data: {
-			query: {
-				status: "0",
-				searchValue: null
-			},
+			status: "0",
+			mixSearch: null,
 			ui: {
 				showBorder: false,
 				quickSearch: false,
 				singleChoice: false,
 				toggleAdvance: true,
-				advance: defaultAdvanceConfig
+				advanceConfig: defaultAdvanceConfig
 			}
 		},
 		watch: {
 			'ui.toggleAdvance': function (checked) {
-				this.ui.advance = checked ? defaultAdvanceConfig : null;
+				this.ui.advanceConfig = checked ? defaultAdvanceConfig : null;
 			}
 		},
 		computed: {
 			// 混合视图中的各种条件：状态、搜索框
-			pageCondition: function () {
+			// [[name, value, type, operator],...]
+			condition: function () {
 				var c = [];
 
 				// 状态按钮组的值
-				c.push({ id: 'status', value: this.query.status, type: 'long', label: '状态' });
+				c.push(['status', this.status, 'long']);
+
 				// 搜索组件的值
-				if (this.query.searchValue) c.push(this.query.searchValue);
+				if (this.mixSearch) c = c.concat(this.mixSearch);
 
 				return c;
 			}
