@@ -12,20 +12,24 @@ define(["vue", "bc/vue/search"], function (Vue) {
 			toggleAdvance: true,
 			quick: false,
 			align: 'left',
-			advance: defaultAdvanceConfig,
-			value: null
+			advanceConfig: defaultAdvanceConfig,
+			value: null,
+			advanceValue: null,
+			mixValue: null
 		},
 		watch: {
 			toggleAdvance: function (value, old) {
-				this.conditions = value ? defaultAdvanceConfig : null;
+				this.advanceConfig = value ? defaultAdvanceConfig : null;
 			}
 		},
 		methods: {
-			search: function (value) {
-				console.log("[example] search value=%s", typeof value == "object" ? JSON.stringify(value) : value);
+			search: function (value, advanceValue, mixValue) {
+				console.log("[example] search value=%s, advanceValue=%s, mixValue=%s", 
+					value, JSON.stringify(advanceValue), JSON.stringify(mixValue));
 			},
-			change: function(value){
-				console.log("[example] change args=%s", JSON.stringify(value));
+			change: function(value, advanceValue, mixValue){
+				console.log("[example] change value=%s, advanceValue=%s, mixValue=%s", 
+					value, JSON.stringify(advanceValue), JSON.stringify(mixValue));
 			}
 		}
 	});

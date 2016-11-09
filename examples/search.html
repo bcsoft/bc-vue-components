@@ -22,7 +22,11 @@
 		                        <label><input type="radio" v-model="align" value="center">中</label>
 		                        <label><input type="radio" v-model="align" value="right">右</label></h4>
 	<div>
-		<bc-search :quick="quick" @search="search" @change="change" :value.sync="value" :advance="advance" :align="align" ></bc-search>
+		<bc-search :quick="quick" @search="search" @change="change" :align="align" :advance-config="advanceConfig"
+			:value.sync="value"
+			:advance-value.sync="advanceValue"
+			:mix-value.sync="mixValue">
+		</bc-search>
 	</div>
 
 	<script>

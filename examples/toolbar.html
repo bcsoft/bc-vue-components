@@ -24,12 +24,16 @@
 		<bc-button icon-class="ui-icon-document" text="新建"></bc-button>
 		<bc-button icon-class="ui-icon-pencil" text="编辑"></bc-button>
 		<bc-button-set :active="2" @change="changeStatus" :items="[{id: 30, label: '在案'}, {id: 20, label: '注销'}, {id: 'abc', label: '全部'}]"></bc-button-set>
-		<bc-search @search="search" placeholder="输入关键字" :advance="advance" align="right" :value.sync="value"></bc-search>
+		<bc-search @search="search" placeholder="输入关键字" align="right" :advance-config="advanceConfig"
+			:value.sync="value"
+			:advance-value.sync="advanceValue"
+			:mix-value.sync="mixValue">
+		</bc-search>
 	</bc-toolbar>
 
 	<h3>3 空</h3>
 	<bc-toolbar :style="{padding:0}">
-		<bc-search placeholder="输入关键字" :advance="advance"></bc-search>
+		<bc-search @search="search" placeholder="输入关键字" :advance-config="advanceConfig"></bc-search>
 	</bc-toolbar>
 	<script>
 		var demos = ["css!demo-css", "bc/vue/theme", "../examples/toolbar"];
