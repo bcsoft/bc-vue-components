@@ -17,7 +17,10 @@ define(["vue", "bc/vue/toolbar", "bc/vue/button", "bc/vue/button-set", "bc/vue/s
 				quickSearch: false,
 				singleChoice: false,
 				toggleAdvance: true,
-				advanceConfig: defaultAdvanceConfig
+				advanceConfig: {
+					height: "30em",
+					url:"search-advance-config.json"
+				}
 			}
 		},
 		watch: {

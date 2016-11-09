@@ -3,28 +3,118 @@
 		<div>
 			<span @click.stop="search" class="search ui-icon ui-icon-search" title="执行查询"></span>
 			<input debounce="200" @keyup.enter.stop="search" type="text" v-model="value" class="fuzzy ui-widget-content" :placeholder="placeholder" @change.stop>
-			<span v-if="advanceConfig && advanceConfig.length" @click.stop="addCondition" class="add ui-icon ui-icon-plusthick" title="添加特定条件"></span>
+			<span v-if="advanceConfig" @click.stop="toggleAdvance" class="add ui-icon ui-icon-triangle-1-{{showAdvance ? 'n' : 's'}}" title="{{showAdvance ? '隐藏高级搜索' : '显示高级搜索'}}"></span>
 		</div>
 	</div>
-	<div class="advance ui-widget-content" v-if="showAdvance">
-		<table cellspacing="0" cellpadding="0">
+	<div class="advance ui-widget-content" v-if="showAdvance" :style="advanceStyle">
+		<ul class="conditions">
+			<li class="condition" v-for="c in displayConditions">
+				<div class="label">{{c.label}}</div>
+				<div class="value">
+					<template v-if="!c.diadic">
+						<input v-if="!c.tag || c.tag == 'input'" debounce="200" type="{{getInputType(c)}}" class="value ui-widget-content" v-model="c.value"
+							:step="c.step" :min="c.min" :max="c.max"
+							@keyup.enter.stop="search"
+							@change.stop="editCondition('value', c)">
+						<select v-if="c.tag == 'select'" class="value ui-widget-content" v-model="c.value"
+							@change.stop="editCondition('value', c)">
+							<option v-for="option in c.options" v-bind:value="option.hasOwnProperty('value') ? option.value : option">
+								{{ option.hasOwnProperty('value') ? option.text : option }}
+							</option>
+						</select>
+					</template>
+					<template v-if="c.diadic">
+						<div class="left">
+							<input v-if="!c.tag || c.tag == 'input'" debounce="200" type="{{getInputType(c)}}" class="value ui-widget-content" v-model="c.value[0]"
+								:step="c.step" :min="c.min" :max="c.max"
+								@keyup.enter.stop="search"
+								@change.stop="editCondition('value', c)">
+							<select v-if="c.tag == 'select'" class="value ui-widget-content" v-model="c.value[0]"
+								@change.stop="editCondition('value', c)">
+								<option v-for="option in c.options" v-bind:value="option.hasOwnProperty('value') ? option.value : option">
+									{{ option.hasOwnProperty('value') ? option.text : option }}
+								</option>
+							</select>
+						</div>
+						<div class="center">～</div>
+						<div class="right">
+							<input v-if="!c.tag || c.tag == 'input'" debounce="200" type="{{getInputType(c)}}" class="value ui-widget-content" v-model="c.value[1]"
+								:step="c.step" :min="c.min" :max="c.max"
+								@keyup.enter.stop="search"
+								@change.stop="editCondition('value', c)">
+							<select v-if="c.tag == 'select'" class="value ui-widget-content" v-model="c.value[1]"
+								@change.stop="editCondition('value', c)">
+								<option v-for="option in c.options" v-bind:value="option.hasOwnProperty('value') ? option.value : option">
+									{{ option.hasOwnProperty('value') ? option.text : option }}
+								</option>
+							</select>
+						</div>
+					</template>
+				</div>
+			</li>
+		</ul>
+		<div class="operate ui-widget-content">
+			<button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary" type="button" @click.stop="search">
+				<span class="ui-button-icon-primary ui-icon ui-icon-search"></span>
+				<span class="ui-button-text">查询</span>
+			</button>
+			<button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary" type="button" @click.stop="clearCondition">
+				<span class="ui-button-icon-primary ui-icon ui-icon-minus"></span>
+				<span class="ui-button-text">清空</span>
+			</button>
+			<button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary" type="button" @click.stop="showAdvance = false">
+				<span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span>
+				<span class="ui-button-text">关闭</span>
+			</button>
+		</div>
+		<table cellspacing="0" cellpadding="0" style="display:none">
 			<tbody>
-				<tr v-for="c in displayList" class="condition">
+				<tr v-for="c in displayConditions" class="condition">
 					<td class="ui-widget-content">
 						<select class="id ui-widget-content" v-model="c.id" @change.stop="editCondition('id', c)">
-							<option v-for="cfg in advanceConfig" :value="cfg.id">{{cfg.label}}</option>
+							<option v-for="cfg in advanceConfig.options" :value="cfg.id">{{cfg.label}}</option>
 						</select>
 					</td>
-					<td class="ui-widget-content">
+					<td class="ui-widget-content" style="max-width:7em">
 						<select class="operator ui-widget-content" v-model="c.operator" @change.stop="editCondition('operator', c)">
 							<option v-for="o in operators(c.id)" :value="o.id">{{o.label}}</option>
 						</select>
 					</td>
 					<td class="ui-widget-content">
-						<input debounce="200" type="text" class="value ui-widget-content" v-model="c.value" @keyup.enter.stop="search" @change.stop="editCondition('value', c)">
+						<input v-if="!c.tag || c.tag == 'input'" debounce="200" type="{{getInputType(c)}}" class="value ui-widget-content" v-model="c.value"
+							:step="c.step" :min="c.min" :max="c.max"
+							@keyup.enter.stop="search"
+							@change.stop="editCondition('value', c)">
+						<select v-if="c.tag == 'select'" class="value ui-widget-content" v-model="c.value"
+							@change.stop="editCondition('value', c)">
+							<option v-for="option in c.options" v-bind:value="option.hasOwnProperty('value') ? option.value : option">
+								{{ option.hasOwnProperty('value') ? option.text : option }}
+							</option>
+						</select>
 					</td>
 					<td class="ui-widget-content">
 						<span @click.stop="deleteCondition($index)" class="delete ui-icon ui-icon-minusthick" title="移除此条件"></span>
+						<span @click.stop="c.value = ''" class="clear ui-icon ui-icon-cancel" title="清空条件值"></span>
+					</td>
+				</tr>
+				<tr class="operate">
+					<td class="ui-widget-content" colspan="4">
+						<button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary" type="button" @click.stop="search">
+							<span class="ui-button-icon-primary ui-icon ui-icon-search"></span>
+							<span class="ui-button-text">查询</span>
+						</button>
+						<button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary" type="button" @click.stop="clearCondition">
+							<span class="ui-button-icon-primary ui-icon ui-icon-minus"></span>
+							<span class="ui-button-text">清空</span>
+						</button>
+						<button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary" type="button" @click.stop="addCondition">
+							<span class="ui-button-icon-primary ui-icon ui-icon-plus"></span>
+							<span class="ui-button-text">添加</span>
+						</button>
+						<button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary" type="button" @click.stop="showAdvance = false">
+							<span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span>
+							<span class="ui-button-text">关闭</span>
+						</button>
 					</td>
 				</tr>
 			</tbody>

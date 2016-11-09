@@ -45,48 +45,65 @@
 	position: relative;
 	margin-top: -2px;
 	background-image: none;
-	background-color: rgba(255, 255, 255, 0.8);
 	z-index: 90;
-	max-height: 18em;
 	overflow: auto;
+	display: flex;
+	flex-direction: column;
+	/*max-height: 25em;*/
 }
-.bc-vue-search > .advance > table{
+.bc-vue-search > .advance > .conditions{
 	border-collapse: collapse;
-	margin: 0.4em;
-	border: 0;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	overflow: auto;
+	flex-grow: 1;
+	min-width: 20em;
+}
+.bc-vue-search .operate {
+	padding: 0.4em;
+	border-width: 1px 0 0 0;
 }
 
 /* 单个条件 */
 .bc-vue-search .condition {
-	position: relative;
 	margin: 0.4em;
 }
-.bc-vue-search .condition > td {
-	vertical-align: middle;
-}
-.bc-vue-search .condition > td > * {
-	padding: .4em;
-	/*height: 2.5em;*/
-	font-family: inherit;
-	font-size: 1em;
-	box-sizing: border-box;
-	border-width: 0;
-}
-.bc-vue-search .condition > td > select {
-	padding-right: 1em;
-}
-.bc-vue-search .condition .id {
-	min-width: 5em;
-	text-align: right;
-}
-.bc-vue-search .condition .operator {
-	text-align: center;
+.bc-vue-search .condition .label {
+	opacity: 0.8;
 }
 .bc-vue-search .condition .value {
-	width: 10em;
-	text-align: left;
+	position: relative;
+	display: flex;
+	flex-direction: row;
 }
-.bc-vue-search .condition .delete {
-	cursor: pointer;
-	height: 16px;
+.bc-vue-search .condition .value > div{
+	display: inline-block;
+}
+.bc-vue-search .condition .value > div.left,
+.bc-vue-search .condition .value > div.right{
+	flex-grow: 1;
+	background-color: gray;
+}
+.bc-vue-search .condition .value input, 
+.bc-vue-search .condition .value select {
+	box-sizing: border-box;
+	min-width: 9em;
+	width: 100%;
+	padding: .34em 0 .34em .34em;
+	font-family: inherit;
+	font-size: 1em;
+	/*height: 2em;*/
+}
+.bc-vue-search .condition .value input {
+	/* select组件固定有4px的左边间隙无法去除，此样式为了对齐input和select的首个字母 */
+	padding-left: calc(0.34em + 4px);
+}
+.bc-vue-search .condition .value .left, 
+.bc-vue-search .condition .value .right {
+	position: relative;
+}
+
+.bc-vue-search .operate button {
+	font-family: inherit;
 }
