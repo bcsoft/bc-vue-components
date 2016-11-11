@@ -18,6 +18,7 @@
 
 	<h3>2) 高级搜索</h3>
 		<h4><label>启用高级搜索：<input type="checkbox" v-model="toggleAdvance"></label><h4>
+		<h4><label>限制高度为 20em：<input type="checkbox" v-model="toggleHeightLimit" :disabled="!toggleAdvance"></label><h4>
 		<h4>高级搜索框水平对齐方式：<label><input type="radio" v-model="align" value="left">左</label>
 		                        <label><input type="radio" v-model="align" value="center">中</label>
 		                        <label><input type="radio" v-model="align" value="right">右</label></h4>
@@ -27,6 +28,11 @@
 			:advance-value.sync="advanceValue"
 			:mix-value.sync="mixValue">
 		</bc-search>
+	</div>
+
+	<h3>3) 高级搜索(异步加载)</h3>
+	<div>
+		<bc-search @search="search" :advance-config="asyncAdvanceConfig"></bc-search>
 	</div>
 
 	<script>

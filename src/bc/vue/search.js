@@ -30,6 +30,31 @@
 define(['vue', 'text!bc/vue/search.html', 'css!bc/vue/search'], function (Vue, template) {
 	'use strict';
 	var DEFAULT_FUZZY_ID = 'fuzzy';
+
+	/** 判断条件是否为双值配置 */
+	function isDiadic(operator) {
+		// []、[)、()、(]
+		return /(^\[\]$)|(^\[\)$)|(^\(\]$)|(^\(\)$)/.test(operator);
+	}
+
+	/** 初始化高级搜索显示的条件列表 */
+	function initAdvanceOptions(vm) {
+		if (vm.advanceConfig && vm.advanceConfig.options) {
+			vm.displayConditions.length = 0;
+			var cp;
+			vm.advanceConfig.options.forEach(function (option) {
+				option.diadic = isDiadic(option.operator); // 是否为双值条件
+				option.value = option.diadic ? [] : "";
+				if (option.default !== false) {
+					cp = {};
+					for (var key in option) cp[key] = option[key];
+					vm.displayConditions.push(cp);
+				}
+			});
+			//console.log("[initAdvanceOptions] displayConditions=%s", JSON.stringify(vm.displayConditions));
+		}
+	}
+
 	return Vue.component('bc-search', {
 		template: template,
 		replace: true,
@@ -40,54 +65,51 @@ define(['vue', 'text!bc/vue/search.html', 'css!bc/vue/search'], function (Vue, t
 			value: { type: String, required: false, default: '' },
 			advanceValue: { type: Array, required: false },
 			mixValue: { type: Array, required: false },
-			advanceConfig: { type: Array, required: false, default: function () { return [] } },
+			// 数组-条件列表：[{id, label[, type][, default][, value]}, ...]
+			// String: 异步加载的 url
+			// 对象：{conditions: [{},...], style}
+			advanceConfig: { type: [String, Array, Object], required: false, default: null },
 		},
 		data: function () {
 			return {
-				displayList: [],    // 当前显示的高级搜索条件列表
+				displayConditions: [], // 当前显示的高级搜索条件列表
 				showAdvance: false, // 高级搜索条件是否处于显示状态
 			};
 		},
 		computed: {
+			advanceStyle: function () {
+				if (!this.advanceConfig) return null;
+				else {
+					return {
+						maxHeight: this.advanceConfig.maxHeight,
+						height: this.advanceConfig.height,
+						width: this.advanceConfig.width,
+						maxWidth: this.advanceConfig.maxWidth
+					};
+				}
+			},
 			/** 模糊搜索值的高级条件对象封装 */
 			fuzzyValueObj: function () {
 				return this.value !== null && this.value !== '' ? [DEFAULT_FUZZY_ID, this.value] : null;
 			},
-			/** 当高级搜索显示时默认就需显示的条件列表 */
-			defaultDisplayList: function () {
-				var list = [], o, a;
-				if (this.advanceConfig) {
-					for (var i = 0; i < this.advanceConfig.length; i++) {
-						a = this.advanceConfig[i];
-						if (a.default) {
-							o = {};
-							Object.keys(a).forEach(function (key) {
-								o[key] = a[key];
-							});
-							list.push(o);
-						}
-					}
-				}
-				return list;
-			},
 			/** 获取有效配置的高级条件 */
 			advanceValue_: function () {
-				if (!this.showAdvance || !this.advanceConfig || !this.advanceConfig.length) return null;
-				var vc = [], d, cfg, rv;
-				for (var i = 0; i < this.displayList.length; i++) {
-					d = this.displayList[i];
-					if (d.id && d.operator && d.value) {
+				if (!this.advanceConfig) return null;
+				var all = [], one, value;
+				this.displayConditions.forEach(function(d) {
+					value = Array.isArray(d.value) ? (d.value.length ? d.value : null) : d.value;
+					if (d.id && value) {
 						// [id, value, type, operator]
-						rv = [d.id, d.value];
-						d.type && rv.push(d.type);
-						if (d.operator != '=') {
-							if (!d.type) rv.push(null);
-							rv.push(d.operator);
+						one = [d.id, d.value];
+						d.type && one.push(d.type);
+						if (d.operator) {
+							if (!d.type) one.push(null);
+							one.push(d.operator);
 						}
-						vc.push(rv);
+						all.push(one);
 					}
-				}
-				return vc.length ? vc : null;
+				});
+				return all.length ? all : null;
 			},
 			/** advanceValue_ 的字符表示, 用于监控高级条件的值是否改变，从而正确触发 change 事件 */
 			advanceValueStr: function () {
@@ -113,13 +135,27 @@ define(['vue', 'text!bc/vue/search.html', 'css!bc/vue/search'], function (Vue, t
 			// 延迟观察 value 的变化
 			this.$watch('value', function (value, old) {
 				this.change();
-			})
+			});
+
+			// 重新整理 advanceConfig 为标准结构 
+			// {url, options, style}
+			if (typeof (this.advanceConfig) == "string") {  // url
+				this.advanceConfig = { url: this.advanceConfig };
+				this.hasAdvance = true;
+			} else if (Array.isArray(this.advanceConfig)) { // options
+				this.advanceConfig = { options: this.advanceConfig };
+				this.hasAdvance = true;
+			} else if (Object.prototype.toString.call(this.advanceConfig) === "[object Object]") {
+				// all
+				this.hasAdvance = true;
+			} else {
+				this.advanceConfig = null;
+				this.hasAdvance = false;
+			}
+			//console.log("[created] advanceConfig=%s", JSON.stringify(this.advanceConfig));
+			initAdvanceOptions(this);
 		},
 		watch: {
-			advanceConfig: function (value, old) {
-				this.showAdvance = false;
-				this.initDisplayList();
-			},
 			advanceValueStr: function (value, old) {
 				this.change();
 			}
@@ -134,14 +170,50 @@ define(['vue', 'text!bc/vue/search.html', 'css!bc/vue/search'], function (Vue, t
 					$(this).removeClass("ui-state-hover");
 				}
 			}, '.operate button');
-
-			this.initDisplayList();
 		},
 		destroyed: function () {
 			console.log('[search] destroyed');
 			$(this.$el).off();
 		},
 		methods: {
+			/** 切换高级搜索区的显示 */
+			toggleAdvance: function () {
+				var vm = this;
+				if (this.advanceConfig.loading) {       // 异步加载中就直接返回
+					return;
+				} else if (this.advanceConfig.options) { // 已有候选条件就直接切换显示
+					this.showAdvance = !this.showAdvance;
+					return;
+				} else { // 异步加载高级搜索配置后再显示
+					if (!this.advanceConfig.url) {
+						alert("缺少高级搜索的 advanceConfig.url 属性配置");
+						return;
+					}
+
+					vm.advanceConfig.loading = true;
+					fetch(this.advanceConfig.url, {
+						headers: { "Content-Type": "application/json;charset=utf-8" },
+						credentials: 'include'  // include cookies
+					}).then(function (res) {
+						return res.ok ? res.json() : res.text().then(function (msg) { throw new Error(msg) });
+					}).then(function (options) {
+						if (Array.isArray(options)) {
+							vm.advanceConfig.options = options;
+							initAdvanceOptions(vm);
+							vm.showAdvance = true;
+						}
+						else alert("高级搜索异步返回值不是数组格式！options=%s" + JSON.stringify(options));
+						vm.advanceConfig.loading = false;
+					}).catch(function (error) {
+						console.log("[grid] reload error: url=%s, error=%o", vm.url, error);
+						var msg = error.message || "加载高级搜索配置失败！";
+						if (window["bc"] && bc.msg) bc.msg.alert(msg);
+						else alert(msg);
+
+						vm.advanceConfig.loading = false;
+					});
+				}
+			},
 			/** 触发 change 事件 */
 			change: function () {
 				// 输出条件值
@@ -155,19 +227,6 @@ define(['vue', 'text!bc/vue/search.html', 'css!bc/vue/search'], function (Vue, t
 			/** 触发 search 事件 */
 			search: function () {
 				this.$dispatch("search", this.value, this.advanceValue_, this.mixValue_);
-			},
-			/** 初始化显示的条件列表 */
-			initDisplayList: function () {
-				this.displayList.length = 0;
-				var o, d;
-				for (var i = 0; i < this.defaultDisplayList.length; i++) {
-					d = this.defaultDisplayList[i];
-					o = {};
-					Object.keys(d).forEach(function (key) {
-						o[key] = d[key];
-					});
-					this.displayList.push(o);
-				}
 			},
 			/** 获取条件的可用操作符列表 */
 			operators: function (id) {
@@ -189,18 +248,18 @@ define(['vue', 'text!bc/vue/search.html', 'css!bc/vue/search'], function (Vue, t
 			},
 			/** 添加新条件 */
 			addCondition: function () {
-				this.displayList.push({ id: null, operator: '=', value: null, type: null });
+				this.displayConditions.push({ id: null, operator: '=', value: null, type: null });
 			},
 			/** 删除条件 */
 			deleteCondition: function (index) {
-				this.displayList.splice(index, 1);
-				if (!this.displayList.length) {
+				this.displayConditions.splice(index, 1);
+				if (!this.displayConditions.length) {
 					this.showAdvance = false;
 				}
 			},
 			/** 清空所有条件 */
 			clearCondition: function () {
-				this.displayList.forEach(function (c) { c.value = "" });
+				this.displayConditions.forEach(function (c) { c.value = "" });
 			},
 			/** 获取条件的配置信息 */
 			getConditionConfig: function (id) {
