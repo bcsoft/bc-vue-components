@@ -1,6 +1,6 @@
 /*! BC 平台的 vue 组件
  * @author dragon <rongjihuang@gmail.com>
- * @version v0.3.0 2016-10-28
+ * @version v0.4.0 2016-11-14
  * @license Apache License 2.0
  * @components bc-theme
  *             bc-button
@@ -11,6 +11,7 @@
  *             bc-page-bar
  *             bc-loading
  *             bc-grid
+ * @history v0.3.0 2016-10-28
  * @history v0.2.3 2016-09-21
  * @history v0.2.2 2016-09-06
  * @history v0.2.1 2016-08-19
