@@ -44,7 +44,7 @@ define(['vue', 'text!bc/vue/search.html', 'css!bc/vue/search'], function (Vue, t
 			var cp;
 			vm.advanceConfig.options.forEach(function (option) {
 				option.diadic = isDiadic(option.operator); // 是否为双值条件
-				option.value = option.diadic ? [] : "";
+				option.value = option.diadic ? [] : null;
 				if (option.default !== false) {
 					cp = {};
 					for (var key in option) cp[key] = option[key];
@@ -97,10 +97,17 @@ define(['vue', 'text!bc/vue/search.html', 'css!bc/vue/search'], function (Vue, t
 				if (!this.advanceConfig) return null;
 				var all = [], one, value;
 				this.displayConditions.forEach(function(d) {
-					value = Array.isArray(d.value) ? (d.value.length ? d.value : null) : d.value;
+					if (d.diadic) {
+						value = [];
+						if (d.value[0] !== "" && d.value[0] !== null && d.value[0] !== undefined) value[0] = d.value[0];
+						if (d.value[1] !== "" && d.value[1] !== null && d.value[1] !== undefined) value[1] = d.value[1];
+						if (!value.length) value = null;
+					} else {
+						value = d.value !== "" ? d.value : null;
+					}
 					if (d.id && value) {
 						// [id, value, type, operator]
-						one = [d.id, d.value];
+						one = [d.id, value];
 						d.type && one.push(d.type);
 						if (d.operator) {
 							if (!d.type) one.push(null);
@@ -259,7 +266,9 @@ define(['vue', 'text!bc/vue/search.html', 'css!bc/vue/search'], function (Vue, t
 			},
 			/** 清空所有条件 */
 			clearCondition: function () {
-				this.displayConditions.forEach(function (c) { c.value = "" });
+				this.displayConditions.forEach(function (c) { 
+					c.value = c.diadic ? [] : null;
+				});
 			},
 			/** 获取条件的配置信息 */
 			getConditionConfig: function (id) {
