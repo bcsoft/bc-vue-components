@@ -243,6 +243,13 @@ define(['vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/grid.html', '
 					return column.filter(value, row, column);
 				}
 			},
+			/** 单元格的鼠标提示信息 */
+			rowCellTitle: function (value, row, column) {
+				if (!column.title) return;
+				if (typeof column.title == "function") { // 自定义函数
+					return column.title(value, row, column);
+				} else return value;
+			},
 			/** 单元格点击函数 */
 			rowCellClick: function (value, row, column) {
 				if(column.rowCellClick) column.rowCellClick(value, row, column);

@@ -20,7 +20,8 @@ const page = function (url, pageNo, pageSize) {
 		{
 			"id": "str",
 			"label": "文本",
-			"width": "15em"
+			"width": "15em",
+			"title": true
 		},
 		{
 			"id": "money",
@@ -34,7 +35,8 @@ const page = function (url, pageNo, pageSize) {
 				{
 					"id": "moneyOut",
 					"label": "收入",
-					"width": "7em"
+					"width": "7em",
+					"title": true
 				}
 			]
 		},
