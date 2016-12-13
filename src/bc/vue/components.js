@@ -1,6 +1,6 @@
 /*! BC 平台的 vue 组件
  * @author dragon <rongjihuang@gmail.com>
- * @version v0.4.1 2016-11-16
+ * @version v0.5.0 2016-12-13
  * @license Apache License 2.0
  * @components bc-theme
  *             bc-button
@@ -11,13 +11,6 @@
  *             bc-page-bar
  *             bc-loading
  *             bc-grid
- * @history v0.4.0 2016-11-14
- * @history v0.3.0 2016-10-28
- * @history v0.2.3 2016-09-21
- * @history v0.2.2 2016-09-06
- * @history v0.2.1 2016-08-19
- * @history v0.2.0 2016-08-15
- * @history v0.1.0 2016-07-08
  */
 define(["bc/vue/theme", "bc/vue/button", "bc/vue/button-set", "bc/vue/search"
 	, "bc/vue/toolbar"
