@@ -1,6 +1,6 @@
 /*! BC 平台的 vue 组件
  * @author dragon <rongjihuang@gmail.com>
- * @version v0.5.0 2016-12-13
+ * @version v0.5.1 2016-12-16
  * @license Apache License 2.0
  * @components bc-theme
  *             bc-button
