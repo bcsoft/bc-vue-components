@@ -110,3 +110,9 @@
 .bc-vue-grid td.cell.text, .bc-vue-grid th.cell.text {
 	padding: 0 0.4em;
 }
+
+.bc-vue-grid td.cell.text.ellipsis, .bc-vue-grid th.cell.text.ellipsis {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
