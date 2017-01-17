@@ -6,7 +6,7 @@
 			<span v-if="advanceConfig" @click.stop="toggleAdvance" class="add ui-icon ui-icon-triangle-1-{{showAdvance ? 'n' : 's'}}" title="{{showAdvance ? '隐藏高级搜索' : '显示高级搜索'}}"></span>
 		</div>
 	</div>
-	<div class="advance ui-widget-content" v-if="showAdvance" :style="advanceStyle">
+	<div class="advance ui-widget-content ui-state-highlight" v-if="showAdvance" :style="advanceStyle">
 		<ul class="conditions">
 			<li class="condition" v-for="c in displayConditions">
 				<div class="label">{{c.label}}</div>
