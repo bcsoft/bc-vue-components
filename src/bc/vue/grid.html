@@ -30,12 +30,16 @@
 				    :style="(typeof rowStyle == 'function') ? rowStyle(r) : rowStyle">
 					<td class="sn" data-id="_sn"><span v-if="r.selected" class="ui-icon ui-icon-check"></span>{{$index + 1}}</td>
 					<template v-for="c in columns">
-						<td v-if="isGroupColumn(c)" v-for="d in c.children" class="cell text" :class="d.rowCellClass" :style="d.rowCellStyle"
+						<td v-if="isGroupColumn(c)" v-for="d in c.children" class="cell text"
+						    :class="(typeof d.rowCellClass == 'function') ? d.rowCellClass(r[d.id], r, d) : d.rowCellClass"
+						    :style="(typeof d.rowCellStyle == 'function') ? d.rowCellStyle(r[d.id], r, d) : d.rowCellStyle"
 						    @click.prevent="rowCellClick(r[d.id], r, d)" :title="rowCellTitle(r[d.id], r, d)">
 							<template v-if="d.escape !== false">{{rowCellFilter(r[d.id], r, d)}}</template>
 							<template v-if="d.escape === false">{{{rowCellFilter(r[d.id], r, d)}}}</template>
 						</td>
-						<td v-if="!isGroupColumn(c)" class="cell text" :class="c.rowCellClass" :style="c.rowCellStyle"
+						<td v-if="!isGroupColumn(c)" class="cell text"
+						    :class="(typeof c.rowCellClass == 'function') ? c.rowCellClass(r[c.id], r, c) : c.rowCellClass"
+						    :style="(typeof c.rowCellStyle == 'function') ? c.rowCellStyle(r[c.id], r, c) : c.rowCellStyle"
 						    @click.prevent="rowCellClick(r[c.id], r, c)" :title="rowCellTitle(r[c.id], r, c)">
 							<template v-if="c.escape !== false">{{rowCellFilter(r[c.id], r, c)}}</template>
 							<template v-if="c.escape === false">{{{rowCellFilter(r[c.id], r, c)}}}</template>
