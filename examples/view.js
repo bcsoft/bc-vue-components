@@ -10,6 +10,7 @@ define(["vue", "bc/vue/toolbar", "bc/vue/button", "bc/vue/button-set", "bc/vue/s
 	return new Vue({
 		el: document.body,
 		data: {
+			url: "/data/grid.json",
 			status: "0",
 			mixSearch: null,
 			ui: {
@@ -17,6 +18,7 @@ define(["vue", "bc/vue/toolbar", "bc/vue/button", "bc/vue/button-set", "bc/vue/s
 				quickSearch: false,
 				singleChoice: false,
 				toggleAdvance: true,
+				corsChoice: false,
 				advanceConfig: {
 					height: "30em",
 					url:"search-advance-config.json"
@@ -26,6 +28,13 @@ define(["vue", "bc/vue/toolbar", "bc/vue/button", "bc/vue/button-set", "bc/vue/s
 		watch: {
 			'ui.toggleAdvance': function (checked) {
 				this.ui.advanceConfig = checked ? defaultAdvanceConfig : null;
+			},
+			'ui.corsChoice': function (checked) {
+				this.url = (checked ? "http://127.0.0.1:9000" : "") + "/data/grid.json";
+				if(window && window.localStorage) {
+					if(checked) window.localStorage.authorization = "Beara test-jwt";
+					else window.localStorage.removeItem("authorization");
+				}
 			}
 		},
 		computed: {

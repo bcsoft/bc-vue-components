@@ -22,10 +22,18 @@
 
 <body>
 	<bc-theme :size="12" unit="px"></bc-theme>
-	<h2>视图</h2>
+	<h2>
+		视图
+		<span style="margin-left:2em;font-weight:normal;font-size:12px">
+			url=<input type="text" v-model="url" style="width:20em">
+			<label>
+				<input type="checkbox" v-model="ui.corsChoice">CORS 跨域
+			</label>
+		</span>
+	</h2> 
 	<div class="demo bc-ui-dialog ui-widget-header" style=" padding: 0.5em">
 		<div class="bc-page">
-			<bc-grid v-ref:grid :class="{border: ui.showBorder}" url="/data/grid.json" :pageable="true" :query.sync="condition" :single-choice="ui.singleChoice" :auto-load="false"
+			<bc-grid v-ref:grid :class="{border: ui.showBorder}" :url="url" :pageable="true" :query.sync="condition" :single-choice="ui.singleChoice" :auto-load="false"
 			:exportable="true" :importable="true" @export="exportData" @import="importData">
 				<bc-toolbar v-ref:toolbar slot="top">
 					<bc-button icon-class="ui-icon-check" @click="open" text="查看"></bc-button>
