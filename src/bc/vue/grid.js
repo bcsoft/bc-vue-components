@@ -167,8 +167,7 @@ define(['vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/grid.html', '
 				var vm = this;
 				var url = this.url;
 				var settings = {
-					method: typeof (this.method) == "function" ? this.method() : (this.method || "GET"),
-					credentials: 'include'  // include cookies
+					method: typeof (this.method) == "function" ? this.method() : (this.method || "GET")
 				};
 
 				// 处理请求提交的参数
@@ -182,6 +181,14 @@ define(['vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/grid.html', '
 						s.push(key + "=" + params[key]);
 					});
 					if (s.length) url += "?" + s.join("&");
+				}
+
+				// 处理 CORS 跨域请求
+				if(window && window.localStorage && window.localStorage.authorization){
+					if (!settings.headers) settings.headers = {};
+					settings.headers["Authorization"] = window.localStorage.authorization;
+				} else { // 非 CORS 跨域请求退回使用 cookies
+					settings.credentials = 'include'  // include cookies
 				}
 
 				// 重新加载前允许用户预处理请求参数和取消请求
