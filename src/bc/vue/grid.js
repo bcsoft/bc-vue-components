@@ -191,6 +191,9 @@ define(['vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/grid.html', '
 					settings.credentials = 'include'  // include cookies
 				}
 
+				// TODO: remove this line for no session local service in the future
+				if(!settings.credentials) settings.credentials = 'include';
+
 				// 重新加载前允许用户预处理请求参数和取消请求
 				if (this.beforeReload && this.beforeReload(settings) === false) {
 					vm.v.loading = false;
