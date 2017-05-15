@@ -56,6 +56,16 @@ define(['vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/grid.html', '
 			},
 			headRowspan: function () {
 				return this.$refs.cols ? this.$refs.cols.rowspan : 1;
+			},
+			// 判断 url 是否是跨域请求
+			isCorsUrl: function () {
+				var url = this.url.toLowerCase();
+				if(url.indexOf("http://") === 0 || url.indexOf("https://") === 0 || url.indexOf("//") === 0){
+					var link = document.createElement('a');
+					link.setAttribute('href', url);
+					if (link.host !== location.host) return true;
+				}
+				return false;
 			}
 		},
 		data: function () {
@@ -183,16 +193,13 @@ define(['vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/grid.html', '
 					if (s.length) url += "?" + s.join("&");
 				}
 
-				// 处理 CORS 跨域请求
-				if(window && window.localStorage && window.localStorage.authorization){
+				// 处理 CORS 跨域请求: 有 localStorage.authorization 且 isCorsUrl = true 才当作跨域
+				if(window && window.localStorage && window.localStorage.authorization && this.isCorsUrl){
 					if (!settings.headers) settings.headers = {};
 					settings.headers["Authorization"] = window.localStorage.authorization;
 				} else { // 非 CORS 跨域请求退回使用 cookies
 					settings.credentials = 'include'  // include cookies
 				}
-
-				// TODO: remove this line for no session local service in the future
-				if(!settings.credentials) settings.credentials = 'include';
 
 				// 重新加载前允许用户预处理请求参数和取消请求
 				if (this.beforeReload && this.beforeReload(settings) === false) {
