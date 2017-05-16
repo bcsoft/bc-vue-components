@@ -29,12 +29,14 @@
 	<bc-grid :columns="columns" :rows="rows" :pageable="true" :count="5432" style="height:15em;width:35em">
 	</bc-grid>
 
-	<h3>2-1）默认(不分页) - 自动高宽、指定 colums 和 rows、显示分页条</h3>
+	<h3>2-1）默认(不分页) - 自动高宽、指定 colums 和 rows、不显示分页条</h3>
 	<bc-grid :columns="columns" :rows="rows"></bc-grid>
 
-	<h3>2-2）默认(不分页) - 固定高宽、指定 colums 和 rows、不显示分页条</h3>
-	<bc-grid :columns="columns" :rows="rows" :show-page-bar="false" style="height:18em;width:35em">
-	</bc-grid>
+	<h3>2-2）不分页 - 固定高宽、指定 colums 和 rows、不显示分页条</h3>
+	<bc-grid :columns="columns" :rows="rows" :show-page-bar="false" style="height:18em;width:35em"></bc-grid>
+
+	<h3>2-3）不分页 - 自动高宽、指定 url、显示底条</h3>
+	<bc-grid url="grid-rows.json" :columns="columns"></bc-grid>
 
 	<script>
     var demos = ["css!demo-css", "bc/vue/theme", "../examples/grid"];
