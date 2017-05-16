@@ -211,20 +211,24 @@ define(['vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/grid.html', '
 				fetch(url, settings).then(function (res) {
 					return res.ok ? res.json() : res.text().then(function (msg) { throw new Error(msg) });
 				}).then(function (j) {
-					j.columns && vm.$set('columns', j.columns);
-					j.rows && vm.$set('rows', j.rows);
-					if (vm.pageable) { // 分页时
-						j.pageNo && vm.$set('pageNo', j.pageNo);
-						j.pageSize && vm.$set('pageSize', j.pageSize);
-						j.pageSizes && vm.$set('pageSizes', j.pageSizes);
-						j.count && vm.$set('count', j.count);
+					if(Array.isArray(j)) { // 非分页且直接返回 rows 值的情况
+						vm.$set('rows', j);
+					} else {
+						j.columns && vm.$set('columns', j.columns);
+						j.rows && vm.$set('rows', j.rows);
+						if (vm.pageable) { // 分页时
+							j.pageNo && vm.$set('pageNo', j.pageNo);
+							j.pageSize && vm.$set('pageSize', j.pageSize);
+							j.pageSizes && vm.$set('pageSizes', j.pageSizes);
+							j.count && vm.$set('count', j.count);
+						}
+						if (vm.showPageBar) {
+							j.hasOwnProperty("refreshable") && vm.$set('refreshable', j.refreshable);
+							j.hasOwnProperty("exportable") && vm.$set('exportable', j.exportable);
+							j.hasOwnProperty("importable") && vm.$set('importable', j.importable);
+						}
+						j.hasOwnProperty("singleChoice") && vm.$set('singleChoice', j.singleChoice);
 					}
-					if (vm.showPageBar) {
-						j.hasOwnProperty("refreshable") && vm.$set('refreshable', j.refreshable);
-						j.hasOwnProperty("exportable") && vm.$set('exportable', j.exportable);
-						j.hasOwnProperty("importable") && vm.$set('importable', j.importable);
-					}
-					j.hasOwnProperty("singleChoice") && vm.$set('singleChoice', j.singleChoice);
 
 					// 触发数据加载完毕事件
 					vm.$dispatch('after-reload', j);
