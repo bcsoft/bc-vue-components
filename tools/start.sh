@@ -51,12 +51,12 @@ else
   echo 'check r.js installation: ok'
 fi
 
-# install uglifyjs if it is not global
+# install UglifyJS if it is not global
 if ! [ -x "$(command -v uglifyjs)" ]; then
-  echo 'npm install -g uglifyjs'
-  npm install -g uglifyjs
+  echo 'npm install -g uglify-js@2.4.x'
+  npm install -g uglify-js@2.4.x
 else
-  echo 'check uglifyjs installation: ok'
+  echo 'check uglify-js installation: ok'
 fi
 
 ./tools/build.sh
