@@ -261,7 +261,7 @@ define(['vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/grid.html', '
 					//console.log("column=%s, filter=%s, args=%o", column.id, cfg[0], args);
 					return filter.apply(this, args);
 				} else if (typeof column.filter == "function") { // 自定义的渲染函数
-					return column.filter(value, row, column);
+					return column.filter.apply(this, [value, row, column]);
 				}
 			},
 			/** 单元格的鼠标提示信息 */
@@ -272,8 +272,8 @@ define(['vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/grid.html', '
 				} else return value;
 			},
 			/** 单元格点击函数 */
-			rowCellClick: function (value, row, column) {
-				if(column.rowCellClick) column.rowCellClick(value, row, column);
+			rowCellClick: function (value, row, column, e) {
+				if(column.rowCellClick) column.rowCellClick.apply(this, [value, row, column, e]);
 			},
 			// 获取用于导出报表的 form (如果没有会自动创建一个)
 			getExportForm: function () {

@@ -40,7 +40,7 @@
 						<td v-if="!isGroupColumn(c)" class="cell text"
 						    :class="(typeof c.rowCellClass == 'function') ? c.rowCellClass(r[c.id], r, c) : c.rowCellClass"
 						    :style="(typeof c.rowCellStyle == 'function') ? c.rowCellStyle(r[c.id], r, c) : c.rowCellStyle"
-						    @click.prevent="rowCellClick(r[c.id], r, c)" :title="rowCellTitle(r[c.id], r, c)">
+						    @click.prevent="rowCellClick(r[c.id], r, c, $event)" :title="rowCellTitle(r[c.id], r, c)">
 							<template v-if="c.escape !== false">{{rowCellFilter(r[c.id], r, c)}}</template>
 							<template v-if="c.escape === false">{{{rowCellFilter(r[c.id], r, c)}}}</template>
 						</td>
