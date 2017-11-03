@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>loading</title>
+	<meta charset="UTF-8">
+	<style>
+		body > .content-container {
+			position: relative;
+		}
+	</style>
+</head>
+
+<body>
+	<bc-theme :unit="unit"></bc-theme>
+	<h2>bc/vue/box-pointer - 气泡组件</h2>
+	<h3><label><input type="checkbox" v-model="hidden">隐藏</label></h3>
+	<div class="content-container ui-widget-content"
+	  style="width: 24px;height: 26px;position:absolute;bottom:10px;left:10px;margin:0">
+		<bc-box-pointer :hidden.sync="hidden" width="12em">气泡组件气泡组件气泡组件气泡组件</bc-box-pointer>
+	</div>
+	<script>
+		var demos = ["css!demo-css", "bc/vue/theme", "../examples/box-pointer"];
+	</script>
+	<script data-main="main" src="../bower_components/requirejs/require.js"></script>
+</body>
+</html>

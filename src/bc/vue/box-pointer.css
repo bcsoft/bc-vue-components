@@ -1,0 +1,55 @@
+.bc-box-pointer {
+	position:absolute;
+	z-index: 9999;
+	left: 0;
+	top: 0;
+	border: none;
+}
+
+/* pointer 的边框 */
+.bc-box-pointer > .pointer-border {
+	position: absolute;
+	display: block;
+	height: 0;
+	width: 0;
+	border-width: 10px;
+	background: none;
+}
+
+.bc-box-pointer.left-top > .pointer-border {
+	left: 0; bottom: -12px;
+	border-color: rgb(252, 239, 161) transparent transparent transparent;
+}
+
+/* pointer 的内容 */
+.bc-box-pointer > .pointer-back {
+	position: absolute;
+	display: block;
+	border: none;
+	height: 20px;
+	width: 20px;
+	transform: translateY(-24px) rotateZ(45deg);
+	transform-origin: 50% 50% 0;
+}
+
+
+.bc-box-pointer > .box {
+	_height: 40px;
+	position: absolute;
+	min-width: 6em;
+	min-height: 2em;
+	bottom: 5px;
+	left: -2px;
+}
+
+.bc-box-pointer > .box > .content {
+	margin: 0.25em;
+	cursor: default;
+}
+
+.bc-box-pointer > .box > .close{
+	position: absolute;
+	top: -8px;
+	right: -8px;
+	cursor: pointer;
+}

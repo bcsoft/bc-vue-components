@@ -1,0 +1,16 @@
+<div class="bc-box-pointer left-top" :style="{display: hidden ? 'none' : 'block'}">
+	<s class="pointer-border ui-widget ui-state-highlight">
+	</s>
+	<s class="pointer-back ui-widget ui-state-highlight"></s>
+	<div class="box ui-widget ui-state-highlight ui-corner-all" :style="{width: width}">
+		<s class="close ui-state-default ui-corner-all" :class="closeClass"
+			@click.prevent="hidden = true"
+			@mouseover.prevent.stop="closeClass = 'ui-state-hover'"
+			@mouseout.prevent.stop="closeClass = ''">
+			<span class="ui-icon ui-icon-closethick"></span>
+		</s>
+		<div class="content">
+			<slot></slot>
+		</div>
+	</div>
+</div>

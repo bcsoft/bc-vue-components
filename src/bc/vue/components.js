@@ -13,7 +13,7 @@
  *             bc-grid
  */
 define(["bc/vue/theme", "bc/vue/button", "bc/vue/button-set", "bc/vue/search"
-	, "bc/vue/toolbar"
+	, "bc/vue/toolbar" , "bc/vue/box-pointer"
 	, "bc/vue/table-col", "bc/vue/page-bar", "bc/vue/loading"
 	, "bc/vue/grid"
 ], function () {
