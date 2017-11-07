@@ -53,8 +53,8 @@ fi
 
 # install UglifyJS if it is not global
 if ! [ -x "$(command -v uglifyjs)" ]; then
-  echo 'npm install -g uglify-js@2.4.x'
-  npm install -g uglify-js@2.4.x
+  echo 'npm install -g uglify-es@3.1.x'
+  npm install -g uglify-es@3.1.x
 else
   echo 'check uglify-js installation: ok'
 fi

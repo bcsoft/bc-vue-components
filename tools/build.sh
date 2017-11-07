@@ -19,9 +19,11 @@ componentsFile=bc/vue/components.js
 echo "copy to dist/$componentsFile"
 cp -f temp/$componentsFile dist/$componentsFile
 
-# https://github.com/mishoo/UglifyJS2
+# https://github.com/mishoo/UglifyJS2/tree/harmony
 echo "build dist/bc/vue/components.min.js, dist/bc/vue/components.min.js.map"
-uglifyjs dist/$componentsFile -o dist/bc/vue/components.min.js --source-map dist/bc/vue/components.min.js.map -m -c --comments --source-map-url components.min.js.map
+uglifyjs dist/$componentsFile -o dist/bc/vue/components.min.js \
+  --source-map "filename='dist/bc/vue/components.min.js.map',url='components.min.js.map'" \
+	-m -c --comments
 
 # copy result files to target dir
 if [[ $1 ]]; then
