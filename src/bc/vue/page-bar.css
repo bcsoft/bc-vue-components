@@ -7,7 +7,7 @@
 	padding: 0;
 }
 
-.bc-page-bar li {
+.bc-page-bar > li {
 	list-style: none;
 	cursor: default;
 	position: relative;
@@ -20,40 +20,40 @@
 	cursor: pointer;
 }
 
-.bc-page-bar li span.ui-icon {
+.bc-page-bar > li > span.ui-icon {
 	float: left;
 	margin: 0 4px;
 }
 
-.bc-page-bar .icons {
+.bc-page-bar > .icons {
 	padding: 2px 2px;
 }
 
-.bc-page-bar .icons a.icon {
+.bc-page-bar > .icons > a.icon {
 	margin: 0;
 	border: 0;
 }
 
-.bc-page-bar .icons span.ui-icon {
+.bc-page-bar > .icons span.ui-icon {
 	margin: 2px;
 }
 
-.bc-page-bar li span.pageNo, .bc-page-bar li span.pageSize {
+.bc-page-bar > li span.pageNo, .bc-page-bar > li span.pageSize {
 	float: left;
 	height: 16px;
 	font-size: 12px;
 }
 
-.bc-page-bar li span.pageNo {
+.bc-page-bar > li span.pageNo {
 	margin: 2px 4px;
 	cursor: default;
 }
 
-.bc-page-bar li span.pageSize {
+.bc-page-bar > li span.pageSize {
 	margin: 2px 4px;
 }
 
-.bc-page-bar li a {
+.bc-page-bar > li > a {
 	float: left;
 	display: block;
 }

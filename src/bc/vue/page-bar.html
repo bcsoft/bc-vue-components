@@ -29,7 +29,7 @@
 	<li v-if="exportable" class="icon ui-state-default ui-corner-all" title="导出" @click="this.$dispatch('export', -1)">
 		<span class="ui-icon ui-icon-arrowthickstop-1-s"></span>
 	</li>
-	<li v-if="importable" class="icon ui-state-default ui-corner-all" title="导入" @click="this.$dispatch('import')">
-		<span class="ui-icon ui-icon-arrowthickstop-1-n"></span>
-	</li>
+	
+	<!-- 扩展按钮 -->
+	<slot></slot>
 </ul>

@@ -63,9 +63,9 @@ define(["vue", "bc/vue/components"], function (Vue) {
 			exportData: function (scope) {
 				console.log("[example] exportData: scope=%s", scope);
 			},
-			// 导入数据
-			importData: function () {
-				console.log("[example] importData");
+			// 导入数据后
+			imported: function (success, result) {
+				console.log("[dist] imported: success=%s, result=%s", success, result);
 			}
 		},
 		ready: function () {

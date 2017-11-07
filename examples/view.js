@@ -75,9 +75,9 @@ define(["vue", "bc/vue/toolbar", "bc/vue/button", "bc/vue/button-set", "bc/vue/s
 			exportData: function (scope) {
 				console.log("[example] exportData: scope=%s", scope);
 			},
-			// 导入数据
-			importData: function () {
-				console.log("[example] importData");
+			// 导入数据后
+			imported: function (success, result) {
+				console.log("[example] imported: success=%s, result=%s", success, result);
 			}
 		},
 		ready: function () {

@@ -26,7 +26,9 @@
  *   </ul>
  * </pre>
  */
-define(['jquery', 'vue', 'text!bc/vue/page-bar.html', 'css!bc/vue/page-bar'], function ($, Vue, template) {
+define([
+	'jquery', 'vue', 'text!bc/vue/page-bar.html', 'css!bc/vue/page-bar', 'bc/vue/page-bar-importer'
+], function ($, Vue, template) {
 	'use strict';
 	// Grid 组件的分页条 - 注册为全局组件
 	var DEFAULT_PAGE_SIZES = [25, 50, 100];
