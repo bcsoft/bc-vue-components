@@ -1,0 +1,37 @@
+<li class="bc-page-bar-importer icon ui-state-default ui-corner-all" :title="title">
+	<span class="ui-icon" :class="iconClass" @click="hidden = !hidden"></span>
+	<bc-box-pointer :width.sync="width" :hidden.sync="hidden" title="" @closed="reset">
+		<form name="importer" method="post" 
+			@dragenter.prevent.stop="dragging = true" 
+			@dragover.prevent.stop="dragging = true" 
+			@dragleave.prevent.stop="dragging = false" 
+			@drop.prevent.stop="drop($event)">
+			<div class="info">
+				导入数据前请确保数据文件符合模板格式，可以通过下载模板获知格式的详细要求！
+			</div>
+			<div class="buttons">
+				<!-- 上传数据 -->
+				<label class="button upload">上传数据
+					<input type="file" name="upload" @change.prevent.stop="upload($event.target.files[0])" 
+					  :accept="accept" style="display: none">
+				</label>
+				<!-- 下载模板 -->
+				<a href="#" class="button download" @click.prevent.stop="download">下载模板</a>
+				<!-- 取消 -->
+				<a href="#" class="button cancel" @click.prevent.stop="hidden = !hidden">取消</a>
+			</div>
+		</form>
+		<div v-if="processing" class="processing ui-state-highlight">
+			<div v-if="!loading" style="margin:auto">
+				{{resultSubject}}
+				<template v-if="result.errorCount">
+					<br><a href="#" class="show-result-detail" @click="showResultDetail">点击查看详情</a>
+				</template>
+			</div>
+		</div>
+		<!-- 上传进度显示 -->
+		<bc-loading v-if="loading" v-ref:loader :countable="true" :transparent="false"
+		  :maskable="true" size="5em" speed="1000ms">
+		</bc-loading>
+	</bc-box-pointer>
+</li>

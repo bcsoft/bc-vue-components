@@ -52,7 +52,11 @@
 	</div>
 
 	<!-- 分页条 -->
-	<bc-page-bar v-if="showPageBar" style="border-width: 1px 0 0 0" :pageable="pageable" :page-no.sync="pageNo" :page-size.sync="pageSize" :page-sizes.sync="pageSizes" :count.sync="count" :refreshable="refreshable" :exportable="exportable" :importable="importable" @change="reload">
+	<bc-page-bar v-if="showPageBar" style="border-width: 1px 0 0 0" :pageable="pageable" :page-no.sync="pageNo" 
+		:page-size.sync="pageSize" :page-sizes.sync="pageSizes" :count.sync="count" :refreshable="refreshable"
+		:exportable="exportable" :importable="importable" @change="reload">
+		<!-- 分页条扩展按钮 -->
+		<slot name="page-bar-button"></slot>
 	</bc-page-bar>
 
 	<!-- 加载器 -->

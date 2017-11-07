@@ -1,0 +1,31 @@
+{
+	"totalCount": 10,
+	"successCount": 5,
+	"ignoreCount": 4,
+	"columnNames": [
+		"A",
+		"B",
+		"C"
+	],
+	"errorCount": 2,
+	"errors": [
+		{
+			"index": 3,
+			"msg": "编号错误1",
+			"source": [
+				"A1",
+				null,
+				"C1"
+			]
+		},
+		{
+			"index": 7,
+			"msg": "编号错误2",
+			"source": [
+				"A2",
+				"B2",
+				null
+			]
+		}
+	]
+}

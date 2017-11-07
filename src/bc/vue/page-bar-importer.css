@@ -1,0 +1,46 @@
+/*! 分页条的导入组件样式 */
+
+/* 容器 */
+.bc-page-bar-importer {
+	position: relative;
+}
+
+.bc-page-bar-importer .info {
+	width: 14em;
+	font-weight: normal;
+	padding: 5px;
+	border: 1px dashed #ccc;
+}
+
+.bc-page-bar-importer .buttons {
+	position: relative;
+	text-align: right;
+	padding: 0 4px;
+}
+
+.bc-page-bar-importer .buttons > .button {
+	text-decoration: underline;
+	cursor: pointer;
+	position: relative;
+	margin: auto .25em;
+}
+
+.bc-page-bar-importer .processing{
+	position: absolute;
+	left: 0.25em;
+	top: 0.25em;
+	right: 0.25em;
+	bottom: 0.25em;
+	text-align: center;
+	border-style: dashed;
+	line-height: 1.5em;
+	display: flex;
+	align-items: center;
+	padding: 0.25em;
+}
+
+.bc-page-bar-importer .processing .show-result-detail{
+	text-decoration: underline;
+	cursor: pointer;
+	margin-top: 1em;
+}

@@ -6,7 +6,8 @@
 	"dependencies": {
 		"koa": "1.2.0",
 		"koa-router": "5.4.0",
-		"koa-static": "2.0.0"
+		"koa-static": "2.0.0",
+		"thread-sleep": "^2.0.0"
 	},
 	"devDependencies": {
 		"bower-nexus3-resolver": "*",

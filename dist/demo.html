@@ -26,7 +26,7 @@
 	<div class="demo bc-ui-dialog ui-widget-header" style=" padding: 0.5em">
 		<div class="bc-page">
 			<bc-grid v-ref:grid :class="{border: ui.showBorder}" url="/data/grid.json" :pageable="true" :query.sync="condition" :single-choice="ui.singleChoice" :auto-load="false"
-			:exportable="true" :importable="true" @export="exportData" @import="importData">
+			:exportable="true" @export="exportData">
 				<bc-toolbar v-ref:toolbar slot="top">
 					<bc-button icon-class="ui-icon-check" @click="open" text="查看"></bc-button>
 					<bc-button icon-class="ui-icon-document" text="新建"></bc-button>
@@ -52,6 +52,7 @@
 						:advance-config="ui.advanceConfig" align="right" :quick="ui.quickSearch">
 					</bc-search>
 				</bc-toolbar>
+				<bc-page-bar-importer slot="page-bar-button" accept=".xls"></bc-page-bar-importer>
 			</bc-grid>
 		</div>
 	</div>

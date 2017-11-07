@@ -1,7 +1,10 @@
 /**
  * grid 组件
  */
-define(['vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/grid.html', 'css!bc/vue/grid', 'bc/vue/loading'], function (Vue, tableCol, pageBar, template) {
+define([
+	'vue', 'bc/vue/table-col', 'bc/vue/page-bar', 
+	'text!bc/vue/grid.html', 'css!bc/vue/grid', 'bc/vue/loading'
+], function (Vue, tableCol, pageBar, template) {
 	"use strict";
 	var exportForm;
 	var DEFAULT_PAGE_SIZES = [25, 50, 100];
