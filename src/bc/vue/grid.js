@@ -238,7 +238,7 @@ define(['vue', 'bc/vue/table-col', 'bc/vue/page-bar', 'text!bc/vue/grid.html', '
 				}).catch(function (error) {
 					console.log("[grid] reload error: url=%s, error=%o", vm.url, error);
 					var msg = error.message || "[grid] 数据加载失败！";
-					if (bc.msg) bc.msg.alert(msg);
+					if (window['bc'] && bc.msg) bc.msg.alert(msg);
 					else alert(msg);
 
 					// 隐藏动画加载器
