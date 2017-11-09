@@ -1,0 +1,15 @@
+<li class="bc-page-bar-exporter icon ui-state-default ui-corner-all" :title="title">
+	<span class="ui-icon" :class="iconClass" @click="hidden = !hidden"></span>
+	<bc-box-pointer :width.sync="width" :hidden.sync="hidden" title="" @closed="reset">
+		<div class="info" :class="serverError ? 'ui-state-error' : ''"><div>{{{tip}}}</div></div>
+		<div class="buttons" v-if="!outOfLimit && !loading && !serverError">
+			<!-- 继续 -->
+			<a href="#" class="button continue" @click.prevent.stop="export">继续</a>
+			<!-- 取消 -->
+			<a href="#" class="button cancel" @click.prevent.stop="hidden = true">取消</a>
+		</div>
+		<!-- 进度显示 -->
+		<bc-loading v-if="loading" size="5em" speed="1000ms" :countable="true" :transparent="true" :maskable="false">
+		</bc-loading>
+	</bc-box-pointer>
+</li>

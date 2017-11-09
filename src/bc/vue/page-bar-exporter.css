@@ -1,0 +1,28 @@
+/*! 分页条的导出组件样式 */
+
+.bc-page-bar-exporter {
+	position: relative;
+}
+
+.bc-page-bar-exporter .info {
+	width: 14em;
+	font-weight: normal;
+	padding: 5px;
+	border: 1px dashed #ccc;
+	min-height: 4.5em;
+	display: flex;
+	align-items: center;
+}
+
+.bc-page-bar-exporter .buttons {
+	position: relative;
+	text-align: right;
+	padding: 0 4px;
+}
+
+.bc-page-bar-exporter .buttons > .button {
+	text-decoration: underline;
+	cursor: pointer;
+	position: relative;
+	margin: auto .25em;
+}

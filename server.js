@@ -44,8 +44,26 @@ dataRouter.post('/grid.json/import', function* (next) {
 // download import-template file
 dataRouter.get('/grid.json/import', function* (next) {
 	this.body = fs.createReadStream(__dirname + '/README.md');
-	this.set('Content-disposition', 'attachment; filename=' + encodeURIComponent('abc123中文.md'));
-	this.set('Content-type', 'application/octet-stream');
+	this.set('Content-Disposition', 'attachment; filename="' + encodeURIComponent('abc123中文.md') + '"');
+	this.set('Content-Type', 'application/octet-stream');
+});
+
+// export
+dataRouter.get('/grid.json/export', function* (next) {
+	this.body = fs.createReadStream(__dirname + '/README.md');
+	this.set('Content-Disposition', 'attachment; filename="' + encodeURIComponent('test 测试.md') + '"');
+	this.set('Content-Type', 'application/octet-stream');
+	
+	// Sleep for microseconds
+	sleep(2000);
+});
+
+// export with error
+dataRouter.get('/grid.json/export-error', function* (next) {
+	console.log("export-error");
+	this.type = "text";
+	this.status = 400;
+	this.body = "出错了，出错了，出错了，出错了，出错了，出错了，出错了，出错了，出错了！";
 });
 
 app.use(dataRouter.routes()).use(dataRouter.allowedMethods());

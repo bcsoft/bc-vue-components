@@ -27,7 +27,8 @@
  * </pre>
  */
 define([
-	'jquery', 'vue', 'text!bc/vue/page-bar.html', 'css!bc/vue/page-bar', 'bc/vue/page-bar-importer'
+	'jquery', 'vue', 'text!bc/vue/page-bar.html', 'css!bc/vue/page-bar', 
+	'bc/vue/page-bar-importer', 'bc/vue/page-bar-exporter'
 ], function ($, Vue, template) {
 	'use strict';
 	// Grid 组件的分页条 - 注册为全局组件
