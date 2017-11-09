@@ -33,7 +33,7 @@
 						<td v-if="isGroupColumn(c)" v-for="d in c.children" class="cell text"
 						    :class="(typeof d.rowCellClass == 'function') ? d.rowCellClass(r[d.id], r, d) : d.rowCellClass"
 						    :style="(typeof d.rowCellStyle == 'function') ? d.rowCellStyle(r[d.id], r, d) : d.rowCellStyle"
-						    @click.prevent="rowCellClick(r[d.id], r, d)" :title="rowCellTitle(r[d.id], r, d)">
+						    @click.prevent="rowCellClick(r[d.id], r, d, $event)" :title="rowCellTitle(r[d.id], r, d)">
 							<template v-if="d.escape !== false">{{rowCellFilter(r[d.id], r, d)}}</template>
 							<template v-if="d.escape === false">{{{rowCellFilter(r[d.id], r, d)}}}</template>
 						</td>
