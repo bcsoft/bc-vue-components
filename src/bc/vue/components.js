@@ -13,11 +13,12 @@
  *             bc-page-bar
  *             bc-page-bar-importer
  *             bc-grid
+ *             bc-tree
  */
 define(["bc/vue/theme", "bc/vue/button", "bc/vue/button-set", "bc/vue/search"
 	, "bc/vue/toolbar" , "bc/vue/box-pointer", "bc/vue/loading"
-	, "bc/vue/table-col", "bc/vue/page-bar"
-	, "bc/vue/grid"
+	, "bc/vue/table-col", "bc/vue/page-bar", "bc/vue/cors"
+	, "bc/vue/grid", "bc/vue/tree"
 ], function () {
 	return 0;
 });

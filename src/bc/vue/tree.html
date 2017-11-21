@@ -1,0 +1,15 @@
+<div class="bc-vue-tree ui-widget-content">
+	<div class="self" :class="{'ui-state-hover': hover, 'ui-state-focus': selected}"
+		@mouseenter="hover = true" @mouseleave="hover = false" @click="clickMe">
+		<span class="indent" :style="{width: (depth * 16) + 'px'}"></span>
+		<span @click.stop="toggle" class="toggle ui-icon"
+			:class="collapsed ? 'ui-icon-triangle-1-e' : 'ui-icon-triangle-1-se'"
+			:style="{visibility: leaf ? 'hidden' : 'visible'}">
+		</span>
+		<span class="icon ui-icon {{iconClass}}"></span>
+		<span class="label">{{label || id}}</span>
+	</div>
+	<div v-if="!leaf && !collapsed" class="children">
+		<bc-tree v-for="item in items" :cfg_="item"/>
+	</div>
+</div>
