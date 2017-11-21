@@ -1,0 +1,22 @@
+[
+	{
+		"id": "P1",
+		"label": "父节点 1",
+		"children": "/data/tree-sub.json"
+	},
+	{
+		"id": "P2",
+		"label": "父节点 2",
+		"children": "/data/tree-sub.json"
+	},
+	{
+		"id": "L1",
+		"label": "叶子节点",
+		"leaf": true
+	},
+	{
+		"id": "L2",
+		"label": "长名称自动换行自动换行",
+		"leaf": true
+	}
+]

@@ -53,7 +53,7 @@ dataRouter.get('/grid.json/export', function* (next) {
 	this.body = fs.createReadStream(__dirname + '/README.md');
 	this.set('Content-Disposition', 'attachment; filename="' + encodeURIComponent('test 测试.md') + '"');
 	this.set('Content-Type', 'application/octet-stream');
-	
+
 	// Sleep for microseconds
 	sleep(2000);
 });
@@ -61,6 +61,35 @@ dataRouter.get('/grid.json/export', function* (next) {
 // export with error
 dataRouter.get('/grid.json/export-error', function* (next) {
 	console.log("export-error");
+	this.type = "text";
+	this.status = 400;
+	this.body = "出错了，出错了，出错了，出错了，出错了，出错了，出错了，出错了，出错了！";
+});
+
+// tree
+dataRouter.get('/tree.json', function* (next) {
+	// load data
+	var result = require("./examples/tree.json");
+
+	// respone
+	this.type = "json";
+	this.body = JSON.stringify(result);
+});
+dataRouter.get('/tree-sub.json', function* (next) {
+	// load data
+	var result = require("./examples/tree-sub.json");
+
+	// Sleep for microseconds
+	sleep(2000);
+
+	// respone
+	this.type = "json";
+	this.body = JSON.stringify(result);
+});
+
+// tree with error
+dataRouter.get('/tree.json/error', function* (next) {
+	console.log("tree-error");
 	this.type = "text";
 	this.status = 400;
 	this.body = "出错了，出错了，出错了，出错了，出错了，出错了，出错了，出错了，出错了！";

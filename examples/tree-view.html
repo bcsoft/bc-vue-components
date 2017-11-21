@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>view</title>
+	<meta charset="UTF-8">
+	<style>
+		.demo {
+			position: absolute;
+			top: 3em;
+			bottom: 0.5em;
+			left: 0;
+			right: 0;
+		}
+	</style>
+</head>
+
+<body>
+	<bc-theme :size="12" unit="px"></bc-theme>
+	<h2>
+		视图
+		<span style="margin-left:2em;font-weight:normal;font-size:12px">
+			url=
+			<input type="text" v-model="url" style="width:20em">
+			<label>
+				<input type="checkbox" v-model="ui.corsChoice">CORS 跨域
+			</label>
+		</span>
+	</h2>
+	<div class="demo bc-ui-dialog ui-widget-header" style=" padding: 0.5em">
+		<div class="bc-page">
+			<div class="bc-vue-tree-view">
+				<bc-toolbar>
+					<bc-button icon-class="ui-icon-check" @click="open" text="查看"></bc-button>
+					<bc-button icon-class="ui-icon-document" text="新建"></bc-button>
+					<bc-button icon-class="ui-icon-pencil" text="编辑"></bc-button>
+					<bc-button icon-class="ui-icon-trash" text="删除"></bc-button>
+
+					<bc-button-set :value.sync="status" :items="[{id: '0', label: '在案'}, {id: '1', label: '注销', active: true}, {id: '', label: '全部'}]" @change="changeStatus"></bc-button-set>
+
+					<label style="margin-left: 1em">
+						<input type="checkbox" v-model="ui.singleChoice">单选
+					</label>
+					<label style="margin-left: 1em">
+						<input type="checkbox" v-model="ui.toggleAdvance">高级搜索
+					</label>
+					<label style="margin-left: 1em">
+						<input type="checkbox" v-model="ui.quickSearch">即输即搜
+					</label>
+
+					<bc-search @search="search" :mix-value.sync="mixSearch" :advance-config="ui.advanceConfig" align="right" :quick="ui.quickSearch">
+					</bc-search>
+				</bc-toolbar>
+				<div class="panel">
+					<bc-tree style="width: 10em" label="全部" url="/data/tree.json" :collapsed="false" @change="onTreeChange"></bc-tree>
+					<bc-grid v-ref:grid :url="url" :pageable="true" :query.sync="condition" :single-choice="ui.singleChoice" :auto-load="false">
+						<bc-page-bar-exporter slot="page-bar-button"></bc-page-bar-exporter>
+						<bc-page-bar-importer slot="page-bar-button" accept=".xls"></bc-page-bar-importer>
+					</bc-grid>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		var demos = ["css!demo-css", "bc/vue/theme", "../examples/tree-view"];
+	</script>
+	<script data-main="main" src="../bower_components/requirejs/require.js"></script>
+</body>
+
+</html>
