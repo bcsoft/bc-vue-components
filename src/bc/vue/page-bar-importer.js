@@ -100,7 +100,7 @@ define([
 			// 上传文件
 			upload: function(file){
 				if(!file) return;
-				console.log("name=" + file.name + ", type=" + file.type + ", size=" + file.size);
+				//console.log("name=" + file.name + ", type=" + file.type + ", size=" + file.size);
 
 				this.processing = this.loading = true;
 
