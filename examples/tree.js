@@ -36,6 +36,9 @@ define(["vue", "bc/vue/tree"], function (Vue) {
 			onClickNode: function (node) {
 				console.log("click-node: node.id=" + node.id);
 			},
+			onInitialized: function (selectedNode, type) {
+				console.log("initialized: selectedNode.id=%s, type=%s", selectedNode ? selectedNode.id :null, type);
+			},
 			converter: function(cfg){
 				if(typeof (cfg) === 'number') return {id: cfg, leaf: true};
 				else return cfg;

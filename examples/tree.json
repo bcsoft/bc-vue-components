@@ -1,17 +1,18 @@
 [
 	{
 		"id": "P1",
-		"label": "父节点 1",
+		"label": "远程父节点",
 		"children": "/data/tree-sub.json"
 	},
 	{
 		"id": "P2",
-		"label": "父节点 2",
-		"children": "/data/tree-sub.json"
+		"label": "本地父节点",
+		"children": [10, 9, 8]
 	},
 	{
 		"id": "L1",
 		"label": "叶子节点",
+		"selected": true,
 		"leaf": true
 	},
 	{

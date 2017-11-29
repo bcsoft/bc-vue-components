@@ -43,7 +43,7 @@
 		<div class="panel">
 			<strong>3）URL | 远程获取节点数据 (2s 延时)</strong>
 			<bc-tree class="tree1" id="ROOT" :url="treeUrl" :collapsed="false"
-			  @change="onChangeNode" :converter="converter" />
+			@change="onChangeNode" @initialized="onInitialized" :converter="converter" />
 		</div>
 	</div>
 
