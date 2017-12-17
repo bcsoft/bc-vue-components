@@ -2,9 +2,9 @@
  * grid 组件
  */
 define([
-	'vue', 'bc/vue/table-col', 'bc/vue/page-bar', 
+	'vue', 'bc/vue/cors', 'bc/vue/table-col', 'bc/vue/page-bar',
 	'text!bc/vue/grid.html', 'css!bc/vue/grid', 'bc/vue/loading'
-], function (Vue, tableCol, pageBar, template) {
+], function (Vue, CORS, tableCol, pageBar, template) {
 	"use strict";
 	var exportForm;
 	var DEFAULT_PAGE_SIZES = [25, 50, 100];
@@ -59,16 +59,6 @@ define([
 			},
 			headRowspan: function () {
 				return this.$refs.cols ? this.$refs.cols.rowspan : 1;
-			},
-			// 判断 url 是否是跨域请求
-			isCorsUrl: function () {
-				var url = this.url.toLowerCase();
-				if(url.indexOf("http://") === 0 || url.indexOf("https://") === 0 || url.indexOf("//") === 0){
-					var link = document.createElement('a');
-					link.setAttribute('href', url);
-					if (link.host !== location.host) return true;
-				}
-				return false;
 			}
 		},
 		data: function () {
@@ -156,8 +146,8 @@ define([
 
 				var params = {};
 				if (this.pageable) {
-					if(this.pageNo) params.pageNo = this.pageNo;
-					if(this.pageSize) params.pageSize = this.pageSize;
+					if (this.pageNo) params.pageNo = this.pageNo;
+					if (this.pageSize) params.pageSize = this.pageSize;
 				}
 
 				// 附加搜索条件
@@ -196,14 +186,6 @@ define([
 					if (s.length) url += "?" + s.join("&");
 				}
 
-				// 处理 CORS 跨域请求: 有 localStorage.authorization 且 isCorsUrl = true 才当作跨域
-				if(window && window.localStorage && window.localStorage.authorization && this.isCorsUrl){
-					if (!settings.headers) settings.headers = {};
-					settings.headers["Authorization"] = window.localStorage.authorization;
-				} else { // 非 CORS 跨域请求退回使用 cookies
-					settings.credentials = 'include'  // include cookies
-				}
-
 				// 重新加载前允许用户预处理请求参数和取消请求
 				if (this.beforeReload && this.beforeReload(settings) === false) {
 					vm.v.loading = false;
@@ -211,10 +193,10 @@ define([
 				}
 
 				// 开始重新加载
-				fetch(url, settings).then(function (res) {
+				fetch(url, CORS.autoCorsSettings(url, settings)).then(function (res) {
 					return res.ok ? res.json() : res.text().then(function (msg) { throw new Error(msg) });
 				}).then(function (j) {
-					if(Array.isArray(j)) { // 非分页且直接返回 rows 值的情况
+					if (Array.isArray(j)) { // 非分页且直接返回 rows 值的情况
 						vm.$set('rows', j);
 					} else {
 						j.columns && vm.$set('columns', j.columns);
@@ -276,7 +258,7 @@ define([
 			},
 			/** 单元格点击函数 */
 			rowCellClick: function (value, row, column, e) {
-				if(column.rowCellClick) column.rowCellClick.apply(this, [value, row, column, e]);
+				if (column.rowCellClick) column.rowCellClick.apply(this, [value, row, column, e]);
 			},
 			// 获取用于导出报表的 form (如果没有会自动创建一个)
 			getExportForm: function () {

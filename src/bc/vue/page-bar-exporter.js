@@ -14,9 +14,9 @@
  * </pre>
  */
 define([
-	'jquery', 'vue', 'text!bc/vue/page-bar-exporter.html', 'css!bc/vue/page-bar-exporter',
+	'jquery', 'vue', 'bc/vue/cors', 'text!bc/vue/page-bar-exporter.html', 'css!bc/vue/page-bar-exporter',
 	'bc/vue/box-pointer', 'bc/vue/loading'
-], function ($, Vue, template) {
+], function ($, Vue, CORS, template) {
 	'use strict';
 
 	return Vue.component('bc-page-bar-exporter', {
@@ -98,19 +98,17 @@ define([
 				// 异步下载文件
 				this.loading = true;
 				let filename;
-				fetch(url, {
-					method: 'GET',
-					headers: {
-						'Authorization': window.localStorage.authorization
-					}
-				}).then(res => {
+
+				fetch(url, CORS.autoCorsSettings(url, {
+					method: "GET"
+				})).then(res => {
 					if (!this.filename) {
 						// 从响应头中获取服务端指定的文件名
 						//for(let key of res.headers.keys()) console.log("key=" + key);
 						let h = res.headers.get('Content-Disposition');
 						if (h && h.includes('filename=')) {
 							filename = h.substring(h.indexOf('filename=') + 9);
-							if(filename.startsWith('"')) filename = filename.substring(1, filename.length - 1);
+							if (filename.startsWith('"')) filename = filename.substring(1, filename.length - 1);
 							filename = decodeURIComponent(filename);
 						} else {
 							h = res.headers.get('filename');

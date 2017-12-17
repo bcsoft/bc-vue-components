@@ -105,15 +105,15 @@ define([
 				this.processing = this.loading = true;
 
 				// ajax 上传
-				fetch(this.url || this.$parent.url + "/import", {
+				let url = this.url || this.$parent.url + "/import";
+				fetch(url, CORS.autoCorsSettings(url, {
 					method: 'POST',
 					headers: { 
-						'Authorization': window.localStorage.authorization,
 						'Content-Type': 'application/octet-stream',
 						'Content-Disposition': 'attachment; filename="' + encodeURIComponent(file.name) + '"'
 					},
 					body: file
-				}).then((res) => {
+				})).then((res) => {
 					return res.ok ? res.json() : res.text().then(function (msg) { throw new Error(msg) });
 				}).then((result) => {
 					this.loading = false;

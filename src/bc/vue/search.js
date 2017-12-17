@@ -37,7 +37,7 @@
  *   </ul>
  * </pre>
  */
-define(['vue', 'text!bc/vue/search.html', 'css!bc/vue/search'], function (Vue, template) {
+define(['vue', 'bc/vue/cors', 'text!bc/vue/search.html', 'css!bc/vue/search'], function (Vue, CORS, template) {
 	'use strict';
 	var DEFAULT_FUZZY_ID = 'fuzzy';
 
@@ -205,10 +205,9 @@ define(['vue', 'text!bc/vue/search.html', 'css!bc/vue/search'], function (Vue, t
 					}
 
 					vm.advanceConfig.loading = true;
-					fetch(this.advanceConfig.url, {
-						headers: { "Content-Type": "application/json;charset=utf-8" },
-						credentials: 'include'  // include cookies
-					}).then(function (res) {
+					fetch(this.advanceConfig.url, CORS.autoCorsSettings(this.advanceConfig.url, {
+						headers: { "Content-Type": "application/json;charset=utf-8" }
+					})).then(function (res) {
 						return res.ok ? res.json() : res.text().then(function (msg) { throw new Error(msg) });
 					}).then(function (options) {
 						if (Array.isArray(options)) {
