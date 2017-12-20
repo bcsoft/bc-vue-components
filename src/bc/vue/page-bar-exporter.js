@@ -88,12 +88,7 @@ define([
 				}
 
 				// 将参数附加到url后面
-				let url = this.url || grid.url + "/export";
-				let s = [];
-				Object.keys(params).forEach(function (key) {
-					s.push(key + "=" + params[key]);
-				});
-				if (s.length) url += "?" + s.join("&");
+				let url = CORS.appendUrlParams(this.url || grid.url + "/export", params);
 
 				// 异步下载文件
 				this.loading = true;
