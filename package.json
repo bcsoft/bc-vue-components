@@ -1,6 +1,6 @@
 {
 	"name": "bc-vue-components",
-	"version": "0.10.3",
+	"version": "0.10.4",
 	"description": "BC 平台的 vue 组件",
 	"main": "server.js",
 	"dependencies": {
