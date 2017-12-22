@@ -19,9 +19,9 @@
  * </pre>
  */
 define([
-	'jquery', 'vue', 'text!bc/vue/page-bar-importer.html', 'css!bc/vue/page-bar-importer', 
+	'jquery', 'vue', 'bc/vue/cors', 'text!bc/vue/page-bar-importer.html', 'css!bc/vue/page-bar-importer', 
 	'bc/vue/box-pointer', 'bc/vue/loading'
-], function ($, Vue, template) {
+], function ($, Vue, CORS, template) {
 	'use strict';
 
 	// common mapping for ext to accept
@@ -139,7 +139,9 @@ define([
 			},
 			// 下载模板
 			download: function(){
-				window.open(this.tplUrl || this.url || this.$parent.url + "/import", "blank");
+				// window.open(this.tplUrl || this.url || this.$parent.url + "/import", "blank");
+				let url = this.tplUrl || this.url || this.$parent.url + "/import";
+				CORS.download(url, '物业租赁应收数据导入模板.xlsx');
 			},
 			// 显示导入结果
 			showResultDetail: function(){

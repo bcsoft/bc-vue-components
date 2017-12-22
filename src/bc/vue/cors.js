@@ -58,6 +58,37 @@ define([], function () {
 		return url;
 	}
 
+	// Ajax 下载文件
+	function download(url, filename) {
+		return fetch(url, autoCorsSettings(url, {
+			method: "GET"
+		})).then(res => {
+			if (!filename) {
+				// 从响应头中获取服务端指定的文件名
+				//for(let key of res.headers.keys()) console.log("key=" + key);
+				let h = res.headers.get('Content-Disposition');
+				if (h && h.includes('filename=')) {
+					filename = h.substring(h.indexOf('filename=') + 9);
+					if (filename.startsWith('"')) filename = filename.substring(1, filename.length - 1);
+					filename = decodeURIComponent(filename);
+				} else {
+					h = res.headers.get('filename');
+					filename = h ? decodeURIComponent(h) : null;
+				}
+			}
+
+			return res.ok ? res.blob() : res.text().then(function (msg) { throw new Error(msg) });
+		}).then(blob => {
+			// 100mb is test ok
+			// see https://stackoverflow.com/questions/32545632/how-can-i-download-a-file-using-window-fetch
+			const data = window.URL.createObjectURL(blob);
+			const a = document.createElement('a');
+			a.href = data;
+			a.download = filename || "NONAME"; // 浏览器保存下载的文件时使用的文件名
+			a.click();
+		});
+	}
+
 	return {
 		get: function (url) {
 			return cors(url, 'GET');
@@ -71,6 +102,8 @@ define([], function () {
 		/** 判断 url 是否是跨域请求 */
 		urlIsCors: urlIsCors,
 		/** 自动处理跨域请求头或非跨域 cookies */
-		autoCorsSettings: autoCorsSettings
+		autoCorsSettings: autoCorsSettings,
+		/** Ajax 下载文件 */
+		download: download
 	};
 });

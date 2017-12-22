@@ -92,38 +92,8 @@ define([
 
 				// 异步下载文件
 				this.loading = true;
-				let filename;
-
-				fetch(url, CORS.autoCorsSettings(url, {
-					method: "GET"
-				})).then(res => {
-					if (!this.filename) {
-						// 从响应头中获取服务端指定的文件名
-						//for(let key of res.headers.keys()) console.log("key=" + key);
-						let h = res.headers.get('Content-Disposition');
-						if (h && h.includes('filename=')) {
-							filename = h.substring(h.indexOf('filename=') + 9);
-							if (filename.startsWith('"')) filename = filename.substring(1, filename.length - 1);
-							filename = decodeURIComponent(filename);
-						} else {
-							h = res.headers.get('filename');
-							filename = h ? decodeURIComponent(h) : null;
-						}
-					} else filename = this.filename;
-
-					return res.ok ? res.blob() : res.text().then(function (msg) { throw new Error(msg) });
-				}).then(blob => {
-					// 100mb is test ok
-					// see https://stackoverflow.com/questions/32545632/how-can-i-download-a-file-using-window-fetch
-					const data = window.URL.createObjectURL(blob);
-					const a = document.createElement('a');
-					a.href = data;
-					a.download = filename || "NONAME"; // 浏览器保存下载的文件时使用的文件名
-					a.click();
-
-					// 重置
-					this.reset();
-				}).catch(error => {
+				CORS.download(url, this.filename).then(() => this.reset())
+				.catch(error => {
 					this.loading = false;
 					this.serverError = "导出失败：<br>" + error.message;
 				});
