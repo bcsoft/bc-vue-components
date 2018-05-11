@@ -27,6 +27,11 @@ define([
 			method: { type: [String, Function], required: false },
 			// 重新加载数据前允许用户预处理请求参数和取消请求的处理函数，返回 false 则取消重新加载数据
 			beforeReload: { type: Function, required: false },
+			// 加载数据失败后的回调函数，其第一个参数 reason 的值是服务器返回的数据：
+			// 1. 如果响应状态码为 204，其值为 null；
+			// 2. 如果响应类型为 text/*，其为 body 的原始文本值；
+			// 3. 否则其值是默认将 body 视为 json 格式解析为的 json 对象。
+			error: { type: Function, required: false },
 
 			// 分页条的参数
 			showPageBar: { type: Boolean, required: false, default: true },  // 是否显示分页条
@@ -193,9 +198,13 @@ define([
 				}
 
 				// 开始重新加载
-				fetch(url, CORS.autoCorsSettings(url, settings)).then(function (res) {
-					return res.ok ? res.json() : res.text().then(function (msg) { throw new Error(msg) });
-				}).then(function (j) {
+				fetch(url, CORS.autoCorsSettings(url, settings)).then(res => {
+					if (res.status === 204) return null;
+					let bodyContent = res.headers.get('Content-Type').startsWith('text/') ? res.text() : res.json() // 默认 json
+					return res.ok ? bodyContent : bodyContent.then(reason => {
+						throw new Error(reason);
+					});
+				}).then(j => {
 					if (Array.isArray(j)) { // 非分页且直接返回 rows 值的情况
 						vm.$set('rows', j);
 					} else {
@@ -220,14 +229,23 @@ define([
 
 					// 隐藏动画加载器
 					vm.v.loading = false;
-				}).catch(function (error) {
-					console.log("[grid] reload error: url=%s, error=%o", vm.url, error);
-					var msg = error.message || "[grid] 数据加载失败！";
-					if (window['bc'] && bc.msg) bc.msg.alert(msg);
-					else alert(msg);
+				}).catch(reason => {
+					console.log("[grid] reload error: url=%s, reason=%o", vm.url, reason);
 
 					// 隐藏动画加载器
 					vm.v.loading = false;
+
+					let showErrorMsg = true;
+
+					// 调用错误回调函数
+					if (typeof this.error === 'function')  showErrorMsg = this.error(reason.message) !== false;
+
+					// 显示错误提示信息
+					if (showErrorMsg) {
+						var msg = reason.message || "[grid] 数据加载失败！";
+						if (window['bc'] && bc.msg) bc.msg.alert(msg);
+						else alert(msg);
+					}
 				});
 			},
 			isGroupColumn: function (column) {

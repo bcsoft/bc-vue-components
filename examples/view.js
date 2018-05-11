@@ -21,7 +21,7 @@ define(["vue", "bc/vue/toolbar", "bc/vue/button", "bc/vue/button-set", "bc/vue/s
 				corsChoice: false,
 				advanceConfig: {
 					height: "30em",
-					url:"search-advance-config.json"
+					url: "search-advance-config.json"
 				}
 			}
 		},
@@ -31,8 +31,8 @@ define(["vue", "bc/vue/toolbar", "bc/vue/button", "bc/vue/button-set", "bc/vue/s
 			},
 			'ui.corsChoice': function (checked) {
 				this.url = (checked ? "http://127.0.0.1:9000" : "") + "/data/grid.json";
-				if(window && window.localStorage) {
-					if(checked) window.localStorage.authorization = "Beara test-jwt";
+				if (window && window.localStorage) {
+					if (checked) window.localStorage.authorization = "Beara test-jwt";
 					else window.localStorage.removeItem("authorization");
 				}
 			}
@@ -78,6 +78,12 @@ define(["vue", "bc/vue/toolbar", "bc/vue/button", "bc/vue/button-set", "bc/vue/s
 			// 导入数据后
 			imported: function (success, result) {
 				console.log("[example] imported: success=%s, result=%o", success, result);
+			},
+			// 错误回调函数
+			// 返回 false 可以禁止 grid 内部的异常信息显示机制
+			error: function (reason) {
+				alert("reason=" + reason);
+				return false;
 			}
 		},
 		ready: function () {

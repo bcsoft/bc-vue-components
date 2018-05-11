@@ -24,8 +24,18 @@ dataRouter.get('/grid.json', function* (next) {
 		this.query.pageSize ? parseInt(this.query.pageSize) : undefined);
 
 	// respone
-	this.type = "json";
-	this.body = JSON.stringify(date);
+	if (this.query.pageNo == 3) {
+		this.status = 500;
+		this.type = "text";
+		this.body = "text 失败";
+	} else if (this.query.pageNo == 4) {
+		this.status = 500;
+		this.type = "json";
+		this.body = JSON.stringify({msg: "json 失败"});
+	} else {
+		this.type = "json";
+		this.body = JSON.stringify(date);
+	}
 });
 
 // upload file to import
