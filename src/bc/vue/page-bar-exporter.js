@@ -29,7 +29,8 @@ define([
 
 			title: { type: String, required: false, default: "导出" },
 			iconClass: { type: String, required: false, default: "ui-icon-arrowthickstop-1-s" },
-			width: { type: String, required: false, default: "auto" }
+			width: { type: String, required: false, default: "auto" },
+			unEncode: { type: Boolean, required: false, default: false }
 		},
 		data: function () {
 			return {
@@ -88,7 +89,7 @@ define([
 				}
 
 				// 将参数附加到url后面
-				let url = CORS.appendUrlParams(this.url || grid.url + "/export", params);
+				let url = CORS.appendUrlParams(this.url || grid.url + "/export", params, this.unEncode);
 
 				// 异步下载文件
 				this.loading = true;

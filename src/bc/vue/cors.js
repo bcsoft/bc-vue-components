@@ -49,11 +49,15 @@ define([], function () {
 	}
 
 	// 附加 URL 参数
-	function appendUrlParams(url, params) {
+	function appendUrlParams(url, params, unEncode) {
 		if (!params) return url;
 
 		let kv = [];
-		for (let key in params) kv.push(key + '=' + encodeURIComponent(params[key]));
+		if (unEncode) {
+			for (let key in params) kv.push(key + '=' + params[key]);
+		} else {
+			for (let key in params) kv.push(key + '=' + encodeURIComponent(params[key]));
+		}
 		if (kv.length) url += (url.indexOf('?') !== -1 ? '&' : '?') + kv.join('&');
 		return url;
 	}
