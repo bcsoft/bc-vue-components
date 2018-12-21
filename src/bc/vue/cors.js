@@ -100,8 +100,8 @@ define([], function () {
 		post: function (url, body, contentType) {
 			return cors(url, 'POST', body, contentType);
 		},
-		appendUrlParams: function (url, params) {
-			return appendUrlParams(url, params);
+		appendUrlParams: function (url, params, unEncode) {
+			return appendUrlParams(url, params, unEncode);
 		},
 		/** 判断 url 是否是跨域请求 */
 		urlIsCors: urlIsCors,
