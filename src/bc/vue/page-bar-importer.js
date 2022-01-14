@@ -11,6 +11,7 @@
  *     <li>width {String} [可选] box-pointer 的宽度，默认为 'auto'</li>
  *     <li>hidden {Boolean} [可选] 是否隐藏不显示 box-pointer，默认为 true</li>
  *     <li>tplUrl {String} [必须] 下载模板的 URL</li>
+ *     <li>tplFilename {String} [必须] 下载模板的文件名，不指定使用则使用响应头中的值</li>
  *     <li>accept {String} [可选] 上传数据时可选择的文件类型，默认为 ".xls,.xlsx"</li>
  *     <li>imported {Event} 导入完毕后的事件，
  *           第 1 个参数为代表导入是否全部成功的标记（(status=2xx && errorCount=0) or status!=2xx），
@@ -49,7 +50,8 @@ define([
 			width: { type: String, required: false, default: "auto" },
 			accept: { type: String, required: false, default: "" },
 			url: { type: String, required: false, default: null },   // 如无配置默认取 this.$parent.url + '/import'
-			tplUrl: { type: String, required: false, default: null } // 如无配置默认取 this.url
+			tplUrl: { type: String, required: false, default: null }, // 如无配置默认取 this.url
+			tplFilename: { type: String, required: false, default: null } // 如无配置默认取响应头中的值
 		},
 		data: function () {
 			return {
@@ -141,7 +143,7 @@ define([
 			download: function(){
 				// window.open(this.tplUrl || this.url || this.$parent.url + "/import", "blank");
 				let url = this.tplUrl || this.url || this.$parent.url + "/import";
-				CORS.download(url, '物业租赁应收数据导入模板.xlsx');
+				CORS.download(url, this.tplFilename);
 			},
 			// 显示导入结果
 			showResultDetail: function(){
