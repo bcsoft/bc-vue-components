@@ -11,5 +11,6 @@
 	{
 		"id": "sex", "type": "String", "ui": "text", "label": "性别 = ", "operator": "=",
 		"tag": "select", "options": ["男", { "value": "nv", "text": "女" }]
-	}
+	},
+	{"id": "company", "type": "string", "ui":"checkbox", "label": "公司", "options": ["广发", "宝成", "宝城"], "operator": "in"}
 ]
