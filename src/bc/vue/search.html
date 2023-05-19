@@ -11,44 +11,61 @@
 			<li class="condition" v-for="c in displayConditions">
 				<div class="label">{{c.label}}</div>
 				<div class="value">
-					<template v-if="!c.diadic">
-						<input v-if="!c.tag || c.tag == 'input'" debounce="200" type="{{getInputType(c)}}" class="value ui-widget-content" v-model="c.value"
-							:step="c.step" :min="c.min" :max="c.max"
-							@keyup.enter.stop="search"
-							@change.stop="editCondition('value', c)">
-						<select v-if="c.tag == 'select'" class="value ui-widget-content" v-model="c.value"
-							@change.stop="editCondition('value', c)">
-							<option v-for="option in c.options" v-bind:value="option.hasOwnProperty('value') ? option.value : option">
-								{{ option.hasOwnProperty('value') ? option.text : option }}
-							</option>
-						</select>
+					<template v-if="c.operator == 'in'">
+						<template v-if="c.ui == 'checkbox'">
+							<label v-for="option in c.options">
+								<input type="checkbox" name="checkbox-{{c.id}}" v-bind:value="option.hasOwnProperty('value') ? option.value : option"
+											 @click.stop="editCheckboxCondition(c, $event.target)" style="width: auto;min-width: auto;" class="ui-widget-content">
+								<span>{{ option.hasOwnProperty('value') ? option.text : option }}</span>
+							</label>
+						</template>
 					</template>
-					<template v-if="c.diadic">
-						<div class="left">
-							<input v-if="!c.tag || c.tag == 'input'" debounce="200" type="{{getInputType(c)}}" class="value ui-widget-content" v-model="c.value[0]"
-								:step="c.step" :min="c.min" :max="c.max"
-								@keyup.enter.stop="search"
-								@change.stop="editCondition('value', c)">
-							<select v-if="c.tag == 'select'" class="value ui-widget-content" v-model="c.value[0]"
-								@change.stop="editCondition('value', c)">
-								<option v-for="option in c.options" v-bind:value="option.hasOwnProperty('value') ? option.value : option">
+					<template v-else>
+						<template v-if="!c.diadic">
+							<input v-if="!c.tag || c.tag == 'input'" debounce="200" type="{{getInputType(c)}}"
+							       class="value ui-widget-content" v-model="c.value"
+							       :step="c.step" :min="c.min" :max="c.max"
+							       @keyup.enter.stop="search"
+							       @change.stop="editCondition('value', c)">
+							<select v-if="c.tag == 'select'" class="value ui-widget-content" v-model="c.value"
+							        @change.stop="editCondition('value', c)">
+								<option v-for="option in c.options"
+								        v-bind:value="option.hasOwnProperty('value') ? option.value : option">
 									{{ option.hasOwnProperty('value') ? option.text : option }}
 								</option>
 							</select>
-						</div>
-						<div class="center">～</div>
-						<div class="right">
-							<input v-if="!c.tag || c.tag == 'input'" debounce="200" type="{{getInputType(c)}}" class="value ui-widget-content" v-model="c.value[1]"
-								:step="c.step" :min="c.min" :max="c.max"
-								@keyup.enter.stop="search"
-								@change.stop="editCondition('value', c)">
-							<select v-if="c.tag == 'select'" class="value ui-widget-content" v-model="c.value[1]"
-								@change.stop="editCondition('value', c)">
-								<option v-for="option in c.options" v-bind:value="option.hasOwnProperty('value') ? option.value : option">
-									{{ option.hasOwnProperty('value') ? option.text : option }}
-								</option>
-							</select>
-						</div>
+						</template>
+						<template v-if="c.diadic">
+							<div class="left">
+								<input v-if="!c.tag || c.tag == 'input'" debounce="200" type="{{getInputType(c)}}"
+								       class="value ui-widget-content" v-model="c.value[0]"
+								       :step="c.step" :min="c.min" :max="c.max"
+								       @keyup.enter.stop="search"
+								       @change.stop="editCondition('value', c)">
+								<select v-if="c.tag == 'select'" class="value ui-widget-content" v-model="c.value[0]"
+								        @change.stop="editCondition('value', c)">
+									<option v-for="option in c.options"
+									        v-bind:value="option.hasOwnProperty('value') ? option.value : option">
+										{{ option.hasOwnProperty('value') ? option.text : option }}
+									</option>
+								</select>
+							</div>
+							<div class="center">～</div>
+							<div class="right">
+								<input v-if="!c.tag || c.tag == 'input'" debounce="200" type="{{getInputType(c)}}"
+								       class="value ui-widget-content" v-model="c.value[1]"
+								       :step="c.step" :min="c.min" :max="c.max"
+								       @keyup.enter.stop="search"
+								       @change.stop="editCondition('value', c)">
+								<select v-if="c.tag == 'select'" class="value ui-widget-content" v-model="c.value[1]"
+								        @change.stop="editCondition('value', c)">
+									<option v-for="option in c.options"
+									        v-bind:value="option.hasOwnProperty('value') ? option.value : option">
+										{{ option.hasOwnProperty('value') ? option.text : option }}
+									</option>
+								</select>
+							</div>
+						</template>
 					</template>
 				</div>
 			</li>

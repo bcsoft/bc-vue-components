@@ -19,12 +19,13 @@
  *           <ul>
  *             <li>id {String} 条件的标识符</li>
  *             <li>label {String} 条件的显示文字</li>
- *             <li>type {String} [可选] 值的类型，string|int|float|double|long|date|month|time|datetime|money，无默认值</li>
- *             <li>ui {String} [可选] UI 控件类型，现时支持 input 的 text|number|datetime-local|date|time|month，默认 text。
+ *             <li>type {String} [可选] 值的类型，string|string[]|int|float|double|long|date|month|time|datetime|money，无默认值</li>
+ *             <li>ui {String} [可选] UI 控件类型，现时支持 input 的 text|number|datetime-local|date|time|month|checkbox，默认 text。
  *                 对于 number 还可以额外配置 input 控件的 min、max、step 属性值</li>
  *             <li>hidden {Boolean} [可选] 是否显示此条件，默认 false 显示，通过设置为 true 不显示，实现隐藏条件</li>
  *             <li>value {String} [可选] 默认值</li>
- *             <li>operator {String} [可选] 操作符号：@ 包含、=、>、>=、<、<=、!=、[]、(]、[)、()、...，无默认值</li>
+ *             <li>operator {String} [可选] 操作符号：in、@、=、>、>=、<、<=、!=、[]、(]、[)、()、...，无默认值</li>
+ *             <li>options {String[]|json[]} [可选] 控件选项配置，支持字符串数组或 Json 数组，无默认值</li>
  *           </ul>
  *       格式2 - 字符串类型，指定 url，通过异步加载此 url 的内容来获取格式 1 的配置值。
  *       格式3 - 对象类型，结构为 {height: 15em, options: [...], url: '...'}，
@@ -297,6 +298,18 @@ define(['vue', 'bc/vue/cors', 'text!bc/vue/search.html', 'css!bc/vue/search'], f
 					condition.value = null;
 					var cfg = this.getConditionConfig(condition.id);
 					condition.type = cfg.type;
+				}
+			},
+		  /** 多选控件的条件变动事件 
+			 * @param c 			{Object} 条件对象
+			 * @param target 	{Object} 控件对象
+			 */
+			editCheckboxCondition: function (c, target) {
+				if(target.checked) {
+					if(!c.value) c.value=[target.value];
+					else c.value.push(target.value);
+				} else {
+					c.value.splice(c.value.indexOf(target.value), 1);
 				}
 			},
 			/** 
