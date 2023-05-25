@@ -80,6 +80,7 @@ define(['vue', 'bc/vue/cors', 'text!bc/vue/search.html', 'css!bc/vue/search'], f
 		},
 		data: function () {
 			return {
+				uid: Math.random().toString(16).substring(2, 8), // 随机生成的标识符，避免多窗口时控件互串
 				displayConditions: [], // 当前显示的高级搜索条件列表
 				showAdvance: false, // 高级搜索条件是否处于显示状态
 			};
