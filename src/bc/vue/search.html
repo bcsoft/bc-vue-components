@@ -15,7 +15,7 @@
 						<template v-if="c.ui == 'checkbox'">
 							<label v-for="option in c.options">
 								<input type="checkbox" name="checkbox-{{c.id}}-{{uid}}" v-bind:value="option.hasOwnProperty('value') ? option.value : option"
-											 @click.stop="editCheckboxCondition(c, $event.target)" style="width: auto;min-width: auto;" class="ui-widget-content">
+											 @click.stop="editCondition('value', c, $event.target)" style="width: auto;min-width: auto;" class="ui-widget-content">
 								<span>{{ option.hasOwnProperty('value') ? option.text : option }}</span>
 							</label>
 						</template>

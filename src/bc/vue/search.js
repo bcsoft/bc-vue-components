@@ -292,25 +292,26 @@ define(['vue', 'bc/vue/cors', 'text!bc/vue/search.html', 'css!bc/vue/search'], f
 			 *        type='operator'：用户改变了条件的操作符
 			 *        type='value'：用户改变了条件的输入值
 			 * @param condition {Object} 条件
+			 * @param target 	{Object} 控件 Document 对象
 			 */
-			editCondition: function (type, condition) {
+			editCondition: function (type, condition, target) {
 				// 切换条件就清空值
 				if (type == 'id') {
 					condition.value = null;
 					var cfg = this.getConditionConfig(condition.id);
 					condition.type = cfg.type;
-				}
-			},
-		  /** 多选控件的条件变动事件 
-			 * @param c 			{Object} 条件对象
-			 * @param target 	{Object} 控件对象
-			 */
-			editCheckboxCondition: function (c, target) {
-				if(target.checked) {
-					if(!c.value) c.value=[target.value];
-					else c.value.push(target.value);
-				} else {
-					c.value.splice(c.value.indexOf(target.value), 1);
+				} else if (type == 'value') {
+					if(condition.hasOwnProperty("options") && condition.options.length > 0) { // 多选条件
+						// 是否选中选项
+						var isChecked = target.tagName == "SELECT" ? target.selected : target.checked;
+						if(isChecked) {
+							if(!condition.value) condition.value = [target.value];
+							else condition.value.push(target.value);
+						} else {
+							condition.value.splice(condition.value.indexOf(target.value), 1);
+						}
+					} 
+					// 单值和双值条件由 VUE 数据绑定实现更新了，无需再做处理
 				}
 			},
 			/** 
