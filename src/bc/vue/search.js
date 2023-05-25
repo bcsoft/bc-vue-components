@@ -112,7 +112,7 @@ define(['vue', 'bc/vue/cors', 'text!bc/vue/search.html', 'css!bc/vue/search'], f
 						if (d.value[1] !== "" && d.value[1] !== null && d.value[1] !== undefined) value[1] = d.value[1];
 						if (!value.length) value = null;
 					} else {
-						value = d.value !== "" ? d.value : null;
+						value = d.value !== null && d.value.length > 0 ? d.value : null;
 					}
 					if (d.id && value) {
 						// [id, value, type, operator]
