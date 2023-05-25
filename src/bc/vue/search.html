@@ -12,13 +12,17 @@
 				<div class="label">{{c.label}}</div>
 				<div class="value">
 					<template v-if="c.operator == 'in'">
-						<template v-if="c.ui == 'checkbox'">
-							<label v-for="option in c.options">
-								<input type="checkbox" name="checkbox-{{c.id}}-{{uid}}" v-bind:value="option.hasOwnProperty('value') ? option.value : option"
-											 @click.stop="editCondition('value', c, $event.target)" style="width: auto;min-width: auto;" class="ui-widget-content">
-								<span>{{ option.hasOwnProperty('value') ? option.text : option }}</span>
-							</label>
-						</template>
+						<label v-if="(!c.tag || c.tag == 'input') && c.ui == 'checkbox'" v-for="option in c.options">
+							<input type="checkbox" name="checkbox-{{c.id}}-{{uid}}" v-bind:value="option.hasOwnProperty('value') ? option.value : option"
+										 @click.stop="editCondition('value', c, $event.target)" style="width: auto;min-width: auto;" class="ui-widget-content">
+							<span>{{ option.hasOwnProperty('value') ? option.text : option }}</span>
+						</label>
+						<select v-if="c.tag == 'select'" class="value ui-widget-content"
+										@change.stop="editCondition('value', c, $event.target)" multiple>
+							<option v-for="option in c.options" v-bind:value="option.hasOwnProperty('value') ? option.value : option">
+								{{ option.hasOwnProperty('value') ? option.text : option }}
+							</option>
+						</select>
 					</template>
 					<template v-else>
 						<template v-if="!c.diadic">

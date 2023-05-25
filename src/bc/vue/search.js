@@ -303,12 +303,17 @@ define(['vue', 'bc/vue/cors', 'text!bc/vue/search.html', 'css!bc/vue/search'], f
 				} else if (type == 'value') {
 					if(condition.hasOwnProperty("options") && condition.options.length > 0) { // 多选条件
 						// 是否选中选项
-						var isChecked = target.tagName == "SELECT" ? target.selected : target.checked;
-						if(isChecked) {
-							if(!condition.value) condition.value = [target.value];
-							else condition.value.push(target.value);
+						if(target.tagName == "SELECT") {
+							var options = Array.from(target.options);
+							var selectedValue = options.some(o => o.selected) ? options.filter(o => o.selected).map(o => o.value) : [];
+							condition.value = selectedValue;
 						} else {
-							condition.value.splice(condition.value.indexOf(target.value), 1);
+							if(target.checked) {
+								if(!condition.value) condition.value = [target.value];
+								else condition.value.push(target.value);
+							} else {
+								condition.value.splice(condition.value.indexOf(target.value), 1);
+							}
 						}
 					} 
 					// 单值和双值条件由 VUE 数据绑定实现更新了，无需再做处理
