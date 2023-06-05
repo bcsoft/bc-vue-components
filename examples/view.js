@@ -20,7 +20,7 @@ define(["vue", "bc/vue/toolbar", "bc/vue/button", "bc/vue/button-set", "bc/vue/s
 				toggleAdvance: true,
 				corsChoice: false,
 				advanceConfig: {
-					height: "30em",
+					height: "40em",
 					url: "search-advance-config.json"
 				}
 			}

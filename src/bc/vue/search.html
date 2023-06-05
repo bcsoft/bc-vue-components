@@ -11,18 +11,39 @@
 			<li class="condition" v-for="c in displayConditions">
 				<div class="label">{{c.label}}</div>
 				<div class="value">
+					<!-- 非双值条件：指非 []、(]、[)、() -->
 					<template v-if="!c.diadic">
-						<input v-if="!c.tag || c.tag == 'input'" debounce="200" type="{{getInputType(c)}}" class="value ui-widget-content" v-model="c.value"
-							:step="c.step" :min="c.min" :max="c.max"
-							@keyup.enter.stop="search"
-							@change.stop="editCondition('value', c)">
-						<select v-if="c.tag == 'select'" class="value ui-widget-content" v-model="c.value"
-							@change.stop="editCondition('value', c)">
-							<option v-for="option in c.options" v-bind:value="option.hasOwnProperty('value') ? option.value : option">
-								{{ option.hasOwnProperty('value') ? option.text : option }}
-							</option>
-						</select>
-					</template>
+						<!-- 非 in 和单选多选框 -->
+						<template v-if="c.operator != 'in' && c.ui != 'radio' && c.ui != 'checkbox'">
+							<input v-if="!c.tag || c.tag == 'input'" debounce="200" type="{{getInputType(c)}}" class="value ui-widget-content" v-model="c.value"
+								:step="c.step" :min="c.min" :max="c.max"
+								@keyup.enter.stop="search"
+								@change.stop="editCondition('value', c)">
+							<select v-if="c.tag == 'select'" class="value ui-widget-content" v-model="c.value"
+								@change.stop="editCondition('value', c)">
+								<option v-for="option in c.options" v-bind:value="option.hasOwnProperty('value') ? option.value : option">
+									{{ option.hasOwnProperty('value') ? option.text : option }}
+								</option>
+							</select>
+					  </template>
+						<!-- in 或单选多选框 -->
+						<template v-else>
+							<label v-if="c.ui == 'checkbox' || c.ui == 'radio'" v-for="option in c.options">
+								<input type="{{getInputType(c)}}" name="{{c.id}}_{{instanceId}}" v-model="c.value" 
+									value="{{option.hasOwnProperty('value') ? option.value : option}}"
+									class="ui-widget-content" style="width:auto;min-width:auto;" :style="c.style"
+									@change.stop="editCondition('value', c)">
+								<span>{{option.hasOwnProperty('text') ? option.text : option}}</span>
+							</label>
+							<select v-if="c.tag == 'select'" multiple class="value ui-widget-content" v-model="c.value"
+								@change.stop="editCondition('value', c)" style="overflow:auto;height:auto" :style="c.style">
+								<option v-for="option in c.options" v-bind:value="option.hasOwnProperty('value') ? option.value : option">
+									{{option.hasOwnProperty('text') ? option.text : option}}
+								</option>
+							</select>
+					  </template>
+				  </template>
+					<!-- 双值条件：[]、(]、[)、() -->
 					<template v-if="c.diadic">
 						<div class="left">
 							<input v-if="!c.tag || c.tag == 'input'" debounce="200" type="{{getInputType(c)}}" class="value ui-widget-content" v-model="c.value[0]"

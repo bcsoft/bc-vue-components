@@ -19,12 +19,14 @@
  *           <ul>
  *             <li>id {String} 条件的标识符</li>
  *             <li>label {String} 条件的显示文字</li>
- *             <li>type {String} [可选] 值的类型，string|int|float|double|long|date|month|time|datetime|money，无默认值</li>
- *             <li>ui {String} [可选] UI 控件类型，现时支持 input 的 text|number|datetime-local|date|time|month，默认 text。
+ *             <li>type {String} [可选] 值的类型，如 string|boolean|int|float|double|long|date|month|time|datetime|money 等，支持范围由后端解析器决定，无默认值</li>
+ *             <li>tag {String} [可选] HTML 控件，input、select，默认 input。
+ *             <li>ui {String} [可选] UI 控件类型，当 tag=input 时，用于设置 input 的 type 属性的值，可设置为 text|number|datetime-local|date|time|month|radio|checkout，默认 text。
  *                 对于 number 还可以额外配置 input 控件的 min、max、step 属性值</li>
  *             <li>hidden {Boolean} [可选] 是否显示此条件，默认 false 显示，通过设置为 true 不显示，实现隐藏条件</li>
  *             <li>value {String} [可选] 默认值</li>
- *             <li>operator {String} [可选] 操作符号：@ 包含、=、>、>=、<、<=、!=、[]、(]、[)、()、...，无默认值</li>
+ *             <li>operator {String} [可选] 操作符号：@(包含)、in、=、>、>=、<、<=、!=、[]、(]、[)、()、...，无默认值</li>
+ *             <li>options {String[]|[{text,value}]} [可选] 多选控件选项配置，为字符串数组时不区分多选控件的标题和值，使用 {text,value} 格式时 text 控制标题、value控制值，无默认值</li>
  *           </ul>
  *       格式2 - 字符串类型，指定 url，通过异步加载此 url 的内容来获取格式 1 的配置值。
  *       格式3 - 对象类型，结构为 {height: 15em, options: [...], url: '...'}，
@@ -54,7 +56,8 @@ define(['vue', 'bc/vue/cors', 'text!bc/vue/search.html', 'css!bc/vue/search'], f
 			var cp;
 			vm.advanceConfig.options.forEach(function (option) {
 				option.diadic = isDiadic(option.operator); // 是否为双值条件
-				option.value = option.diadic ? [] : null;
+				option.multiValue = option.operator === "in" // 是否为多值条件
+				option.value = option.diadic || option.multiValue ? [] : null;
 				if (option.hidden !== true) {
 					cp = {};
 					for (var key in option) cp[key] = option[key];
@@ -79,6 +82,7 @@ define(['vue', 'bc/vue/cors', 'text!bc/vue/search.html', 'css!bc/vue/search'], f
 		},
 		data: function () {
 			return {
+				instanceId: Date.now(), // 毫秒时间戳作为实例ID，用于标识控件 name 值的唯一性
 				displayConditions: [], // 当前显示的高级搜索条件列表
 				showAdvance: false, // 高级搜索条件是否处于显示状态
 			};
@@ -110,7 +114,9 @@ define(['vue', 'bc/vue/cors', 'text!bc/vue/search.html', 'css!bc/vue/search'], f
 						if (d.value[1] !== "" && d.value[1] !== null && d.value[1] !== undefined) value[1] = d.value[1];
 						if (!value.length) value = null;
 					} else {
-						value = d.value !== "" ? d.value : null;
+						value = Array.isArray(d.value) 
+						? (d.value.length === 0 ? null : d.value)
+						: (d.value === null || d.value === "" ? null : (d.value + ""));
 					}
 					if (d.id && value) {
 						// [id, value, type, operator]

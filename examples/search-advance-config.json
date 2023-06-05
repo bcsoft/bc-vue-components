@@ -9,7 +9,35 @@
 	{ "id": "money2", "type": "BigDecimal", "ui": "number", "label": "金额 []", "operator": "[]", "step": 0.05 },
 	{ "id": "name", "label": "姓名", "operator": "@" },
 	{
-		"id": "sex", "type": "String", "ui": "text", "label": "性别 = ", "operator": "=",
+		"id": "sex", "type": "string", "ui": "text", "label": "性别 = ", "operator": "=",
 		"tag": "select", "options": ["男", { "value": "nv", "text": "女" }]
+	},
+	{"id": "radio1", "type": "string", "ui":"radio", "label": "Radio单选1(options=[string])", "options": ["R1", "R2", "R3"], "operator": "="},
+	{
+		"id": "radio2", "type": "int", "ui":"radio", "label": "Radio单选2(options=[{text,value}])", "operator": "=", 
+		"options": [
+			{"text": "R1T", "value": "11"}, 
+			{"text": "R2T", "value": "12"}, 
+			{"text": "R3T", "value": "13"}
+		]
+	},
+	{"id": "checkbox1", "type": "boolean", "ui":"checkbox", "label": "Checkbox单选(布尔值、options=[string])", "options": ["C1"], "operator": "="},
+	{"id": "checkbox2", "type": "string", "ui":"checkbox", "label": "Checkbox多选1(in、options=[string])", "options": ["C1", "C2", "C3"], "operator": "in"},
+	{
+		"id": "checkbox3", "type": "int", "ui":"checkbox", "label": "Checkbox多选2(in、options=[{text,value}])", "operator": "in", 
+		"options": [
+			{"text": "C1T", "value": "21"}, 
+			{"text": "C2T", "value": "22"}, 
+			{"text": "C3T", "value": "23"}
+		]
+	},
+	{"id": "select1", "type": "string", "tag":"select", "label": "Select多选1(options=[string])", "options": ["S1", "S2", "S3"], "operator": "in", "style": "height:4em"},
+	{
+		"id": "select2", "type": "int", "tag":"select", "label": "Select多选2(options=[{text,value}])", "operator": "in", 
+		"options": [
+			{"text": "S1T", "value": "31"}, 
+			{"text": "S2T", "value": "32"}, 
+			{"text": "S3T", "value": "33"}
+		]
 	}
 ]
