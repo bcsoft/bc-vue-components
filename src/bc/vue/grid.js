@@ -208,13 +208,13 @@ define([
 					if (Array.isArray(j)) { // 非分页且直接返回 rows 值的情况
 						vm.$set('rows', j);
 					} else {
-						j.columns && vm.$set('columns', j.columns);
-						j.rows && vm.$set('rows', j.rows);
+						j.hasOwnProperty("columns") && vm.$set('columns', j.columns);
+						j.hasOwnProperty("rows") && vm.$set('rows', j.rows);
 						if (vm.pageable) { // 分页时
-							j.pageNo && vm.$set('pageNo', j.pageNo);
-							j.pageSize && vm.$set('pageSize', j.pageSize);
-							j.pageSizes && vm.$set('pageSizes', j.pageSizes);
-							j.count && vm.$set('count', j.count);
+							j.hasOwnProperty("pageNo") && vm.$set('pageNo', j.pageNo);
+							j.hasOwnProperty("pageSize") && vm.$set('pageSize', j.pageSize);
+							j.hasOwnProperty("pageSizes") && vm.$set('pageSizes', j.pageSizes);
+							j.hasOwnProperty("count") && vm.$set('count', j.count);
 						}
 						if (vm.showPageBar) {
 							j.hasOwnProperty("refreshable") && vm.$set('refreshable', j.refreshable);
